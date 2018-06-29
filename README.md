@@ -10,40 +10,40 @@ ______________________
 
 
 #### Статус покрытия методов API:
-| Раздел          | Кол-во методов |   |
-| --------------- | :------------: | - |
-| [Account]       |    18 из 19    | ✓ |
-| [AppWidgets]    |     0 из 8     | ❌ |
-| [Apps]          |     0 из 7     | ❌ |
-| [Auth]          |     0 из 3     | ❌ |
-| [Board]         |     0 из 13    | ❌ |
-| [Database]      |     0 из 11    | ❌ |
-| [Docs]          |    11 из 11    | ✓ |
-| [Fave]          |    12 из 12    | ✓ |
-| [Friends]       |    18 из 18    | ✓ |
-| [Gifts]         |     1 из 1     | ✓ |
-| [Groups]        |    41 из 41    | ✓ |
-| [Likes]         |     0 из 4     | ❌ |
-| [Market]        |     0 из 24    | ❌ |
-| [Messages]      |    37 из 37    | ✓ |
-| [Newsfeed]      |     0 из 15    | ❌ |
-| [Notes]         |     0 из 10    | ❌ |
-| [Notifications] |     0 из 2     | ❌ |
-| [Pages]         |     0 из 8     | ❌ |
-| [Photos]        |     0 из 46    | ❌ |
-| [Places]        |     0 из 6     | ❌ |
-| [Polls]         |     0 из 6     | ❌ |
-| [Search]        |     0 из 1     | ❌ |
-| [Stats]         |     0 из 3     | ❌ |
-| [Status]        |     0 из 2     | ❌ |
-| [Storage]       |     0 из 3     | ❌ |
-| [Stories]       |     0 из 13    | ❌ |
-| [Streaming]     |     0 из 4     | ❌ |
-| [Users]         |     0 из 7     | ❌ |
-| [Utils]         |     0 из 7     | ❌ |
-| [Video]         |     0 из 27    | ❌ |
-| [Wall]          |     0 из 22    | ❌ |
-| [Widgets]       |     0 из 2     | ❌ |
+| Раздел          | Кол-во методов |                          |
+| --------------- | :------------: | -                        |
+| [Account]       |    18 из 19    | :heavy_check_mark:       |
+| [AppWidgets]    |     0 из 8     | :heavy_multiplication_x: |
+| [Apps]          |     0 из 7     | :heavy_multiplication_x: |
+| [Auth]          |     0 из 3     | :heavy_multiplication_x: |
+| [Board]         |     0 из 13    | :heavy_multiplication_x: |
+| [Database]      |     0 из 11    | :heavy_multiplication_x: |
+| [Docs]          |    11 из 11    | :heavy_check_mark:       |
+| [Fave]          |    12 из 12    | :heavy_check_mark:       |
+| [Friends]       |    18 из 18    | :heavy_check_mark:       |
+| [Gifts]         |     1 из 1     | :heavy_check_mark:       |
+| [Groups]        |    41 из 41    | :heavy_check_mark:       |
+| [Likes]         |     0 из 4     | :heavy_multiplication_x: |
+| [Market]        |     0 из 24    | :heavy_multiplication_x: |
+| [Messages]      |    37 из 37    | :heavy_check_mark:       |
+| [Newsfeed]      |     0 из 15    | :heavy_multiplication_x: |
+| [Notes]         |     0 из 10    | :heavy_multiplication_x: |
+| [Notifications] |     0 из 2     | :heavy_multiplication_x: |
+| [Pages]         |     0 из 8     | :heavy_multiplication_x: |
+| [Photos]        |     0 из 46    | :heavy_multiplication_x: |
+| [Places]        |     0 из 6     | :heavy_multiplication_x: |
+| [Polls]         |     0 из 6     | :heavy_multiplication_x: |
+| [Search]        |     0 из 1     | :heavy_multiplication_x: |
+| [Stats]         |     0 из 3     | :heavy_multiplication_x: |
+| [Status]        |     0 из 2     | :heavy_multiplication_x: |
+| [Storage]       |     0 из 3     | :heavy_multiplication_x: |
+| [Stories]       |     0 из 13    | :heavy_multiplication_x: |
+| [Streaming]     |     0 из 4     | :heavy_multiplication_x: |
+| [Users]         |     0 из 7     | :heavy_multiplication_x: |
+| [Utils]         |     0 из 7     | :heavy_multiplication_x: |
+| [Video]         |     0 из 27    | :heavy_multiplication_x: |
+| [Wall]          |     0 из 22    | :heavy_multiplication_x: |
+| [Widgets]       |     0 из 2     | :heavy_multiplication_x: |
 
 #### Использование
 На данный момент библиотека не опубликована ни в каком репозитории java-библиотек, если рискнёте затащить к себе в проект, просто клонируйте git-репозиторий :)
