@@ -1,0 +1,26 @@
+buildscript {
+    ext.kotlin_version = '1.2.50'
+    ext.serialization_version = '0.5.1'
+    ext.coroutines_version = '0.23.3'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "https://kotlin.bintray.com/kotlinx" }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$serialization_version"
+    }
+}
+
+allprojects {
+    apply plugin: 'kotlin'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "https://kotlin.bintray.com/kotlinx" }
+    }
+}

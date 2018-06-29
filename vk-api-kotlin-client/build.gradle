@@ -1,0 +1,22 @@
+group 'tk.skeptick'
+version '0.1'
+
+apply plugin: 'kotlinx-serialization'
+
+configurations {
+    compile {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
+        exclude group: 'org.jetbrains.kotlinx', module: 'kotlinx-serialization-runtime-common'
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    compile "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+
+    compile "org.json:json:20180130"
+    compile 'com.github.kittinunf.result:result:1.4.0'
+}
+
+kotlin.experimental.coroutines "enable"
