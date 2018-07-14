@@ -11,7 +11,9 @@ import java.io.File
 
 open class FuelTransportClient : TransportClient {
 
-    private val fuelManager = FuelManager()
+    open val client: FuelManager = FuelManager().apply {
+        removeAllResponseInterceptors()
+    }
 
     override fun <T : Any> execute(
         httpMethod: HttpMethod,
@@ -19,7 +21,7 @@ open class FuelTransportClient : TransportClient {
         parameters: List<Pair<String, String>>,
         mapper: (String) -> Result<T, Exception>
     ): Deferred<Result<T, Exception>> =
-        fuelManager.request(
+        client.request(
             method = httpMethod.fuelMethod,
             path = url,
             param = parameters
@@ -30,7 +32,7 @@ open class FuelTransportClient : TransportClient {
         files: List<Triple<String, String, File>>,
         mapper: (String) -> Result<T, Exception>
     ): Deferred<Result<T, Exception>> =
-        fuelManager.upload(url)
+        client.upload(url)
             .blobs { _, _ -> files.map { it.blob } }
             .also { it.names.addAll(files.map { it.first }) }
             .asDeferred(mapper)
