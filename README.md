@@ -94,8 +94,7 @@ val friendsResult = api.friends.get(
 ).awaitResult()
 ```
 #### Обработка результата
-В качестве результата любого запроса возвращается ~~монада~~ объект Result. Подробнее о нём можно почитать в [ReadMe самой библиотеки]
-(https://github.com/kittinunf/Result).
+В качестве результата любого запроса возвращается ~~монада~~ объект Result. Подробнее о нём можно почитать в [ReadMe самой библиотеки](https://github.com/kittinunf/Result).
 #### Загрузка файлов (на примере документа)
 ```kotlin
 val file = File("file.txt")
