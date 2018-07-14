@@ -7,7 +7,13 @@ import kotlinx.serialization.SerialName
 @Serializable
 data class OAuthError(
     @SerialName("error") val error: String,
-    @SerialName("error_description") val errorDescription: String
+    @Optional @SerialName("error_description") val errorDescription: String? = null,
+    @Optional @SerialName("validation_type") val validationType: String? = null,
+    @Optional @SerialName("validation_sid") val validationSid: String? = null,
+    @Optional @SerialName("phone_mask") val phoneMask: String? = null,
+    @Optional @SerialName("redirect_uri") val redirectUri: String? = null,
+    @Optional @SerialName("captcha_sid") val captchaSid: String? = null,
+    @Optional @SerialName("captcha_img") val captchaImg: String? = null
 ) : Exception()
 
 @Serializable
