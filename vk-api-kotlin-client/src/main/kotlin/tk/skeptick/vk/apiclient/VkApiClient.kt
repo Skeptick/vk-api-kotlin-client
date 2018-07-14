@@ -48,26 +48,16 @@ class VkApiClient(accessToken: String, private val transportClient: TransportCli
 
         suspend fun byOAuth(
             transportClient: TransportClient,
-            authData: OAuth
+            authData: OAuth,
+            captchaResponse: CaptchaResponse? = null
         ): VkApiClient {
-            val response = transportClient.authorize(authData).await()
+            val response = transportClient.authorize(authData, captchaResponse).await()
             return when (response) {
                 is Result.Success -> VkApiClient(
                     accessToken = response.value.accessToken,
                     transportClient = transportClient)
                 is Result.Failure -> throw response.error
             }
-        }
-
-        private fun combineParameters(
-            vararg parametersArray: List<Pair<String, Any?>>
-        ): List<Pair<String, String>> {
-            val result = mutableListOf<Pair<String, String>>()
-            for (parameters in parametersArray)
-                for ((key, value) in parameters)
-                    if (value != null) result.add(key to value.toString())
-
-            return result
         }
 
     }

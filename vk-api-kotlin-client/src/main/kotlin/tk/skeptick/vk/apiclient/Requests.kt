@@ -50,10 +50,14 @@ suspend fun <T : Any> UploadFilesRequest<T>.awaitResult()
     : Result<T, Exception> = async().await()
 
 fun TransportClient.authorize(
-    authData: OAuth
+    authData: OAuth,
+    captchaResponse: CaptchaResponse? = null
 ): Deferred<Result<OAuthResponse, Exception>> = execute(
     httpMethod = HttpMethod.POST,
     url = DefaultApiParams.OAUTH_URL,
-    parameters = authData.parameters,
+    parameters = combineParameters(
+        authData.parameters,
+        captchaResponse?.parameters ?: emptyList()
+    ),
     mapper = { parseOAuthResponse(it) }
 )

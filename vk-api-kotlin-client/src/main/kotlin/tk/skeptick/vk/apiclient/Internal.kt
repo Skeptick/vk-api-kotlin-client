@@ -102,6 +102,17 @@ internal val CaptchaResponse.parameters get() = listOf(
     "captcha_key" to key
 )
 
+internal fun combineParameters(
+    vararg parametersArray: List<Pair<String, Any?>>
+): List<Pair<String, String>> {
+    val result = mutableListOf<Pair<String, String>>()
+    for (parameters in parametersArray)
+        for ((key, value) in parameters)
+            if (value != null) result.add(key to value.toString())
+
+    return result
+}
+
 //--- Parsers ---//
 
 internal fun <T : Any> parseMethodResponse(
