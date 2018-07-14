@@ -543,14 +543,22 @@ class GroupsApi(override val client: VkApiClient)
             "owner_id" to ownerId
         ).withSerializer(list(CommunityBan.serializer()))
 
-    override fun getById(
-        groupIds: List<Int>,
+    override fun getByScreenName(
+        groupNames: List<String>,
         communityFields: List<CommunityOptionalField>?
     ): VkApiRequest<List<Community>> =
         Methods.getById.httpGet(
-            "group_ids" to groupIds.joinToString(","),
+            "group_ids" to groupNames.joinToString(","),
             "fields" to communityFields?.joinToString(",")
         ).withSerializer(Community.serializer().list)
+
+    override fun getById(
+        groupIds: List<Int>,
+        communityFields: List<CommunityOptionalField>?
+    ): VkApiRequest<List<Community>> = getByScreenName(
+        groupNames = groupIds.map(Int::toString),
+        communityFields = communityFields
+    )
 
     override fun getCallbackConfirmationCode(
         groupId: Int

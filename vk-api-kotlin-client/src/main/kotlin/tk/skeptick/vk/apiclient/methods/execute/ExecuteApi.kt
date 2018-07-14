@@ -16,7 +16,7 @@ class ExecuteApi(override val client: VkApiClient)
             "code" to code.toString()
         ).withSerializer(serializer)
 
-    object Methods {
+    private object Methods {
         const val execute = "execute"
     }
 

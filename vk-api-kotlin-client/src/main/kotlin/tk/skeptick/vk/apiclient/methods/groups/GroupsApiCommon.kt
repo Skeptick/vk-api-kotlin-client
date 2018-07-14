@@ -68,6 +68,14 @@ interface GroupsApiCommon {
     /**
      * @see <a href="https://vk.com/dev/groups.getById">VK API</a>
      */
+    fun getByScreenName(
+        groupNames: List<String>,
+        communityFields: List<CommunityOptionalField>? = null
+    ): VkApiRequest<List<Community>>
+
+    /**
+     * @see <a href="https://vk.com/dev/groups.getById">VK API</a>
+     */
     fun getById(
         groupIds: List<Int>,
         communityFields: List<CommunityOptionalField>? = null
