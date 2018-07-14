@@ -13,7 +13,7 @@ import kotlin.concurrent.thread
 
 open class NettyTransportClient : TransportClient {
 
-    private val client = Dsl.config()
+    open val client: AsyncHttpClient = Dsl.config()
         .setThreadFactory(::createThread)
         .let(Dsl::asyncHttpClient)
 
