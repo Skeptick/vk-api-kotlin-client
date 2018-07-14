@@ -57,11 +57,11 @@ data class Community(
     @Optional @SerialName("verified") val isVerified: BooleanInt? = null,
     @Optional @SerialName("wiki_page") val wikiPage: String? = null) {
 
-    @Transient val isOpened: Boolean = closeType == CloseType.OPEN
-    @Transient val isClosed: Boolean = closeType == CloseType.CLOSED
-    @Transient val isPrivate: Boolean = closeType == CloseType.PRIVATE
-    @Transient val isDeactivated: Boolean? get() = deactivationType != null
-    @Transient val maxPhoto: String? = photo200 ?: photo100 ?: photo50
+    @Transient val isOpened: Boolean get() = closeType == CloseType.OPEN
+    @Transient val isClosed: Boolean get() = closeType == CloseType.CLOSED
+    @Transient val isPrivate: Boolean get() = closeType == CloseType.PRIVATE
+    @Transient val isDeactivated: Boolean get() = deactivationType != null
+    @Transient val maxPhoto: String? get() = photo200 ?: photo100 ?: photo50
 
     @Transient val eventStartDate: Int? get() =
         if (type == Type.EVENT) startDate?.let(String::toInt)

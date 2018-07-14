@@ -93,7 +93,7 @@ data class User(
     @Optional @SerialName("invited_by") val invitedBy: Int? = null,
     @Optional @SerialName("role") val role: CommunityManager.Role? = null) {
 
-    @Transient val isDeactivated: Boolean? get() = deactivationType != null
+    @Transient val isDeactivated: Boolean get() = deactivationType != null
 
     @Serializable(with = Sex.Companion::class)
     enum class Sex(override val value: Int) : SerializableEnum<Int> {
