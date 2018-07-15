@@ -1,1 +1,1 @@
-include ':vk-api-kotlin-client', ':fuel-transport-client', ':netty-transport-client', ':sample'
+include ':vk-api-kotlin-client', ':fuel-transport-client', ':netty-transport-client'
