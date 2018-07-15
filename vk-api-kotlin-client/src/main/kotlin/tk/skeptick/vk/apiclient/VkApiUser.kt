@@ -19,7 +19,7 @@ import tk.skeptick.vk.apiclient.methods.messages.MessagesApiUser
 import tk.skeptick.vk.apiclient.methods.uploads.UploadsApi
 import tk.skeptick.vk.apiclient.methods.uploads.UploadsApiUser
 
-class VkApiUser(client: VkApiClient) {
+open class VkApiUser(val client: VkApiClient) {
 
     val account: AccountApiUser = AccountApi(client)
     val docs: DocsApiUser = DocsApi(client)

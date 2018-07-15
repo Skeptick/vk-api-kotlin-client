@@ -11,7 +11,7 @@ import tk.skeptick.vk.apiclient.methods.messages.MessagesApiCommunity
 import tk.skeptick.vk.apiclient.methods.uploads.UploadsApi
 import tk.skeptick.vk.apiclient.methods.uploads.UploadsApiCommunity
 
-class VkApiCommunity(client: VkApiClient) {
+open class VkApiCommunity(val client: VkApiClient) {
 
     val docs: DocsApiCommunity = DocsApi(client)
     val execute: ExecuteApiCommunity = ExecuteApi(client)
