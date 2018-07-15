@@ -40,7 +40,7 @@ class MessagesApi(override val client: VkApiClient)
         userIds: List<Int>,
         title: String
     ): VkApiRequest<Int> =
-        Methods.createChat.httpGet(
+        Methods.createChat.httpPost(
             "user_ids" to userIds.joinToString(","),
             "title" to title
         ).withSerializer(IntSerializer)
@@ -50,7 +50,7 @@ class MessagesApi(override val client: VkApiClient)
         markAsSpam: Boolean,
         deleteForAll: Boolean
     ): VkApiRequest<Map<Int, BooleanInt>> =
-        Methods.delete.httpGet(
+        Methods.delete.httpPost(
             "message_ids" to messageIds.joinToString(","),
             "spam" to markAsSpam.asInt(),
             "delete_for_all" to deleteForAll.asInt()
@@ -118,7 +118,7 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<ExtendedListResponse<Message>> =
-        Methods.getByConversationMessageId.httpGet(
+        Methods.getByConversationMessageId.httpPost(
             "peer_id" to peerId,
             "conversation_message_ids" to conversationMessageIds.joinToString(","),
             "extended" to extended.asInt(),
@@ -132,7 +132,7 @@ class MessagesApi(override val client: VkApiClient)
         extended: Boolean,
         fields: List<ObjectField>
     ): VkApiRequest<ExtendedListResponse<Message>> =
-        Methods.getById.httpGet(
+        Methods.getById.httpPost(
             "message_ids" to messageIds.joinToString(","),
             "preview_length" to previewLength,
             "extended" to extended.asInt(),
@@ -142,7 +142,7 @@ class MessagesApi(override val client: VkApiClient)
     override fun getChat(
         chatIds: List<Int>
     ): VkApiRequest<List<Chat>> =
-        Methods.getChat.httpGet(
+        Methods.getChat.httpPost(
             "chat_ids" to chatIds.joinToString(",")
         ).withSerializer(Chat.serializer().list)
 
@@ -150,7 +150,7 @@ class MessagesApi(override val client: VkApiClient)
         link: String,
         fields: List<ObjectField>
     ): VkApiRequest<ChatPreview> =
-        Methods.getChatPreview.httpGet(
+        Methods.getChatPreview.httpPost(
             "link" to link,
             "fields" to fields.joinToString(",") { it.value }
         ).withSerializer(ChatPreview.serializer())
@@ -160,7 +160,7 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<ExtendedListResponse<ConversationMember>> =
-        Methods.getConversationMembers.httpGet(
+        Methods.getConversationMembers.httpPost(
             "peer_id" to peerId,
             "fields" to fields.joinToString(",") { it.value },
             "group_id" to groupId
@@ -175,7 +175,7 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<ConversationsListResponse> =
-        Methods.getConversations.httpGet(
+        Methods.getConversations.httpPost(
             "offset" to offset,
             "count" to count,
             "filter" to filter.value,
@@ -191,7 +191,7 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<ExtendedListResponse<Conversation>> =
-        Methods.getConversationsById.httpGet(
+        Methods.getConversationsById.httpPost(
             "peer_ids" to peerIds.joinToString(","),
             "extended" to extended.asInt(),
             "fields" to fields.joinToString(",") { it.value },
@@ -207,7 +207,7 @@ class MessagesApi(override val client: VkApiClient)
         extended: Boolean,
         fields: List<ObjectField>
     ): VkApiRequest<HistoryMessagesListResponse> = 
-        Methods.getHistory.httpGet(
+        Methods.getHistory.httpPost(
             "peer_id" to peerId,
             "offset" to offset,
             "count" to count,
@@ -225,7 +225,7 @@ class MessagesApi(override val client: VkApiClient)
         withPhotoSizes: Boolean,
         fields: List<ObjectField>
     ): VkApiRequest<HistoryAttachmentsResponse> = 
-        Methods.getHistoryAttachments.httpGet(
+        Methods.getHistoryAttachments.httpPost(
             "peer_id" to peerId,
             "media_type" to mediaType.value,
             "start_from" to startFrom,
@@ -261,7 +261,7 @@ class MessagesApi(override val client: VkApiClient)
         maxMessageId: Int?,
         longPollVersion: Int
     ): VkApiRequest<LongPollHistoryResponse> = 
-        Methods.getLongPollHistory.httpGet(
+        Methods.getLongPollHistory.httpPost(
             "ts" to ts,
             "pts" to pts,
             "preview_length" to previewLength,
@@ -311,7 +311,7 @@ class MessagesApi(override val client: VkApiClient)
         messageIds: List<Int>,
         markAsImportant: Boolean
     ): VkApiRequest<List<Int>> = 
-        Methods.markAsImportant.httpGet(
+        Methods.markAsImportant.httpPost(
             "message_ids" to messageIds.joinToString(","),
             "important" to markAsImportant.asInt()
         ).withSerializer(IntSerializer.list)
@@ -383,7 +383,7 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<ExtendedListResponse<Conversation>> =
-        Methods.searchConversations.httpGet(
+        Methods.searchConversations.httpPost(
             "q" to query,
             "count" to count,
             "extended" to extended.asInt(),

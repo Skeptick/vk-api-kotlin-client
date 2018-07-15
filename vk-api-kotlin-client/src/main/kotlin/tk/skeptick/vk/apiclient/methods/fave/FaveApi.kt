@@ -19,7 +19,7 @@ class FaveApi(override val client: VkApiClient)
         link: String,
         description: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.addLink.httpGet(
+        Methods.addLink.httpPost(
             "link" to link,
             "text" to description
         ).withSerializer(BooleanInt.serializer())

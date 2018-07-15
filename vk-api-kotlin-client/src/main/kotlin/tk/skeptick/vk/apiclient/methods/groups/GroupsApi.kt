@@ -30,7 +30,7 @@ class GroupsApi(override val client: VkApiClient)
         link: String,
         text: String?
     ): VkApiRequest<AddLinkResponse> =
-        Methods.addLink.httpGet(
+        Methods.addLink.httpPost(
             "group_id" to groupId,
             "link" to link,
             "text" to text
@@ -53,7 +53,7 @@ class GroupsApi(override val client: VkApiClient)
         comment: String?,
         commentVisible: Boolean
     ): VkApiRequest<BooleanInt> =
-        Methods.ban.httpGet(
+        Methods.ban.httpPost(
             "group_id" to groupId,
             "owner_id" to ownerId,
             "end_date" to endDate?.time,
@@ -69,7 +69,7 @@ class GroupsApi(override val client: VkApiClient)
         publicCategory: Int? = null,
         subtype: PublicSubtype? = null
     ): VkApiRequest<Community> =
-        Methods.create.httpGet(
+        Methods.create.httpPost(
             "title" to title,
             "description" to description,
             "type" to type.value,
@@ -435,7 +435,7 @@ class GroupsApi(override val client: VkApiClient)
         title: String,
         secretKey: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.editCallbackServer.httpGet(
+        Methods.editCallbackServer.httpPost(
             "group_id" to groupId,
             "server_id" to serverId,
             "url" to url,
@@ -448,7 +448,7 @@ class GroupsApi(override val client: VkApiClient)
         linkId: Int,
         text: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.editLink.httpGet(
+        Methods.editLink.httpPost(
             "group_id" to groupId,
             "link_id" to linkId,
             "text" to text
@@ -482,7 +482,7 @@ class GroupsApi(override val client: VkApiClient)
         latitude: Double?,
         longitude: Double?
     ): VkApiRequest<EditPlaceResponse> =
-        Methods.editPlace.httpGet(
+        Methods.editPlace.httpPost(
             "group_id" to groupId,
             "title" to title,
             "address" to address,
@@ -519,7 +519,7 @@ class GroupsApi(override val client: VkApiClient)
         offset: Int,
         count: Int
     ): VkApiRequest<DefaultListResponse<Community>> =
-        Methods.get.httpGet(
+        Methods.get.httpPost(
             "user_id" to userId,
             "extended" to 1,
             "filter" to filter?.value,
@@ -535,7 +535,7 @@ class GroupsApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         ownerId: Int?
     ): VkApiRequest<DefaultListResponse<CommunityBan>> =
-        Methods.getBanned.httpGet(
+        Methods.getBanned.httpPost(
             "group_id" to groupId,
             "offset" to offset,
             "count" to count,
@@ -547,18 +547,19 @@ class GroupsApi(override val client: VkApiClient)
         groupNames: List<String>,
         communityFields: List<CommunityOptionalField>?
     ): VkApiRequest<List<Community>> =
-        Methods.getById.httpGet(
+        Methods.getById.httpPost(
             "group_ids" to groupNames.joinToString(","),
-            "fields" to communityFields?.joinToString(",")
+            "fields" to communityFields?.joinToString(",") { it.value }
         ).withSerializer(Community.serializer().list)
 
     override fun getById(
         groupIds: List<Int>,
         communityFields: List<CommunityOptionalField>?
-    ): VkApiRequest<List<Community>> = getByScreenName(
-        groupNames = groupIds.map(Int::toString),
-        communityFields = communityFields
-    )
+    ): VkApiRequest<List<Community>> =
+        getByScreenName(
+            groupNames = groupIds.map(Int::toString),
+            communityFields = communityFields
+        )
 
     override fun getCallbackConfirmationCode(
         groupId: Int
@@ -610,7 +611,7 @@ class GroupsApi(override val client: VkApiClient)
         userFields: List<UserOptionalField>,
         nameCase: NameCase
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.getInvitedUsers.httpGet(
+        Methods.getInvitedUsers.httpPost(
             "group_id" to groupId,
             "offset" to offset,
             "count" to count,
@@ -666,7 +667,7 @@ class GroupsApi(override val client: VkApiClient)
         userFields: List<UserOptionalField>,
         onlyFriends: Boolean
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.getMembers.httpGet(
+        Methods.getMembers.httpPost(
             "group_id" to groupId,
             "sort" to sort.value,
             "offset" to offset,
@@ -696,7 +697,7 @@ class GroupsApi(override val client: VkApiClient)
         count: Int,
         userFields: List<UserOptionalField>
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.getMembers.httpGet(
+        Methods.getMembers.httpPost(
             "group_id" to groupId,
             "sort" to sort.value,
             "offset" to offset,
@@ -729,7 +730,7 @@ class GroupsApi(override val client: VkApiClient)
         count: Int,
         userFields: List<UserOptionalField>
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.getRequests.httpGet(
+        Methods.getRequests.httpPost(
             "group_id" to groupId,
             "offset" to offset,
             "count" to count,
@@ -770,7 +771,7 @@ class GroupsApi(override val client: VkApiClient)
         groupId: Int,
         userIds: List<Int>
     ): VkApiRequest<List<CommunityMemberResponse>> =
-        Methods.isMember.httpGet(
+        Methods.isMember.httpPost(
             "group_id" to groupId,
             "user_ids" to userIds.joinToString(",")
         ).withSerializer(CommunityMemberResponse.serializer().list)
@@ -822,7 +823,7 @@ class GroupsApi(override val client: VkApiClient)
         offset: Int,
         count: Int
     ): VkApiRequest<DefaultListResponse<Community>> =
-        Methods.search.httpGet(
+        Methods.search.httpPost(
             "q" to query,
             "type" to type?.value,
             "country_id" to countryId,

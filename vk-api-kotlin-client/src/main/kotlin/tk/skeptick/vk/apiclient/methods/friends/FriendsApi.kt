@@ -17,7 +17,7 @@ class FriendsApi(override val client: VkApiClient)
         text: String?,
         declineRequest: Boolean
     ): VkApiRequest<AddFriendResponse> =
-        Methods.add.httpGet(
+        Methods.add.httpPost(
             "user_id" to userId,
             "text" to text,
             "follow" to declineRequest.asInt()
@@ -27,7 +27,7 @@ class FriendsApi(override val client: VkApiClient)
         name: String,
         userIds: List<Int>?
     ): VkApiRequest<Int> =
-        Methods.addList.httpGet(
+        Methods.addList.httpPost(
             "name" to name,
             "user_ids" to userIds?.joinToString(",")
         ).withSerializer(IntSerializer)
@@ -36,7 +36,7 @@ class FriendsApi(override val client: VkApiClient)
         userIds: List<Int>,
         needSign: Boolean
     ): VkApiRequest<AreFriendResponse> =
-        Methods.areFriends.httpGet(
+        Methods.areFriends.httpPost(
             "user_ids" to userIds.joinToString(","),
             "need_sign" to needSign.asInt()
         ).withSerializer(AreFriendResponse.serializer())
@@ -63,7 +63,7 @@ class FriendsApi(override val client: VkApiClient)
         userId: Int,
         listIds: List<Int>?
     ): VkApiRequest<BooleanInt> =
-        Methods.edit.httpGet(
+        Methods.edit.httpPost(
             "user_id" to userId,
             "list_ids" to listIds?.joinToString(",")
         ).withSerializer(BooleanInt.serializer())
@@ -73,7 +73,7 @@ class FriendsApi(override val client: VkApiClient)
         userIds: List<Int>,
         name: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.editList.httpGet(
+        Methods.editList.httpPost(
             "list_id" to listId,
             "user_ids" to userIds.joinToString(","),
             "name" to name
@@ -85,7 +85,7 @@ class FriendsApi(override val client: VkApiClient)
         deleteUserIds: List<Int>?,
         name: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.editList.httpGet(
+        Methods.editList.httpPost(
             "list_id" to listId,
             "add_user_ids" to addUserIds?.joinToString(","),
             "delete_user_ids" to deleteUserIds?.joinToString(","),
@@ -101,7 +101,7 @@ class FriendsApi(override val client: VkApiClient)
         userFields: List<UserOptionalField>,
         nameCase: NameCase
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.get.httpGet(
+        Methods.get.httpPost(
             "user_id" to userId,
             "order" to order?.value,
             "list_id" to listId,
@@ -134,7 +134,7 @@ class FriendsApi(override val client: VkApiClient)
         phones: List<String>,
         userFields: List<UserOptionalField>
     ): VkApiRequest<List<User>> =
-        Methods.getByPhones.httpGet(
+        Methods.getByPhones.httpPost(
             "phones" to phones.joinToString(","),
             "fields" to userFields.joinToString(",") { it.value }
         ).withSerializer(User.serializer().list)
@@ -170,7 +170,7 @@ class FriendsApi(override val client: VkApiClient)
         count: Int?,
         offset: Int
     ): VkApiRequest<List<MutualFriendsResponse>> =
-        Methods.getMutual.httpGet(
+        Methods.getMutual.httpPost(
             "target_uids" to targetUserIds.joinToString(","),
             "source_uid" to sourceUserId,
             "order" to if (sortRandomly) "random" else null,
@@ -304,7 +304,7 @@ class FriendsApi(override val client: VkApiClient)
         userFields: List<UserOptionalField>,
         nameCase: NameCase
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.getSuggestions.httpGet(
+        Methods.getSuggestions.httpPost(
             "count" to count,
             "offset" to offset,
             "filter" to if (onlyWithMutual) "mutual" else null,
@@ -320,7 +320,7 @@ class FriendsApi(override val client: VkApiClient)
         userFields: List<UserOptionalField>,
         nameCase: NameCase
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.search.httpGet(
+        Methods.search.httpPost(
             "q" to query,
             "user_id" to userId,
             "count" to count,

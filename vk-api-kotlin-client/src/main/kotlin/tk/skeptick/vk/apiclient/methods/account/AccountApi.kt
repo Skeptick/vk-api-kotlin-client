@@ -23,7 +23,7 @@ class AccountApi(override val client: VkApiClient)
         restoreSid: String?,
         changePasswordHash: String?
     ): VkApiRequest<ChangePasswordResponse> =
-        Methods.changePassword.httpGet(
+        Methods.changePassword.httpPost(
             "old_password" to oldPassword,
             "new_password" to newPassword,
             "restore_sid" to restoreSid,
@@ -111,7 +111,7 @@ class AccountApi(override val client: VkApiClient)
         cityId: Int?,
         status: String?
     ): VkApiRequest<SaveAccountProfileInfoResponse> =
-        Methods.saveProfileInfo.httpGet(
+        Methods.saveProfileInfo.httpPost(
             "first_name" to firstName,
             "last_name" to lastName,
             "maiden_name" to maidenName,

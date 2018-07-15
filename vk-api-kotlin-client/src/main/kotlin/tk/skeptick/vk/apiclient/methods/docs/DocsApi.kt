@@ -37,7 +37,7 @@ class DocsApi(override val client: VkApiClient)
         ownerId: Int?,
         tags: List<String>?
     ): VkApiRequest<BooleanInt> =
-        Methods.edit.httpGet(
+        Methods.edit.httpPost(
             "doc_id" to docId,
             "title" to title,
             "owner_id" to ownerId,
@@ -60,7 +60,7 @@ class DocsApi(override val client: VkApiClient)
     override fun getById(
         docs: List<Media>
     ): VkApiRequest<List<Document>> =
-        Methods.getById.httpGet(
+        Methods.getById.httpPost(
             "docs" to prepareDocs(docs)
         ).withSerializer(Document.serializer().list)
 
@@ -99,7 +99,7 @@ class DocsApi(override val client: VkApiClient)
         title: String?,
         tags: List<String>?
     ): VkApiRequest<List<Document>> =
-        Methods.save.httpGet(
+        Methods.save.httpPost(
             "file" to file,
             "title" to title,
             "tags" to tags?.joinToString(",")
