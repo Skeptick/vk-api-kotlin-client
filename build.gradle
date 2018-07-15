@@ -1,13 +1,16 @@
 buildscript {
     ext.kotlin_version = '1.2.51'
+    ext.serialization_version = '0.6.0'
 
     repositories {
         jcenter()
         mavenCentral()
+        maven { url "https://kotlin.bintray.com/kotlinx" }
     }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$serialization_version"
     }
 }
 
