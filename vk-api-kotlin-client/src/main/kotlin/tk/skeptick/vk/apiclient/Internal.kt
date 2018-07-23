@@ -3,14 +3,13 @@
 package tk.skeptick.vk.apiclient
 
 import com.github.kittinunf.result.Result
+import com.github.kittinunf.result.flatMap
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.internal.ListLikeSerializer
 import kotlinx.serialization.json.JSON
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonTreeParser
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
-import tk.skeptick.vk.apiclient.domain.VkApiError
+import tk.skeptick.vk.apiclient.methods.VkApiResponse
 import tk.skeptick.vk.apiclient.methods.uploads.UploadFileError
 import tk.skeptick.vk.apiclient.oauth.OAuth
 import tk.skeptick.vk.apiclient.oauth.OAuthError
@@ -118,41 +117,32 @@ internal fun combineParameters(
 internal fun <T : Any> parseMethodResponse(
     responseString: String,
     serializer: KSerializer<T>
-): Result<T, Exception> =
-    JSONObject(responseString).let {
-        Result.of(getMethodResponse(it, serializer)) {
-            getMethodError(it) ?: IllegalStateException("Response is null.")
-        }
+): Result<T, Exception> = Result
+    .of { json.parse(VkApiResponse.serializer(serializer), responseString) }
+    .flatMap { it.mapToResult() }
+
+private inline fun <T : Any> VkApiResponse<T>.mapToResult(): Result<T, Exception> =
+    when {
+        response != null -> Result.of(response)
+        error != null -> Result.error(error)
+        else -> Result.error(IllegalStateException("Response is null"))
     }
+
 
 internal fun <T : Any> parseUploadResponse(
     responseString: String,
     serializer: KSerializer<T>
 ): Result<T, Exception> =
-    when (JSONObject(responseString).has("error")) {
+    when (JsonTreeParser(responseString).readFully().jsonObject.contains("error")) {
         true -> Result.error(json.parse(UploadFileError.serializer(), responseString))
         false -> Result.of(json.parse(serializer, responseString))
     }
 
+
 internal fun parseOAuthResponse(
     responseString: String
 ): Result<OAuthResponse, Exception> =
-    when (JSONObject(responseString).has("access_token")) {
+    when (JsonTreeParser(responseString).readFully().jsonObject.contains("access_token")) {
         true -> Result.of(json.parse(OAuthResponse.serializer(), responseString))
         false -> Result.error(json.parse(OAuthError.serializer(), responseString))
-    }
-
-// VK API makes me write some shitcode
-private fun <T> getMethodResponse(jsonObject: JSONObject, serializer: KSerializer<T>): T? =
-    jsonObject.opt("response").let {
-        if (it != null && it !is JSONArray)
-            json.parse(serializer, it.toString())
-        else if (it is JSONArray && serializer is ListLikeSerializer<*, *, *>)
-            json.parse(serializer, it.toString())
-        else null
-    }
-
-private fun getMethodError(jsonObject: JSONObject): VkApiError? =
-    jsonObject.optJSONObject("error")?.toString()?.let {
-        json.parse(VkApiError.serializer(), it)
     }
