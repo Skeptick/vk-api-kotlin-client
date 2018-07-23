@@ -50,7 +50,10 @@ open class NettyTransportClient : TransportClient {
 
         future.whenComplete { response, throwable ->
             when {
-                response != null -> deferred.complete(mapper(response.responseBody))
+                response != null -> when (response.responseBody) {
+                    "ERROR" -> deferred.complete(Result.error(response.httpException))
+                    else -> deferred.complete(mapper(response.responseBody))
+                }
                 throwable != null -> deferred.complete(Result.error(Exception(throwable)))
                 else -> deferred.complete(Result.error(IllegalStateException("Response is null")))
             }
@@ -76,5 +79,8 @@ open class NettyTransportClient : TransportClient {
 
     private val Triple<String, String, File>.filePart get() =
         FilePart(first, third)
+
+    private val Response.httpException get() =
+        Exception("HTTP Exception $statusCode $statusText")
 
 }
