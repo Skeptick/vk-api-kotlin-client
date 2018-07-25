@@ -555,11 +555,10 @@ class GroupsApi(override val client: VkApiClient)
     override fun getById(
         groupIds: List<Int>,
         communityFields: List<CommunityOptionalField>?
-    ): VkApiRequest<List<Community>> =
-        getByScreenName(
-            groupNames = groupIds.map(Int::toString),
-            communityFields = communityFields
-        )
+    ): VkApiRequest<List<Community>> = getByScreenName(
+        groupNames = groupIds.map(Int::toString),
+        communityFields = communityFields
+    )
 
     override fun getCallbackConfirmationCode(
         groupId: Int

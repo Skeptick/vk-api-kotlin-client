@@ -39,7 +39,7 @@ ______________________
 | [Storage]       |     0 из 3     | :heavy_multiplication_x: |
 | [Stories]       |     0 из 13    | :heavy_multiplication_x: |
 | [Streaming]     |     0 из 4     | :heavy_multiplication_x: |
-| [Users]         |     0 из 7     | :heavy_multiplication_x: |
+| [Users]         |     7 из 7     | :heavy_check_mark:       |
 | [Utils]         |     0 из 7     | :heavy_multiplication_x: |
 | [Video]         |     0 из 27    | :heavy_multiplication_x: |
 | [Wall]          |     0 из 22    | :heavy_multiplication_x: |

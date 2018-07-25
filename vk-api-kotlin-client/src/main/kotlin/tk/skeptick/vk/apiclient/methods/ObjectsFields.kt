@@ -195,6 +195,11 @@ enum class CommunitySearchOrder(val value: Int) {
     BOARDS_ENTRIES_NUMBER_TO_MEMBERS_NUMBER(5) // по отношению количества записей в обсуждениях к количеству пользователей
 }
 
+enum class UserSearchSort(val value: Int) {
+    DATE_REGISTERED(1),
+    RATING(0)
+}
+
 //--- Types & other Enums ---//
 
 enum class MarketCurrency(val value: Int) {
@@ -267,4 +272,23 @@ enum class GroupSubject(val value: Int) {
     HUMOR(40),
     SOCIETY_AND_HUMANITIES(41),
     DESIGN_AND_GRAPHICS(42)
+}
+
+enum class NearbyRadius(val value: Int) {
+    M_300(1),
+    M_2400(2),
+    KM_18(3),
+    KM_150(4)
+}
+
+enum class ReportComplaintType(val value: String) {
+    PORN("porn"),
+    SPAM("spam"),
+    INSULT("insult"),
+    ADVERTISEMENT("advertisment")
+}
+
+enum class UsersListType(val value: String) {
+    FRIENDS("friends"),
+    SUBSCRIPTIONS("subscriptions")
 }

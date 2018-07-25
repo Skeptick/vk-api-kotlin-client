@@ -373,7 +373,7 @@ data class User(
     @Serializable
     data class LastSeenInfo(
         @SerialName("time") val time: Int,
-        @SerialName("platform") val platform: ClientPlatform) {
+        @Optional @SerialName("platform") val platform: ClientPlatform? = null) {
 
         @Serializable(with = ClientPlatform.Companion::class)
         enum class ClientPlatform(override val value: Int) : SerializableEnum<Int> {
