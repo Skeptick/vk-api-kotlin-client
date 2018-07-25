@@ -119,9 +119,9 @@ internal fun <T : Any> parseMethodResponse(
     serializer: KSerializer<T>
 ): Result<T, Exception> = Result
     .of { json.parse(VkApiResponse.serializer(serializer), responseString) }
-    .flatMap { it.mapToResult() }
+    .flatMap { it.asResult() }
 
-private inline fun <T : Any> VkApiResponse<T>.mapToResult(): Result<T, Exception> =
+private inline fun <T : Any> VkApiResponse<T>.asResult(): Result<T, Exception> =
     when {
         response != null -> Result.of(response)
         error != null -> Result.error(error)
