@@ -5,6 +5,10 @@ package tk.skeptick.vk.apiclient
 import tk.skeptick.vk.apiclient.domain.Keyboard
 import tk.skeptick.vk.apiclient.domain.MessagePayload
 
+@DslMarker
+annotation class KeyboardDsl
+
+@KeyboardDsl
 class KeyboardBuilder {
 
     internal val rows: MutableList<List<Keyboard.Button>> = mutableListOf()
@@ -13,6 +17,7 @@ class KeyboardBuilder {
         rows.add(RowBuilder().apply(block).buttons)
     }
 
+    @KeyboardDsl
     class RowBuilder {
 
         internal val buttons: MutableList<Keyboard.Button> = mutableListOf()
@@ -46,14 +51,14 @@ class KeyboardBuilder {
             payload: MessagePayload?,
             block: ButtonBuilder.() -> Unit,
             color: Keyboard.Button.ButtonColor
-        ) = with(ButtonBuilder()) {
+        ) = ButtonBuilder().apply {
             this.color = color
             this.label = label
             this.payload = payload
-            block()
-            buttons.add(build())
-        }
+            this.block()
+        }.also { buttons.add(it.build()) }
 
+        @KeyboardDsl
         class ButtonBuilder {
 
             internal var color = Keyboard.Button.ButtonColor.DEFAULT
