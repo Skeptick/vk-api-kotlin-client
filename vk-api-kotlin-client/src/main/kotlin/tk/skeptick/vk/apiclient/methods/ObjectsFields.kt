@@ -313,3 +313,10 @@ enum class LikeType(internal val value: String) {
     SITE_PAGE("sitepage")
 }
 
+enum class ShortLinkStatsInterval(internal val value: String) {
+    HOUR("hour"),
+    DAY("day"),
+    WEEK("week"),
+    MONTH("month"),
+    FOREVER("forever")
+}

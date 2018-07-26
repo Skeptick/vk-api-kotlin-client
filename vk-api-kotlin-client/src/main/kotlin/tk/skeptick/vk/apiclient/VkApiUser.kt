@@ -22,6 +22,8 @@ import tk.skeptick.vk.apiclient.methods.uploads.UploadsApi
 import tk.skeptick.vk.apiclient.methods.uploads.UploadsApiUser
 import tk.skeptick.vk.apiclient.methods.users.UsersApi
 import tk.skeptick.vk.apiclient.methods.users.UsersApiUser
+import tk.skeptick.vk.apiclient.methods.utils.UtilsApi
+import tk.skeptick.vk.apiclient.methods.utils.UtilsApiUser
 
 open class VkApiUser(val client: VkApiClient) {
 
@@ -35,6 +37,7 @@ open class VkApiUser(val client: VkApiClient) {
     val likes: LikesApiUser = LikesApi(client)
     val messages: MessagesApiUser = MessagesApi(client)
     val users: UsersApiUser = UsersApi(client)
+    val utils: UtilsApiUser = UtilsApi(client)
     val upload: UploadsApiUser = UploadsApi(client)
 
 }
