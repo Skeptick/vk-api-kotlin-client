@@ -170,6 +170,11 @@ enum class GroupsFilter(internal val value: String) {
     EVENTS("events")
 }
 
+enum class LikesFilter(internal val value: String) {
+    LIKES("likes"), // все лайкнувшие
+    COPIES("copies") // только поделившиеся
+}
+
 //--- Order & Sort ---//
 
 enum class FriendsOrder(internal val value: String) {
@@ -179,14 +184,14 @@ enum class FriendsOrder(internal val value: String) {
     NAME("name") // сортировка по имени
 }
 
-enum class CommunityMembersSort(val value: String) {
+enum class CommunityMembersSort(internal val value: String) {
     ID_ASC("id_asc"), // по ID в порядке возрастания
     ID_DESC("id_desc"), // по ID в порядке убывания
     TIME_ASC("time_asc"), // по времени вступления в порядке возрастания
     TIME_DESC("time_desc") // по времени вступления в порядке убывания
 }
 
-enum class CommunitySearchOrder(val value: Int) {
+enum class CommunitySearchOrder(internal val value: Int) {
     DEFAULT(0), // по умолчанию (как в полной версии сайта)
     GROWTH_SPEED(1), // по скорости роста
     DAY_ATTENDANCE_TO_MEMBERS_NUMBER(2), // по отношению дневной посещаемости к количеству пользователей
@@ -195,14 +200,14 @@ enum class CommunitySearchOrder(val value: Int) {
     BOARDS_ENTRIES_NUMBER_TO_MEMBERS_NUMBER(5) // по отношению количества записей в обсуждениях к количеству пользователей
 }
 
-enum class UserSearchSort(val value: Int) {
+enum class UserSearchSort(internal val value: Int) {
     DATE_REGISTERED(1),
     RATING(0)
 }
 
 //--- Types & other Enums ---//
 
-enum class MarketCurrency(val value: Int) {
+enum class MarketCurrency(internal val value: Int) {
     RUB(643),
     UAH(980),
     KZT(398),
@@ -210,26 +215,26 @@ enum class MarketCurrency(val value: Int) {
     USD(840)
 }
 
-enum class GroupType(val value: String) {
+enum class GroupType(internal val value: String) {
     EVENT("event"),
     GROUP("group"),
     PUBLIC("public")
 }
 
-enum class PublicSubtype(val value: Int) {
+enum class PublicSubtype(internal val value: Int) {
     PLACE_OR_SMALL_BUSINESS(1),
     COMPANY_OR_WEBSITE(2),
     FAMOUS_PERSON(3),
     PRODUCT_OR_WORK_OF_ART(4)
 }
 
-enum class CommunityManagerRole(val value: String) {
+enum class CommunityManagerRole(internal val value: String) {
     MODERATOR("moderator"),
     EDITOR("editor"),
     ADMINISTRATOR("administrator")
 }
 
-enum class GroupSubject(val value: Int) {
+enum class GroupSubject(internal val value: Int) {
     AUTO_AND_MOTO(1),
     ACTIVITY_HOLIDAYS(2),
     BUSINESS(3),
@@ -274,21 +279,37 @@ enum class GroupSubject(val value: Int) {
     DESIGN_AND_GRAPHICS(42)
 }
 
-enum class NearbyRadius(val value: Int) {
+enum class NearbyRadius(internal val value: Int) {
     M_300(1),
     M_2400(2),
     KM_18(3),
     KM_150(4)
 }
 
-enum class ReportComplaintType(val value: String) {
+enum class ReportComplaintType(internal val value: String) {
     PORN("porn"),
     SPAM("spam"),
     INSULT("insult"),
     ADVERTISEMENT("advertisment")
 }
 
-enum class UsersListType(val value: String) {
+enum class UsersListType(internal val value: String) {
     FRIENDS("friends"),
     SUBSCRIPTIONS("subscriptions")
 }
+
+enum class LikeType(internal val value: String) {
+    POST("post"),
+    COMMENT("comment"),
+    PHOTO("photo"),
+    AUDIO("audio"),
+    VIDEO("video"),
+    NOTE("note"),
+    MARKET("market"),
+    PHOTO_COMMENT("photo_comment"),
+    VIDEO_COMMENT("video_comment"),
+    TOPIC_COMMENT("topic_comment"),
+    MARKET_COMMENT("market_comment"),
+    SITE_PAGE("sitepage")
+}
+

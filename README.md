@@ -23,7 +23,7 @@ ______________________
 | [Friends]       |    18 из 18    | :heavy_check_mark:       |
 | [Gifts]         |     1 из 1     | :heavy_check_mark:       |
 | [Groups]        |    41 из 41    | :heavy_check_mark:       |
-| [Likes]         |     0 из 4     | :heavy_multiplication_x: |
+| [Likes]         |     4 из 4     | :heavy_check_mark:       |
 | [Market]        |     0 из 24    | :heavy_multiplication_x: |
 | [Messages]      |    37 из 37    | :heavy_check_mark:       |
 | [Newsfeed]      |     0 из 15    | :heavy_multiplication_x: |

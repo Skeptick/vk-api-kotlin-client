@@ -3,6 +3,7 @@ package tk.skeptick.vk.apiclient.methods.users
 import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.DefaultMethodsParams
 import tk.skeptick.vk.apiclient.VkApiRequest
+import tk.skeptick.vk.apiclient.domain.EntityWrapper
 import tk.skeptick.vk.apiclient.domain.models.User
 import tk.skeptick.vk.apiclient.methods.*
 
@@ -38,10 +39,16 @@ interface UsersApiUser : UsersApiCommon {
         needDescription: Boolean = false
     ): VkApiRequest<NearbyUsersListResponse>
 
-    /*
-    TODO find how to parse response of this method
-    fun getSubscriptions(...)
+    /**
+     * @param[count] maximum value 200
+     * @see <a href="https://vk.com/dev/users.getSubscriptions">VK API</a>
      */
+    fun getSubscriptions(
+        userId: Int? = null,
+        offset: Int = 0,
+        count: Int = 20,
+        fields: List<ObjectField> = DefaultMethodsParams.userFields
+    ): VkApiRequest<DefaultListResponse<EntityWrapper>>
 
     /**
      * @see <a href="https://vk.com/dev/users.getSubscriptions">VK API</a>

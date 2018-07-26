@@ -2,6 +2,7 @@ package tk.skeptick.vk.apiclient.methods.users
 
 import kotlinx.serialization.list
 import tk.skeptick.vk.apiclient.*
+import tk.skeptick.vk.apiclient.domain.EntityWrapper
 import tk.skeptick.vk.apiclient.domain.models.User
 import tk.skeptick.vk.apiclient.methods.*
 
@@ -64,6 +65,20 @@ class UsersApi(override val client: VkApiClient)
             "name_case" to nameCase.value,
             "need_description" to needDescription.asInt()
         ).withSerializer(NearbyUsersListResponse.serializer())
+
+    override fun getSubscriptions(
+        userId: Int?,
+        offset: Int,
+        count: Int,
+        fields: List<ObjectField>
+    ): VkApiRequest<DefaultListResponse<EntityWrapper>> =
+        Methods.getSubscriptions.httpPost(
+            "user_id" to userId,
+            "extended" to 1,
+            "offset" to offset,
+            "count" to count,
+            "fields" to fields.joinToString(",") { it.value }
+        ).withSerializer(list(EntityWrapper.serializer()))
 
     override fun getSubscriptionsIds(
         userId: Int?
