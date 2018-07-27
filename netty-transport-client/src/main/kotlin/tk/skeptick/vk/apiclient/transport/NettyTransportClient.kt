@@ -1,8 +1,8 @@
 package tk.skeptick.vk.apiclient.transport
 
 import com.github.kittinunf.result.Result
-import kotlinx.coroutines.experimental.CompletableDeferred
-import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
 import org.asynchttpclient.*
 import org.asynchttpclient.request.body.multipart.FilePart
 import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
@@ -50,12 +50,11 @@ open class NettyTransportClient : TransportClient {
 
         future.whenComplete { response, throwable ->
             when {
+                throwable != null -> deferred.complete(Result.error(Exception(throwable)))
                 response != null -> when (response.responseBody) {
                     "ERROR" -> deferred.complete(Result.error(response.httpException))
                     else -> deferred.complete(mapper(response.responseBody))
                 }
-                throwable != null -> deferred.complete(Result.error(Exception(throwable)))
-                else -> deferred.complete(Result.error(IllegalStateException("Response is null")))
             }
         }
 

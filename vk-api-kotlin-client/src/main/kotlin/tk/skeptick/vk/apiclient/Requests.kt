@@ -1,8 +1,7 @@
 package tk.skeptick.vk.apiclient
 
 import com.github.kittinunf.result.Result
-import com.github.kittinunf.result.flatMap
-import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.Deferred
 import kotlinx.serialization.KSerializer
 import tk.skeptick.vk.apiclient.oauth.OAuth
 import tk.skeptick.vk.apiclient.oauth.OAuthResponse

@@ -117,14 +117,14 @@ internal fun combineParameters(
 internal fun <T : Any> parseMethodResponse(
     responseString: String,
     serializer: KSerializer<T>
-): Result<T, Exception> = Result
-    .of { json.parse(VkApiResponse.serializer(serializer), responseString) }
-    .flatMap { it.asResult() }
+): Result<T, Exception> = Result.of<VkApiResponse<T>, Exception> {
+    json.parse(VkApiResponse.serializer(serializer), responseString)
+}.flatMap { it.asResult() }
 
 private inline fun <T : Any> VkApiResponse<T>.asResult(): Result<T, Exception> =
     when {
-        response != null -> Result.of(response)
         error != null -> Result.error(error)
+        response != null -> Result.of(response)
         else -> Result.error(IllegalStateException("Response is null"))
     }
 

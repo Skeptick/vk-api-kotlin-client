@@ -7,5 +7,5 @@ sourceSets {
 
 dependencies {
     compile project(':vk-api-kotlin-client')
-    compile "org.asynchttpclient:async-http-client:2.4.9"
+    compile "org.asynchttpclient:async-http-client:2.5.2"
 }

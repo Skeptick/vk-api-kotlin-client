@@ -7,5 +7,5 @@ sourceSets {
 
 dependencies {
     compile project(':vk-api-kotlin-client')
-    compile "com.github.kittinunf.fuel:fuel:1.13.0"
+    compile "com.github.kittinunf.fuel:fuel:1.14.0"
 }

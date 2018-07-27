@@ -3,8 +3,8 @@ package tk.skeptick.vk.apiclient.transport
 import com.github.kittinunf.fuel.core.*
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.flatMap
-import kotlinx.coroutines.experimental.CompletableDeferred
-import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
 import tk.skeptick.vk.apiclient.HttpMethod
 import tk.skeptick.vk.apiclient.TransportClient
 import java.io.File
