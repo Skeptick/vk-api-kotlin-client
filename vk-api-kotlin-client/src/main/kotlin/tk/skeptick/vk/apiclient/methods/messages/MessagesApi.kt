@@ -202,7 +202,7 @@ class MessagesApi(override val client: VkApiClient)
         peerId: Int,
         offset: Int,
         count: Int,
-        startMessageId: Int,
+        startMessageId: Int?,
         reverse: Boolean,
         extended: Boolean,
         fields: List<ObjectField>

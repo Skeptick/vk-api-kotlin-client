@@ -101,14 +101,14 @@ interface MessagesApiCommon {
     ): VkApiRequest<ExtendedListResponse<Conversation>>
 
     /**
-     * DefaultListResponse
+     * @param[count] maximum value 200
      * @see <a href="https://vk.com/dev/messages.getHistory">VK API</a>
      */
     fun getHistory(
         peerId: Int,
         offset: Int = 0,
         count: Int = 20,
-        startMessageId: Int = 0,
+        startMessageId: Int? = null,
         reverse: Boolean = false,
         extended: Boolean = false,
         fields: List<ObjectField> = DefaultMethodsParams.userFields

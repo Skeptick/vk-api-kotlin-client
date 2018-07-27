@@ -28,9 +28,9 @@ data class Market(
 
     @Serializable(with = AvailabilityType.Companion::class)
     enum class AvailabilityType(override val value: Int) : SerializableEnum<Int> {
-        AVAILABLE(1),
-        DELETED(2),
-        UNAVAILABLE(3);
+        AVAILABLE(0),
+        DELETED(1),
+        UNAVAILABLE(2);
 
         companion object : EnumIntSerializer<AvailabilityType>(
             clazz = AvailabilityType::class,

@@ -59,8 +59,8 @@ data class ConversationsListResponse(
 data class HistoryMessagesListResponse(
     @SerialName("count") override val count: Int,
     @SerialName("items") override val items: List<Message>,
-    @SerialName("in_read") val inReadMessageId: Int,
-    @SerialName("out_read") val outReadMessageId: Int,
+    @Optional @SerialName("in_read") val inReadMessageId: Int? = null,
+    @Optional @SerialName("out_read") val outReadMessageId: Int? = null,
     @Optional @SerialName("unread") val unreadCount: Int = 0,
     @Optional @SerialName("skipped") val skippedCount: Int = 0,
     @Optional @SerialName("profiles") val profiles: List<User>? = null,

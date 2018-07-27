@@ -10,7 +10,7 @@ data class Link(
     @SerialName("title") val title: String,
     @Optional @SerialName("caption") val caption: String? = null,
     @Optional @SerialName("description") val description: String? = null,
-    @Optional @SerialName("photo") val photo: String? = null,
+    @Optional @SerialName("photo") val photo: Photo? = null,
     @Optional @SerialName("product") val product: Product? = null,
     @Optional @SerialName("button") val button: Button? = null,
     @Optional @SerialName("preview_page") val previewPage: String? = null,
