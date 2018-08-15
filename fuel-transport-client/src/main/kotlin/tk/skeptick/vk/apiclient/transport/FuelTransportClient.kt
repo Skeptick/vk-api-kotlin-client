@@ -3,8 +3,8 @@ package tk.skeptick.vk.apiclient.transport
 import com.github.kittinunf.fuel.core.*
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.flatMap
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.experimental.CompletableDeferred
+import kotlinx.coroutines.experimental.Deferred
 import tk.skeptick.vk.apiclient.HttpMethod
 import tk.skeptick.vk.apiclient.TransportClient
 import java.io.File
@@ -34,7 +34,7 @@ open class FuelTransportClient : TransportClient {
     ): Deferred<Result<T, Exception>> =
         client.upload(url)
             .blobs { _, _ -> files.map { it.blob } }
-            .also { it.names.addAll(files.map { it.first }) }
+            .also { request -> request.names.addAll(files.map { it.first }) }
             .asDeferred(mapper)
 
     private fun <T : Any> Request.asDeferred(

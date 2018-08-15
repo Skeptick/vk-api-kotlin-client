@@ -23,7 +23,8 @@ data class EntityWrapper(
 
         override fun load(input: KInput): EntityWrapper {
             val jsonObject = (input as JSON.JsonInput).readAsTree().jsonObject
-            return when (val type = jsonObject["type"].content) {
+            val type = jsonObject["type"].content
+            return when (type) {
                 Type.PAGE.value -> EntityWrapper(
                     type = Type.PAGE,
                     page = json.parse(jsonObject.toString())

@@ -1,7 +1,7 @@
 package tk.skeptick.vk.apiclient
 
 import com.github.kittinunf.result.Result
-import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.experimental.Deferred
 import java.io.File
 
 interface TransportClient {

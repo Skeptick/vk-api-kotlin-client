@@ -1,8 +1,8 @@
 package tk.skeptick.vk.apiclient.transport
 
 import com.github.kittinunf.result.Result
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.experimental.CompletableDeferred
+import kotlinx.coroutines.experimental.Deferred
 import org.asynchttpclient.*
 import org.asynchttpclient.request.body.multipart.FilePart
 import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
