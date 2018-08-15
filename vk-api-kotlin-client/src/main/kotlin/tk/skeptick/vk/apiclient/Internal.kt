@@ -7,6 +7,7 @@ import com.github.kittinunf.result.flatMap
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.JSON
 import kotlinx.serialization.json.JsonTreeParser
+import tk.skeptick.vk.apiclient.domain.MessageAttachment
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
 import tk.skeptick.vk.apiclient.methods.VkApiResponse
@@ -110,6 +111,17 @@ internal fun combineParameters(
             if (value != null) result.add(key to value.toString())
 
     return result
+}
+
+internal fun prepareAttachments(
+    attachments: List<MessageAttachment>
+): String = attachments.joinToString(",") { attachment ->
+    buildString {
+        append(attachment.typeAttachment)
+        append(attachment.ownerId)
+        append('_').append(attachment.id)
+        attachment.accessKey?.let { append(it) }
+    }
 }
 
 //--- Parsers ---//

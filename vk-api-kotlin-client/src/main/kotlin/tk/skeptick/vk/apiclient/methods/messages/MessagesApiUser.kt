@@ -114,7 +114,8 @@ interface MessagesApiUser : MessagesApiCommon {
      */
     fun removeChatUser(
         chatId: Int,
-        userId: Int
+        memberId: Int,
+        groupId: Int? = null
     ): VkApiRequest<BooleanInt>
 
     /**

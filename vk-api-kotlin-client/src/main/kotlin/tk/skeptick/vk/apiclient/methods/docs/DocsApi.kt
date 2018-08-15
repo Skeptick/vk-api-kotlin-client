@@ -122,12 +122,12 @@ class DocsApi(override val client: VkApiClient)
 
         fun prepareDocs(
             docs: List<Media>
-        ): String = docs.joinToString(",") {
+        ): String = docs.joinToString(",") { doc ->
             buildString {
-                append(it.ownerId)
+                append(doc.ownerId)
                 append('_')
-                append(it.id)
-                it.accessKey?.let { append(it) }
+                append(doc.id)
+                doc.accessKey?.let { append(it) }
             }
         }
 

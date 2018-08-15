@@ -97,7 +97,7 @@ class MessagesApi(override val client: VkApiClient)
             "message" to message,
             "lat" to latitude,
             "long" to longitude,
-            "attachment" to attachments?.let(Companion::prepareAttachments),
+            "attachment" to attachments?.let(::prepareAttachments),
             "keep_forward_messages" to keepForwardMessages.asInt(),
             "keep_snippets" to keepSnippets.asInt()
         ).withSerializer(BooleanInt.serializer())
@@ -345,11 +345,13 @@ class MessagesApi(override val client: VkApiClient)
 
     override fun removeChatUser(
         chatId: Int,
-        userId: Int
+        memberId: Int,
+        groupId: Int?
     ): VkApiRequest<BooleanInt> = 
         Methods.removeChatUser.httpGet(
             "chat_id" to chatId,
-            "user_id" to userId
+            "member_id" to memberId,
+            "group_id" to groupId
         ).withSerializer(BooleanInt.serializer())
 
     override fun restore(
@@ -409,7 +411,7 @@ class MessagesApi(override val client: VkApiClient)
             "message" to message,
             "lat" to lat,
             "long" to long,
-            "attachment" to attachments?.let(Companion::prepareAttachments),
+            "attachment" to attachments?.let(::prepareAttachments),
             "forward_messages" to forwardedMessages?.joinToString(","),
             "sticker_id" to stickerId,
             "keyboard" to keyboard?.let(json::stringify),
@@ -432,7 +434,7 @@ class MessagesApi(override val client: VkApiClient)
             "message" to message,
             "lat" to lat,
             "long" to long,
-            "attachment" to attachments?.let(Companion::prepareAttachments),
+            "attachment" to attachments?.let(::prepareAttachments),
             "forward_messages" to forwardedMessages?.joinToString(","),
             "sticker_id" to stickerId
         ).withSerializer(IntSerializer)
@@ -455,7 +457,7 @@ class MessagesApi(override val client: VkApiClient)
             "message" to message,
             "lat" to lat,
             "long" to long,
-            "attachment" to attachments?.let(Companion::prepareAttachments),
+            "attachment" to attachments?.let(::prepareAttachments),
             "forward_messages" to forwardedMessages?.joinToString(","),
             "sticker_id" to stickerId,
             "keyboard" to keyboard?.let(json::stringify),
@@ -492,17 +494,6 @@ class MessagesApi(override val client: VkApiClient)
 
         fun Date.toDMYString(): String =
             dateFormatter.format(this)
-
-        fun prepareAttachments(
-            attachments: List<MessageAttachment>
-        ): String = attachments.joinToString(",") {
-            buildString {
-                append(it.typeAttachment)
-                append(it.ownerId)
-                append('_').append(it.id)
-                it.accessKey?.let { append(it) }
-            }
-        }
 
     }
 
