@@ -57,7 +57,9 @@ data class WallPost(
     data class Comments(
         @SerialName("count") val count: Int,
         @SerialName("can_post") val canPost: BooleanInt,
-        @SerialName("groups_can_post") val isGroupsCanComment: Boolean)
+        @Optional @SerialName("groups_can_post") val isGroupsCanComment: Boolean = false,
+        @Optional @SerialName("can_close") val canClose: BooleanInt = BooleanInt(false),
+        @Optional @SerialName("can_open") val canOpen: BooleanInt = BooleanInt(false))
 
     @Serializable
     data class Likes(
@@ -78,7 +80,7 @@ data class WallPost(
     @Serializable
     data class Source(
         @SerialName("type") val type: Type,
-        @Optional @SerialName("url") val url: String? = null,
+        @Optional @SerialName("link") val link: Link? = null,
         @Optional @SerialName("platform") val platform: Platform? = null,
         @Optional @SerialName("data") val data: DataType? = null) {
 

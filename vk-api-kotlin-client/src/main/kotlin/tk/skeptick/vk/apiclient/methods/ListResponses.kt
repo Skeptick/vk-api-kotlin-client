@@ -4,6 +4,7 @@ import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.domain.models.Community
+import tk.skeptick.vk.apiclient.domain.models.Conversation
 import tk.skeptick.vk.apiclient.domain.models.User
 
 interface ListResponse<out T> {
@@ -22,5 +23,6 @@ data class ExtendedListResponse<out T>(
     @SerialName("count") override val count: Int,
     @SerialName("items") override val items: List<T>,
     @Optional @SerialName("profiles") val profiles: List<User>? = null,
-    @Optional @SerialName("groups") val groups: List<Community>? = null
+    @Optional @SerialName("groups") val groups: List<Community>? = null,
+    @Optional @SerialName("conversations") val conversations: List<Conversation>? = null
 ) : ListResponse<T>

@@ -19,7 +19,8 @@ data class Conversation(
     @Optional @SerialName("important") val isImportant: Boolean? = null,
     @Optional @SerialName("unanswered") val isUnanswered: Boolean? = null,
     @Optional @SerialName("current_keyboard") val currentKeyboard: Keyboard? = null,
-    @Optional @SerialName("chat_settings") val chatSettings: ChatSettings? = null) {
+    @Optional @SerialName("chat_settings") val chatSettings: ChatSettings? = null,
+    @Optional @SerialName("push_settings") val pushSettings: PushSettings? = null) {
 
     @Serializable
     data class Peer(
@@ -49,10 +50,13 @@ data class Conversation(
 
     @Serializable
     data class ChatSettings(
-        @SerialName("members_count") val membersCount: Int,
         @SerialName("title") val title: String,
-        @SerialName("active_ids") val activeUserIds: List<Int>,
+        @SerialName("members_count") val membersCount: Int,
         @SerialName("state") val state: State,
+        @SerialName("active_ids") val activeUserIds: List<Int>,
+        @SerialName("acl") val acl: AccessControlList,
+        @SerialName("is_group_channel") val isGroupChannel: Boolean,
+        @SerialName("owner_id") val ownerId: Int,
         @Optional @SerialName("pinned_message") val pinnedMessage: Message.Pinned? = null,
         @Optional @SerialName("photo") val photo: SimplePhoto? = null) {
 
@@ -68,6 +72,21 @@ data class Conversation(
             )
         }
 
+        @Serializable
+        data class AccessControlList(
+            @SerialName("can_invite") val canInvite: Boolean,
+            @SerialName("can_change_info") val canChangeInfo: Boolean,
+            @SerialName("can_change_pin") val canChangePin: Boolean,
+            @SerialName("can_promote_users") val canPromoteUsers: Boolean,
+            @SerialName("can_see_invite_link") val canSeeInviteLink: Boolean,
+            @SerialName("can_change_invite_link") val canChangeInviteLink: Boolean)
+
     }
+
+    @Serializable
+    data class PushSettings(
+        @SerialName("no_sound") val isNoSound: Boolean,
+        @SerialName("disabled_until") val disabledUntil: Int,
+        @SerialName("disabled_forever") val isDisabledForever: Boolean)
 
 }

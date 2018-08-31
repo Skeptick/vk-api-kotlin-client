@@ -1,7 +1,7 @@
 VK API Kotlin Client
 ======================
 Библиотека для работы с API vk.com на языке Kotlin
-#### [Версия VK API](https://vk.com/dev/versions): 5.80
+#### [Версия VK API](https://vk.com/dev/versions): 5.84
 ______________________
 #### Использует:
   - [kotlinx.coroutines]
@@ -25,7 +25,7 @@ ______________________
 | [Groups]        |    41 из 41    | :heavy_check_mark:       |
 | [Likes]         |     4 из 4     | :heavy_check_mark:       |
 | [Market]        |     0 из 24    | :heavy_multiplication_x: |
-| [Messages]      |    37 из 37    | :heavy_check_mark:       |
+| [Messages]      |    38 из 38    | :heavy_check_mark:       |
 | [Newsfeed]      |     0 из 15    | :heavy_multiplication_x: |
 | [Notes]         |     0 из 10    | :heavy_multiplication_x: |
 | [Notifications] |     0 из 2     | :heavy_multiplication_x: |

@@ -5,7 +5,7 @@ import kotlinx.serialization.internal.IntSerializer
 import kotlin.reflect.KClass
 
 @Serializable
-data class BooleanInt internal constructor(val value: Boolean) {
+data class BooleanInt(val value: Boolean) {
     @Serializer(forClass = BooleanInt::class)
     companion object : KSerializer<BooleanInt> {
         override fun save(output: KOutput, obj: BooleanInt) =

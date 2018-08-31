@@ -23,6 +23,14 @@ interface MessagesApiCommon {
     ): VkApiRequest<Map<Int, BooleanInt>>
 
     /**
+     * @see <a href="https://vk.com/dev/messages.deleteChatPhoto">VK API</a>
+     */
+    fun deleteChatPhoto(
+        chatId: Int,
+        groupId: Int? = null
+    ): VkApiRequest<ChatChangePhotoResponse>
+
+    /**
      * @param[count] maximum value 10000
      * @see <a href="https://vk.com/dev/messages.deleteConversation">VK API</a>
      */
@@ -47,14 +55,21 @@ interface MessagesApiCommon {
     ): VkApiRequest<BooleanInt>
 
     /**
+     * @see <a href="https://vk.com/dev/messages.editChat">VK API</a>
+     */
+    fun editChat(
+        chatId: Int,
+        title: String
+    ): VkApiRequest<BooleanInt>
+
+    /**
      * @see <a href="https://vk.com/dev/messages.getByConversationMessageId">VK API</a>
      */
     fun getByConversationMessageId(
         peerId: Int,
         conversationMessageIds: List<Int>,
         extended: Boolean = false,
-        fields: List<ObjectField> = DefaultMethodsParams.userFields,
-        groupId: Int? = null
+        fields: List<ObjectField> = DefaultMethodsParams.userFields
     ): VkApiRequest<ExtendedListResponse<Message>>
 
     /**
@@ -72,8 +87,7 @@ interface MessagesApiCommon {
      */
     fun getConversationMembers(
         peerId: Int,
-        fields: List<ObjectField> = DefaultMethodsParams.userFields,
-        groupId: Int? = null
+        fields: List<ObjectField> = DefaultMethodsParams.userFields
     ): VkApiRequest<ExtendedListResponse<ConversationMember>>
 
     /**
@@ -86,8 +100,7 @@ interface MessagesApiCommon {
         filter: ConversationFilter = ConversationFilter.ALL,
         startMessageId: Int? = null,
         extended: Boolean = false,
-        fields: List<ObjectField> = DefaultMethodsParams.userFields,
-        groupId: Int? = null
+        fields: List<ObjectField> = DefaultMethodsParams.userFields
     ): VkApiRequest<ConversationsListResponse>
 
     /**
@@ -96,8 +109,7 @@ interface MessagesApiCommon {
     fun getConversationsById(
         peerIds: List<Int>,
         extended: Boolean = false,
-        fields: List<ObjectField> = DefaultMethodsParams.userFields,
-        groupId: Int? = null
+        fields: List<ObjectField> = DefaultMethodsParams.userFields
     ): VkApiRequest<ExtendedListResponse<Conversation>>
 
     /**
@@ -126,6 +138,27 @@ interface MessagesApiCommon {
         withPhotoSizes: Boolean = false,
         fields: List<ObjectField> = DefaultMethodsParams.userFields
     ): VkApiRequest<HistoryAttachmentsResponse>
+
+    /**
+     * @param[count] maximum value 200
+     * @see <a href="https://vk.com/dev/messages.getImportantMessages">VK API</a>
+     */
+    fun getImportantMessages(
+        count: Int = 20,
+        offset: Int = 0,
+        startMessageId: Int? = null,
+        previewLength: Int = 0,
+        extended: Boolean = false,
+        fields: List<ObjectField> = DefaultMethodsParams.userFields
+    ): VkApiRequest<ImportantMessagesResponse>
+
+    /**
+     * @see <a href="https://vk.com/dev/messages.getInviteLink">VK API</a>
+     */
+    fun getInviteLink(
+        peerId: Int,
+        generateNewLink: Boolean = false
+    ): VkApiRequest<ChatInviteLink>
 
     /**
      * @see <a href="https://vk.com/dev/messages.getLongPollHistory">VK API</a>
@@ -167,6 +200,22 @@ interface MessagesApiCommon {
     ): VkApiRequest<BooleanInt>
 
     /**
+     * @see <a href="https://vk.com/dev/messages.pin">VK API</a>
+     */
+    fun pin(
+        peerId: Int,
+        messageId: Int
+    ): VkApiRequest<Message.Pinned>
+
+    /**
+     * @see <a href="https://vk.com/dev/messages.removeChatUser">VK API</a>
+     */
+    fun removeChatUser(
+        chatId: Int,
+        memberId: Int
+    ): VkApiRequest<BooleanInt>
+
+    /**
      * @see <a href="https://vk.com/dev/messages.restore">VK API</a>
      */
     fun restore(
@@ -193,8 +242,7 @@ interface MessagesApiCommon {
         query: String,
         count: Int = 20,
         extended: Boolean = false,
-        fields: List<ObjectField> = DefaultMethodsParams.userFields,
-        groupId: Int? = null
+        fields: List<ObjectField> = DefaultMethodsParams.userFields
     ): VkApiRequest<ExtendedListResponse<Conversation>>
 
     /**
@@ -203,6 +251,22 @@ interface MessagesApiCommon {
     fun setActivity(
         peerId: Int,
         type: String = "typing"
+    ): VkApiRequest<BooleanInt>
+
+    /**
+     * Note that [file] is a string returned by the API
+     * after a successful upload of the document to the server.
+     * @see <a href="https://vk.com/dev/messages.setChatPhoto">VK API</a>
+     */
+    fun setChatPhoto(
+        file: String
+    ): VkApiRequest<ChatChangePhotoResponse>
+
+    /**
+     * @see <a href="https://vk.com/dev/messages.unpin">VK API</a>
+     */
+    fun unpin(
+        peerId: Int
     ): VkApiRequest<BooleanInt>
 
 }

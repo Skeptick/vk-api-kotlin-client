@@ -3,6 +3,7 @@ package tk.skeptick.vk.apiclient.methods.messages
 import kotlinx.serialization.*
 import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.domain.models.*
+import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ListResponse
 
 @Serializable
@@ -37,7 +38,8 @@ data class ConversationMember(
     @SerialName("member_id") val memberId: Int,
     @SerialName("invited_by") val invitedBy: Int,
     @SerialName("join_date") val joinDate: Int,
-    @Optional @SerialName("is_admin") val isAdmin: Boolean = false)
+    @Optional @SerialName("is_admin") val isAdmin: Boolean = false,
+    @Optional @SerialName("can_kick") val canKick: Boolean = false)
 
 @Serializable
 data class ConversationsListResponse(
@@ -78,6 +80,13 @@ data class HistoryAttachmentsResponse(
         @SerialName("attachment") val attachment: Message.Attachment)
 
 }
+
+@Serializable
+data class ImportantMessagesResponse(
+    @SerialName("messages") val messages: DefaultListResponse<Message>,
+    @Optional @SerialName("profiles") val profiles: List<User>? = null,
+    @Optional @SerialName("groups") val groups: List<Community>? = null,
+    @Optional @SerialName("conversations") val conversations: List<Conversation>? = null)
 
 @Serializable
 data class ChatInviteLink(

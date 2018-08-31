@@ -6,6 +6,7 @@ import tk.skeptick.vk.apiclient.EnumStringSerializer
 import tk.skeptick.vk.apiclient.domain.MessagePayload
 import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.domain.*
+import tk.skeptick.vk.apiclient.isChatPeerId
 
 @Serializable
 data class Message(
@@ -27,7 +28,7 @@ data class Message(
     @Optional @SerialName("random_id") val randomId: Int? = null,
     @Optional @SerialName("chat_id") val chatId: Int? = null) {
 
-    @Transient val isFromChat: Boolean get() = chatId != null
+    @Transient val isFromChat: Boolean get() = peerId.isChatPeerId
     @Transient val isServiceAction: Boolean get() = serviceAction != null
 
     @Serializable
@@ -62,7 +63,9 @@ data class Message(
         @Optional @SerialName("wall") val wallPost: WallPost? = null,
         @Optional @SerialName("wall_reply") val wallReply: WallComment? = null,
         @Optional @SerialName("sticker") val sticker: Sticker? = null,
-        @Optional @SerialName("gift") val gift: Gift? = null)
+        @Optional @SerialName("gift") val gift: Gift? = null,
+        @Optional @SerialName("graffiti") val graffiti: Graffiti? = null,
+        @Optional @SerialName("audio_message") val audioMessage: AudioMessage? = null)
 
     @Serializable
     data class ServiceAction(
