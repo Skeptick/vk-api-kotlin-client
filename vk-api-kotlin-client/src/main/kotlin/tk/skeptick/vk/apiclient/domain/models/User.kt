@@ -101,10 +101,7 @@ data class User(
         MALE(2),
         NOT_SPECIFIED(0);
 
-        companion object : EnumIntSerializer<Sex>(
-            clazz = Sex::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<Sex>(Sex::class)
     }
 
     @Serializable(with = RelationStatus.Companion::class)
@@ -119,10 +116,7 @@ data class User(
         CIVIL_UNION(8),
         NOT_SPECIFIED(0);
 
-        companion object : EnumIntSerializer<RelationStatus>(
-            clazz = RelationStatus::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<RelationStatus>(RelationStatus::class)
     }
 
     @Serializable(with = FriendStatus.Companion::class)
@@ -132,10 +126,7 @@ data class User(
         INCOMING_REQUEST(2),
         FRIEND(3);
 
-        companion object : EnumIntSerializer<FriendStatus>(
-            clazz = FriendStatus::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<FriendStatus>(FriendStatus::class)
     }
 
     @Serializable(with = DeactivationType.Companion::class)
@@ -143,10 +134,7 @@ data class User(
         DELETED("deleted"),
         BANNED("banned");
 
-        companion object : EnumStringSerializer<DeactivationType>(
-            clazz = DeactivationType::class,
-            values = enumValues()
-        )
+        companion object : EnumStringSerializer<DeactivationType>(DeactivationType::class)
     }
 
     @Serializable
@@ -172,10 +160,7 @@ data class User(
             APATHETIC(8),
             LIBERTARIAN(9);
 
-            companion object : EnumIntSerializer<PoliticalView>(
-                clazz = PoliticalView::class,
-                values = enumValues()
-            )
+            companion object : EnumIntSerializer<PoliticalView>(PoliticalView::class)
         }
 
         @Serializable(with = ImportantInOthers.Companion::class)
@@ -187,10 +172,7 @@ data class User(
             COURAGE_AND_PERSISTENCE(5),
             HUMOR_AND_LOVE_FOR_LIFE(6);
 
-            companion object : EnumIntSerializer<ImportantInOthers>(
-                clazz = ImportantInOthers::class,
-                values = enumValues()
-            )
+            companion object : EnumIntSerializer<ImportantInOthers>(ImportantInOthers::class)
         }
 
         @Serializable(with = PersonalPriority.Companion::class)
@@ -204,10 +186,7 @@ data class User(
             BEAUTY_AND_ART(7),
             FAME_AND_INFLUENCE(8);
 
-            companion object : EnumIntSerializer<PersonalPriority>(
-                clazz = PersonalPriority::class,
-                values = enumValues()
-            )
+            companion object : EnumIntSerializer<PersonalPriority>(PersonalPriority::class)
         }
 
         @Serializable(with = ViewOnBadHabit.Companion::class)
@@ -218,10 +197,7 @@ data class User(
             COMPROMISABLE(4),
             POSITIVE(5);
 
-            companion object : EnumIntSerializer<ViewOnBadHabit>(
-                clazz = ViewOnBadHabit::class,
-                values = enumValues()
-            )
+            companion object : EnumIntSerializer<ViewOnBadHabit>(ViewOnBadHabit::class)
         }
 
     }
@@ -240,10 +216,7 @@ data class User(
             GRANDPARENT("grandparent"),
             GRANDCHILD("grandchild");
 
-            companion object : EnumStringSerializer<Type>(
-                clazz = Type::class,
-                values = enumValues()
-            )
+            companion object : EnumStringSerializer<Type>(Type::class)
         }
 
     }
@@ -260,10 +233,7 @@ data class User(
             SCHOOL("school"),
             UNIVERSITY("university");
 
-            companion object : EnumStringSerializer<Type>(
-                clazz = Type::class,
-                values = enumValues()
-            )
+            companion object : EnumStringSerializer<Type>(Type::class)
         }
 
     }
@@ -299,10 +269,7 @@ data class User(
             SPECIALIZED_SCHOOL(12),
             ART_SCHOOL(13);
 
-            companion object : EnumIntSerializer<Type>(
-                clazz = Type::class,
-                values = enumValues()
-            )
+            companion object : EnumIntSerializer<Type>(Type::class)
         }
 
     }
@@ -386,10 +353,7 @@ data class User(
             WEB_DESKTOP(7),
             VK_MOBILE(8);
 
-            companion object : EnumIntSerializer<ClientPlatform>(
-                clazz = ClientPlatform::class,
-                values = enumValues()
-            )
+            companion object : EnumIntSerializer<ClientPlatform>(ClientPlatform::class)
         }
 
     }

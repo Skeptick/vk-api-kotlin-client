@@ -78,10 +78,7 @@ data class AccountProfileInfo(
         SHOW_MONTH_AND_DAY(2),
         HIDE(0);
 
-        companion object : EnumIntSerializer<BirthDateVisibility>(
-            clazz = BirthDateVisibility::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<BirthDateVisibility>(BirthDateVisibility::class)
     }
 
     @Serializable
@@ -96,10 +93,7 @@ data class AccountProfileInfo(
             PROCESSING("processing"),
             DECLINED("declined");
 
-            companion object : EnumStringSerializer<Status>(
-                clazz = Status::class,
-                values = enumValues()
-            )
+            companion object : EnumStringSerializer<Status>(Status::class)
         }
 
     }
@@ -145,10 +139,7 @@ data class SaveAccountProfileInfoResponse(
             WAS_ACCEPTED("was_accepted"),
             WAS_DECLINED("was_declined");
 
-            companion object : EnumStringSerializer<Status>(
-                clazz = Status::class,
-                values = enumValues()
-            )
+            companion object : EnumStringSerializer<Status>(Status::class)
         }
 
     }

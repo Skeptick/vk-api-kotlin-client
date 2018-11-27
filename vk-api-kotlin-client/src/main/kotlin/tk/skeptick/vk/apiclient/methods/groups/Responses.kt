@@ -18,10 +18,7 @@ enum class PublicUnitAccessType(override val value: Int) : SerializableEnum<Int>
     DISABLED(0),
     OPEN(1);
 
-    companion object : EnumIntSerializer<PublicUnitAccessType>(
-        clazz = PublicUnitAccessType::class,
-        values = enumValues()
-    )
+    companion object : EnumIntSerializer<PublicUnitAccessType>(PublicUnitAccessType::class)
 }
 
 @Serializable(with = GroupUnitAccessType.Companion::class)
@@ -30,10 +27,7 @@ enum class GroupUnitAccessType(override val value: Int) : SerializableEnum<Int> 
     OPEN(1),
     LIMITED(2);
 
-    companion object : EnumIntSerializer<GroupUnitAccessType>(
-        clazz = GroupUnitAccessType::class,
-        values = enumValues()
-    )
+    companion object : EnumIntSerializer<GroupUnitAccessType>(GroupUnitAccessType::class)
 }
 
 @Serializable(with = GroupUnitAccessTypeExtended.Companion::class)
@@ -43,10 +37,7 @@ enum class GroupUnitAccessTypeExtended(override val value: Int) : SerializableEn
     LIMITED(2),
     CLOSED(3);
 
-    companion object : EnumIntSerializer<GroupUnitAccessTypeExtended>(
-        clazz = GroupUnitAccessTypeExtended::class,
-        values = enumValues()
-    )
+    companion object : EnumIntSerializer<GroupUnitAccessTypeExtended>(GroupUnitAccessTypeExtended::class)
 }
 
 @Serializable
@@ -75,10 +66,7 @@ data class CommunityBan(
         GROUP("group"),
         PROFILE("profile");
 
-        companion object : EnumStringSerializer<Type>(
-            clazz = Type::class,
-            values = enumValues()
-        )
+        companion object : EnumStringSerializer<Type>(Type::class)
     }
 
     @Serializable
@@ -101,10 +89,7 @@ data class CommunityBan(
         PROFANITY(3),
         IRRELEVANT_MESSAGES(4);
 
-        companion object : EnumIntSerializer<Reason>(
-            clazz = Reason::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<Reason>(Reason::class)
     }
 
 }
@@ -125,10 +110,7 @@ data class CommunityCallbackServer(
         WAIT("wait"),
         OK("ok");
 
-        companion object : EnumStringSerializer<Status>(
-            clazz = Status::class,
-            values = enumValues()
-        )
+        companion object : EnumStringSerializer<Status>(Status::class)
     }
 
 }
@@ -217,10 +199,7 @@ data class CommunityManager(
         ADMINISTRATOR("administrator"),
         CREATOR("creator");
 
-        companion object : EnumStringSerializer<Role>(
-            clazz = Role::class,
-            values = enumValues()
-        )
+        companion object : EnumStringSerializer<Role>(Role::class)
     }
 
 }
@@ -236,10 +215,7 @@ data class CommunityOnlineStatus(
         ONLINE("online"),
         ANSWER_MARK("answer_mark");
 
-        companion object : EnumStringSerializer<Status>(
-            clazz = Status::class,
-            values = enumValues()
-        )
+        companion object : EnumStringSerializer<Status>(Status::class)
     }
 
 }
@@ -291,10 +267,7 @@ data class CommunitySettings(
         ALL(1),
         SUBSCRIBERS(2);
 
-        companion object : EnumIntSerializer<CommunitySuggestedPrivacyType>(
-            clazz = CommunitySuggestedPrivacyType::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<CommunitySuggestedPrivacyType>(CommunitySuggestedPrivacyType::class)
     }
 
 }

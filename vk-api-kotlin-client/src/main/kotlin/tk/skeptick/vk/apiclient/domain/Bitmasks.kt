@@ -2,10 +2,7 @@
 
 package tk.skeptick.vk.apiclient.domain
 
-import kotlinx.serialization.KInput
-import kotlinx.serialization.KOutput
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializer
+import kotlinx.serialization.*
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -17,8 +14,10 @@ open class Bitmask(open var mask: Int = 0) {
     fun bitmask(bit: Int): BitmaskDelegate = BitmaskDelegate(bit)
 
     class BitmaskDelegate(private val bit: Int) : ReadWriteProperty<Bitmask, Boolean> {
+
         override fun getValue(thisRef: Bitmask, property: KProperty<*>): Boolean =
             thisRef.getValue(bit)
+
         override fun setValue(thisRef: Bitmask, property: KProperty<*>, value: Boolean) =
             if (value) thisRef.setValue(bit) else thisRef.clearValue(bit)
     }
@@ -52,11 +51,12 @@ class AccessPermissionsUser(
 
     @Serializer(forClass = AccessPermissionsUser::class)
     companion object : KSerializer<AccessPermissionsUser> {
-        override fun save(output: KOutput, obj: AccessPermissionsUser) =
-            output.writeIntValue(obj.mask)
 
-        override fun load(input: KInput): AccessPermissionsUser =
-            AccessPermissionsUser(input.readIntValue())
+        override fun serialize(output: Encoder, obj: AccessPermissionsUser) =
+            output.encodeInt(obj.mask)
+
+        override fun deserialize(input: Decoder): AccessPermissionsUser =
+            AccessPermissionsUser(input.decodeInt())
     }
 }
 
@@ -75,10 +75,11 @@ class AccessPermissionsCommunity(
 
     @Serializer(forClass = AccessPermissionsCommunity::class)
     companion object : KSerializer<AccessPermissionsCommunity> {
-        override fun save(output: KOutput, obj: AccessPermissionsCommunity) =
-            output.writeIntValue(obj.mask)
 
-        override fun load(input: KInput): AccessPermissionsCommunity =
-            AccessPermissionsCommunity(input.readIntValue())
+        override fun serialize(output: Encoder, obj: AccessPermissionsCommunity) =
+            output.encodeInt(obj.mask)
+
+        override fun deserialize(input: Decoder): AccessPermissionsCommunity =
+            AccessPermissionsCommunity(input.decodeInt())
     }
 }

@@ -16,10 +16,7 @@ enum class Language(override val value: Int) : SerializableEnum<Int> {
     GERMAN(6),
     ITALIAN(7);
 
-    companion object : EnumIntSerializer<Language>(
-        clazz = Language::class,
-        values = enumValues()
-    )
+    companion object : EnumIntSerializer<Language>(Language::class)
 }
 
 @Serializable(with = AttachmentType.Companion::class)
@@ -44,8 +41,5 @@ enum class AttachmentType(override val value: String) : SerializableEnum<String>
     GRAFFITI("graffiti"),
     AUDIO_MESSAGE("audio_message");
 
-    companion object : EnumStringSerializer<AttachmentType>(
-        clazz = AttachmentType::class,
-        values = enumValues()
-    )
+    companion object : EnumStringSerializer<AttachmentType>(AttachmentType::class)
 }

@@ -17,10 +17,7 @@ data class CheckLinkResponse(
         BANNED("banned"),
         PROCESSING("processing");
 
-        companion object : EnumStringSerializer<Status>(
-            clazz = Status::class,
-            values = enumValues()
-        )
+        companion object : EnumStringSerializer<Status>(Status::class)
     }
 
 }
@@ -78,10 +75,7 @@ data class ResolveScreenNameResponse(
         GROUP("group"),
         APPLICATION("application");
 
-        companion object : EnumStringSerializer<Type>(
-            clazz = Type::class,
-            values = enumValues()
-        )
+        companion object : EnumStringSerializer<Type>(Type::class)
     }
 
 }

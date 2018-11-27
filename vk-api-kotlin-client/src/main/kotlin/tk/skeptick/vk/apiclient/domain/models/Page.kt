@@ -31,10 +31,7 @@ data class Page(
         COMMUNITY_MEMBERS(1),
         COMMUNITY_MANAGERS(0);
 
-        companion object : EnumIntSerializer<PrivacyType>(
-            clazz = PrivacyType::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<PrivacyType>(PrivacyType::class)
     }
 
 }

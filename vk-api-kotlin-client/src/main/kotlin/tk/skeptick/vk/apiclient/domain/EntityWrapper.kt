@@ -21,22 +21,20 @@ data class EntityWrapper(
     @Serializer(forClass = EntityWrapper::class)
     companion object : KSerializer<EntityWrapper> {
 
-        override fun load(input: KInput): EntityWrapper {
+        override fun deserialize(input: Decoder): EntityWrapper {
             val jsonObject = (input as JSON.JsonInput).readAsTree().jsonObject
-            val type = jsonObject["type"].content
-            return when (type) {
+            return when (val type = jsonObject["type"].content) {
                 Type.PAGE.value -> EntityWrapper(
                     type = Type.PAGE,
-                    page = json.parse(jsonObject.toString())
+                    page = json.parse(Community.serializer(), jsonObject.toString())
                 )
                 Type.PROFILE.value -> EntityWrapper(
                     type = Type.PROFILE,
-                    profile = json.parse(jsonObject.toString())
+                    profile = json.parse(User.serializer(), jsonObject.toString())
                 )
                 else -> throw IllegalArgumentException("Type \"$type\" is not defined.")
             }
         }
-
     }
 
 }

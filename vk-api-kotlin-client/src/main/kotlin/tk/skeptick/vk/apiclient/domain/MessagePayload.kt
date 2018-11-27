@@ -7,24 +7,26 @@ import tk.skeptick.vk.apiclient.json
 @Serializable
 data class MessagePayload(val value: String) {
 
-    fun <T> to(loader: KSerialLoader<T>): T =
+    fun <T> to(loader: DeserializationStrategy<T>): T =
         json.parse(loader, value)
 
+    @ImplicitReflectionSerializer
     inline fun <reified T : Any> to(): T =
         to(T::class.serializer())
 
     @Serializer(forClass = MessagePayload::class)
     companion object : KSerializer<MessagePayload> {
 
-        override fun save(output: KOutput, obj: MessagePayload) =
-            output.writeStringValue(obj.value)
+        override fun serialize(output: Encoder, obj: MessagePayload) =
+            output.encodeString(obj.value)
 
-        override fun load(input: KInput): MessagePayload =
-            MessagePayload(input.read(StringSerializer))
+        override fun deserialize(input: Decoder): MessagePayload =
+            MessagePayload(input.decodeString())
 
-        fun <T> from(saver: KSerialSaver<T>, obj: T): MessagePayload =
-            MessagePayload(json.stringify(saver, obj))
+        fun <T> from(strategy: SerializationStrategy<T>, obj: T): MessagePayload =
+            MessagePayload(json.stringify(strategy, obj))
 
+        @ImplicitReflectionSerializer
         inline fun <reified T : Any> from(obj: T): MessagePayload =
             from(T::class.serializer(), obj)
 

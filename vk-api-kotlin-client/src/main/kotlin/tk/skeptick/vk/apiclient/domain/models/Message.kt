@@ -89,10 +89,7 @@ data class Message(
             CHAT_UNPIN_MESSAGE("chat_unpin_message"),
             CHAT_INVITE_USER_BY_LINK("chat_invite_user_by_link");
 
-            companion object : EnumStringSerializer<Type>(
-                clazz = Type::class,
-                values = enumValues()
-            )
+            companion object : EnumStringSerializer<Type>(Type::class)
         }
 
     }

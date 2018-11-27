@@ -47,10 +47,7 @@ data class WallPost(
         POSTPONE("postpone"),
         SUGGEST("suggest");
 
-        companion object : EnumStringSerializer<Type>(
-            clazz = Type::class,
-            values = enumValues()
-        )
+        companion object : EnumStringSerializer<Type>(Type::class)
     }
 
     @Serializable
@@ -92,10 +89,7 @@ data class WallPost(
             RSS("rss"),
             SMS("sms");
 
-            companion object : EnumStringSerializer<Type>(
-                clazz = Type::class,
-                values = enumValues()
-            )
+            companion object : EnumStringSerializer<Type>(Type::class)
         }
 
         @Serializable(with = Platform.Companion::class)
@@ -104,10 +98,7 @@ data class WallPost(
             IPHONE("iphone"),
             WPHONE("wphone");
 
-            companion object : EnumStringSerializer<Platform>(
-                clazz = Platform::class,
-                values = enumValues()
-            )
+            companion object : EnumStringSerializer<Platform>(Platform::class)
         }
 
         @Serializable(with = DataType.Companion::class)
@@ -118,10 +109,7 @@ data class WallPost(
             LIKE("like"),
             POLL("poll");
 
-            companion object : EnumStringSerializer<DataType>(
-                clazz = DataType::class,
-                values = enumValues()
-            )
+            companion object : EnumStringSerializer<DataType>(DataType::class)
         }
 
     }

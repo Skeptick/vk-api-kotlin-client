@@ -32,10 +32,7 @@ data class Market(
         DELETED(1),
         UNAVAILABLE(2);
 
-        companion object : EnumIntSerializer<AvailabilityType>(
-            clazz = AvailabilityType::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<AvailabilityType>(AvailabilityType::class)
     }
 
     @Serializable

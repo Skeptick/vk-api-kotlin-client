@@ -3,8 +3,10 @@ package tk.skeptick.vk.apiclient.domain
 import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 import tk.skeptick.vk.apiclient.EnumStringSerializer
 import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.json
 
 @Serializable
 data class Keyboard(
@@ -26,10 +28,7 @@ data class Keyboard(
             enum class Type(override val value: String) : SerializableEnum<String> {
                 TEXT("text");
 
-                companion object : EnumStringSerializer<Type>(
-                    clazz = Type::class,
-                    values = enumValues()
-                )
+                companion object : EnumStringSerializer<Type>(Type::class)
             }
 
         }
@@ -41,12 +40,12 @@ data class Keyboard(
             NEGATIVE("negative"),
             POSITIVE("positive");
 
-            companion object : EnumStringSerializer<ButtonColor>(
-                clazz = ButtonColor::class,
-                values = enumValues()
-            )
+            companion object : EnumStringSerializer<ButtonColor>(ButtonColor::class)
         }
 
     }
 
 }
+
+internal fun Keyboard.serialize(): String =
+    json.stringify(Keyboard.serializer(), this)

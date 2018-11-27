@@ -765,7 +765,7 @@ class MessagesApi(override val client: VkApiClient)
             "attachment" to attachments?.let(::prepareAttachments),
             "forward_messages" to forwardedMessages?.joinToString(","),
             "sticker_id" to stickerId,
-            "keyboard" to keyboard?.let(json::stringify),
+            "keyboard" to keyboard?.serialize(),
             "payload" to payload?.value
         ).withSerializer(IntSerializer)
 
@@ -813,7 +813,7 @@ class MessagesApi(override val client: VkApiClient)
             "attachment" to attachments?.let(::prepareAttachments),
             "forward_messages" to forwardedMessages?.joinToString(","),
             "sticker_id" to stickerId,
-            "keyboard" to keyboard?.let(json::stringify),
+            "keyboard" to keyboard?.serialize(),
             "payload" to payload?.value
         ).withSerializer(SendBulkMessageResponse.serializer().list)
 

@@ -15,10 +15,7 @@ enum class AddFriendResponse(override val value: Int) : SerializableEnum<Int> {
     REQUEST_APPROVED(2),
     REQUEST_RESENDING(4);
 
-    companion object : EnumIntSerializer<AddFriendResponse>(
-        clazz = AddFriendResponse::class,
-        values = enumValues()
-    )
+    companion object : EnumIntSerializer<AddFriendResponse>(AddFriendResponse::class)
 }
 
 @Serializable

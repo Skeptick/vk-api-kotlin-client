@@ -34,10 +34,7 @@ data class Link(
             enum class Type(override val value: String) : SerializableEnum<String> {
                 OPEN_URL("open_url");
 
-                companion object : EnumStringSerializer<Type>(
-                    clazz = Type::class,
-                    values = enumValues()
-                )
+                companion object : EnumStringSerializer<Type>(Type::class)
             }
 
         }

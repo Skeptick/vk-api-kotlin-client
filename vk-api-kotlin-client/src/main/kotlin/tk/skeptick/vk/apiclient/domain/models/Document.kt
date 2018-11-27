@@ -33,10 +33,7 @@ data class Document(
         EBOOK(7),
         UNKNOWN(8);
 
-        companion object : EnumIntSerializer<Type>(
-            clazz = Type::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<Type>(Type::class)
     }
 
     @Serializable

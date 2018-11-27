@@ -77,10 +77,7 @@ data class Community(
         CLOSED(1),
         PRIVATE(2);
 
-        companion object : EnumIntSerializer<CloseType>(
-            clazz = CloseType::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<CloseType>(CloseType::class)
     }
 
     @Serializable(with = DeactivationType.Companion::class)
@@ -88,10 +85,7 @@ data class Community(
         DELETED("deleted"),
         BANNED("banned");
 
-        companion object : EnumStringSerializer<DeactivationType>(
-            clazz = DeactivationType::class,
-            values = enumValues()
-        )
+        companion object : EnumStringSerializer<DeactivationType>(DeactivationType::class)
     }
 
     @Serializable(with = AdminLevel.Companion::class)
@@ -100,10 +94,7 @@ data class Community(
         EDITOR(2),
         ADMINISTRATOR(3);
 
-        companion object : EnumIntSerializer<AdminLevel>(
-            clazz = AdminLevel::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<AdminLevel>(AdminLevel::class)
     }
 
     @Serializable(with = Type.Companion::class)
@@ -112,10 +103,7 @@ data class Community(
         PAGE("page"),
         EVENT("event");
 
-        companion object : EnumStringSerializer<Type>(
-            clazz = Type::class,
-            values = enumValues()
-        )
+        companion object : EnumStringSerializer<Type>(Type::class)
     }
 
     @Serializable(with = AgeLimits.Companion::class)
@@ -124,10 +112,7 @@ data class Community(
         SIXTEEN_PLUS(2),
         EIGHTEEN_PLUS(3);
 
-        companion object : EnumIntSerializer<AgeLimits>(
-            clazz = AgeLimits::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<AgeLimits>(AgeLimits::class)
     }
 
     @Serializable(with = MainSectionType.Companion::class)
@@ -139,10 +124,7 @@ data class Community(
         VIDEOS(4),
         MARKET(5);
 
-        companion object : EnumIntSerializer<MainSectionType>(
-            clazz = MainSectionType::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<MainSectionType>(MainSectionType::class)
     }
 
     @Serializable(with = MemberStatus.Companion::class)
@@ -154,10 +136,7 @@ data class Community(
         SENT_REQUEST(4),
         INVITED(5);
 
-        companion object : EnumIntSerializer<MemberStatus>(
-            clazz = MemberStatus::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<MemberStatus>(MemberStatus::class)
     }
 
     @Serializable

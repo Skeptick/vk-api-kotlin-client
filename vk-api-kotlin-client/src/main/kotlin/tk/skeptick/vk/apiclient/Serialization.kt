@@ -1,6 +1,7 @@
 package tk.skeptick.vk.apiclient
 
 import kotlinx.serialization.*
+import kotlinx.serialization.internal.EnumDescriptor
 import kotlinx.serialization.internal.IntSerializer
 import kotlin.reflect.KClass
 
@@ -8,11 +9,11 @@ import kotlin.reflect.KClass
 data class BooleanInt(val value: Boolean) {
     @Serializer(forClass = BooleanInt::class)
     companion object : KSerializer<BooleanInt> {
-        override fun save(output: KOutput, obj: BooleanInt) =
-            output.writeIntValue(if (obj.value) 1 else 0)
+        override fun serialize(output: Encoder, obj: BooleanInt) =
+            output.encodeInt(if (obj.value) 1 else 0)
 
-        override fun load(input: KInput): BooleanInt =
-            BooleanInt(input.readNullable(IntSerializer) == 1)
+        override fun deserialize(input: Decoder): BooleanInt =
+            BooleanInt(input.decodeNullable(IntSerializer) == 1)
     }
 }
 
@@ -20,31 +21,26 @@ interface SerializableEnum<out T> {
     val value: T
 }
 
-abstract class EnumIntSerializer<E>(clazz: KClass<E>, values: Array<E>)
-    : EnumSerializer<E, Int>(clazz, values)
-    where E : Enum<E>, E : SerializableEnum<Int> {
+abstract class EnumIntSerializer<E>(clazz: KClass<E>)
+    : CustomEnumSerializer<E, Int>(clazz) where E : Enum<E>, E : SerializableEnum<Int> {
 
-    override fun save(output: KOutput, obj: E) = output.writeIntValue(obj.value)
-    override fun load(input: KInput): E = types[input.readIntValue()]!!
+    override fun serialize(output: Encoder, obj: E) = output.encodeInt(values[members.indexOf(obj)])
+    override fun deserialize(input: Decoder): E = members[values.indexOf(input.decodeInt())]
 }
 
-abstract class EnumStringSerializer<E>(clazz: KClass<E>, values: Array<E>)
-    : EnumSerializer<E, String>(clazz, values)
-    where E : Enum<E>, E : SerializableEnum<String> {
+abstract class EnumStringSerializer<E>(clazz: KClass<E>)
+    : CustomEnumSerializer<E, String>(clazz) where E : Enum<E>, E : SerializableEnum<String> {
 
-    override fun save(output: KOutput, obj: E) = output.writeStringValue(obj.value)
-    override fun load(input: KInput): E = types[input.readStringValue()]!!
+    override fun serialize(output: Encoder, obj: E) = output.encodeString(values[members.indexOf(obj)])
+    override fun deserialize(input: Decoder): E = members[values.indexOf(input.decodeString())]
 }
 
-abstract class EnumSerializer<E, T>(clazz: KClass<E>, values: Array<E>)
+abstract class CustomEnumSerializer<E, T>(private val clazz: KClass<E>)
     : KSerializer<E> where E : Enum<E>, E : SerializableEnum<T> {
 
-    protected val types: Map<T, E> = values.map { it.value to it }.toMap()
-    override var serialClassDesc: KSerialClassDesc = EnumDesc(clazz.enumClassName())
-}
+    protected val members = clazz.enumMembers()
+    protected val values = members.map(SerializableEnum<T>::value)
+    private val names = members.map(Enum<E>::name).toTypedArray()
+    override val descriptor: EnumDescriptor = EnumDescriptor(clazz.enumClassName(), names)
 
-class EnumDesc(override val name: String) : KSerialClassDesc {
-    override val kind: KSerialClassKind = KSerialClassKind.ENUM
-    override fun getElementName(index: Int) = throw IllegalStateException("Primitives does not have fields")
-    override fun getElementIndex(name: String) = throw IllegalStateException("Primitives does not have fields")
 }

@@ -35,10 +35,7 @@ data class Conversation(
             GROUP("group"),
             EMAIL("email");
 
-            companion object : EnumStringSerializer<Type>(
-                clazz = Type::class,
-                values = enumValues()
-            )
+            companion object : EnumStringSerializer<Type>(Type::class)
         }
 
     }
@@ -66,10 +63,7 @@ data class Conversation(
             KICKED("kicked"),
             LEFT("left");
 
-            companion object : EnumStringSerializer<State>(
-                clazz = State::class,
-                values = enumValues()
-            )
+            companion object : EnumStringSerializer<State>(State::class)
         }
 
         @Serializable

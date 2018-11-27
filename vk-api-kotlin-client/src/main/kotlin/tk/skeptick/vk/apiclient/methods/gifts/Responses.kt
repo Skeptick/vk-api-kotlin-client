@@ -25,10 +25,7 @@ data class UserGift(
         MESSAGE_SEEN_OWNER(1),
         NAME_AND_MESSAGE_SEEN_OWNER(2);
 
-        companion object : EnumIntSerializer<PrivacyType>(
-            clazz = PrivacyType::class,
-            values = enumValues()
-        )
+        companion object : EnumIntSerializer<PrivacyType>(PrivacyType::class)
     }
 
 }
