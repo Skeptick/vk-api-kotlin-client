@@ -29,15 +29,17 @@ interface MessagesApiCommunity : MessagesApiCommon {
      */
     fun send(
         peerId: Int,
-        randomId: Int? = null,
+        randomId: Int,
         message: String? = null,
         latitude: Int? = null,
         longitude: Int? = null,
         attachments: List<MessageAttachment>? = null,
+        replyToMessageId: Int? = null,
         forwardedMessages: List<Int>? = null,
         stickerId: Int? = null,
         keyboard: Keyboard? = null,
-        payload: MessagePayload? = null
+        payload: MessagePayload? = null,
+        dontParseLink: Boolean = false
     ): VkApiRequest<Int>
 
     /**
@@ -45,7 +47,7 @@ interface MessagesApiCommunity : MessagesApiCommon {
      */
     fun sendBulk(
         userIds: List<Int>,
-        randomId: Int? = null,
+        randomId: Int,
         message: String? = null,
         latitude: Int? = null,
         longitude: Int? = null,
@@ -53,7 +55,8 @@ interface MessagesApiCommunity : MessagesApiCommon {
         forwardedMessages: List<Int>? = null,
         stickerId: Int? = null,
         keyboard: Keyboard? = null,
-        payload: MessagePayload? = null
+        payload: MessagePayload? = null,
+        dontParseLink: Boolean = false
     ): VkApiRequest<List<SendBulkMessageResponse>>
 
 }

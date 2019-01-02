@@ -35,7 +35,7 @@ abstract class EnumStringSerializer<E>(clazz: KClass<E>)
     override fun deserialize(input: Decoder): E = members[values.indexOf(input.decodeString())]
 }
 
-abstract class CustomEnumSerializer<E, T>(private val clazz: KClass<E>)
+abstract class CustomEnumSerializer<E, T>(clazz: KClass<E>)
     : KSerializer<E> where E : Enum<E>, E : SerializableEnum<T> {
 
     protected val members = clazz.enumMembers()

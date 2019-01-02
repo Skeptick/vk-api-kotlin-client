@@ -18,7 +18,7 @@ interface WallApiUser : WallApiCommon {
         attachments: List<MessageAttachment>? = null,
         stickerId: Int? = null,
         guid: String? = null
-    ): VkApiRequest<Int>
+    ): VkApiRequest<CreateCommentResponse>
 
     /**
      * @see <a href="https://vk.com/dev/wall.delete">VK API</a>
@@ -48,8 +48,8 @@ interface WallApiUser : WallApiCommon {
         servicesForExport: List<String>? = null,
         signed: Boolean? = null,
         publishDate: Int? = null,
-        lat: Double? = null,
-        long: Double? = null,
+        latitude: Double? = null,
+        longitude: Double? = null,
         placeId: Int? = null,
         markAsAds: Boolean? = null,
         closeComments: Boolean? = null

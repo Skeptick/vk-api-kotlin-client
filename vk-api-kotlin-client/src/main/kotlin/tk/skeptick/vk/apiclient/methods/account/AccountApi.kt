@@ -1,11 +1,13 @@
 package tk.skeptick.vk.apiclient.methods.account
 
+import kotlinx.serialization.internal.IntSerializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.AccessPermissionsUser
 import tk.skeptick.vk.apiclient.domain.models.User
 import tk.skeptick.vk.apiclient.methods.AccountInfoField
 import tk.skeptick.vk.apiclient.methods.CounterFilter
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
+import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
 
 class AccountApi(override val client: VkApiClient)
     : AccountApiUser, MethodsContext {
@@ -49,11 +51,11 @@ class AccountApi(override val client: VkApiClient)
     override fun getBanned(
         offset: Int,
         count: Int
-    ): VkApiRequest<DefaultListResponse<User>> =
+    ): VkApiRequest<ExtendedListResponse<Int>> =
         Methods.getBanned.httpGet(
             "offset" to offset,
             "count" to count
-        ).withSerializer(list(User.serializer()))
+        ).withSerializer(extendedList(IntSerializer))
 
     override fun getCounters(
         filter: List<CounterFilter>?

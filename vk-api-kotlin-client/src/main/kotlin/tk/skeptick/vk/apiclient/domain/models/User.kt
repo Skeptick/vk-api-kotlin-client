@@ -12,6 +12,8 @@ data class User(
     @SerialName("id") val id: Int,
     @SerialName("first_name") val firstName: String,
     @SerialName("last_name") val lastName: String,
+    @Optional @SerialName("is_closed") val isClosed: Boolean? = null,
+    @Optional @SerialName("can_access_closed") val canAccessClosed: Boolean? = null,
     @Optional @SerialName("first_name_nom") val firstNameNom: String? = null,
     @Optional @SerialName("first_name_gen") val firstNameGen: String? = null,
     @Optional @SerialName("first_name_dat") val firstNameDat: String? = null,

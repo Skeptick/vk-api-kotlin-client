@@ -29,7 +29,7 @@ data class Photo(
         @SerialName("url") val src: String,
         @SerialName("width") val width: Int,
         @SerialName("height") val height: Int,
-        @SerialName("type") val type: String)
+        @Optional @SerialName("type") val type: String? = null)
 
     @Serializable
     data class Album(

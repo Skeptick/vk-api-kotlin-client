@@ -1,10 +1,9 @@
 package tk.skeptick.vk.apiclient.methods.wall
 
-import kotlinx.serialization.internal.IntSerializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
 
-class MessagesApi(override val client: VkApiClient)
+class WallApi(override val client: VkApiClient)
     : WallApiUser, WallApiCommunity, MethodsContext {
 
     override fun closeComments(
@@ -25,7 +24,7 @@ class MessagesApi(override val client: VkApiClient)
         attachments: List<MessageAttachment>?,
         stickerId: Int?,
         guid: String?
-    ): VkApiRequest<Int> =
+    ): VkApiRequest<CreateCommentResponse> =
         Methods.createComment.httpPost(
             "post_id" to postId,
             "owner_id" to ownerId,
@@ -35,7 +34,7 @@ class MessagesApi(override val client: VkApiClient)
             "attachments" to attachments?.let(::prepareAttachments),
             "sticker_id" to stickerId,
             "guid" to guid
-        ).withSerializer(IntSerializer)
+        ).withSerializer(CreateCommentResponse.serializer())
 
     override fun delete(
         postId: Int,
@@ -64,8 +63,8 @@ class MessagesApi(override val client: VkApiClient)
         servicesForExport: List<String>?,
         signed: Boolean?,
         publishDate: Int?,
-        lat: Double?,
-        long: Double?,
+        latitude: Double?,
+        longitude: Double?,
         placeId: Int?,
         markAsAds: Boolean?,
         closeComments: Boolean?
@@ -79,8 +78,8 @@ class MessagesApi(override val client: VkApiClient)
             "services" to servicesForExport?.joinToString(","),
             "signed" to signed?.asInt(),
             "publish_date" to publishDate,
-            "lat" to lat,
-            "long" to long,
+            "lat" to latitude,
+            "long" to longitude,
             "place_id" to placeId,
             "mark_as_ads" to markAsAds?.asInt(),
             "close_comments" to closeComments?.asInt()

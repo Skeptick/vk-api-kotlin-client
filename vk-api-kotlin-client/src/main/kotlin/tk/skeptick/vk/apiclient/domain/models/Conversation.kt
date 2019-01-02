@@ -15,6 +15,8 @@ data class Conversation(
     @SerialName("out_read") val outReadMessageId: Int,
     @SerialName("can_write") val canWrite: CanWrite,
     @SerialName("last_message_id") val lastMessageId: Int,
+    @Optional @SerialName("can_send_money") val canSendMoney: Boolean? = null,
+    @Optional @SerialName("can_receive_money") val canReceiveMoney: Boolean? = null,
     @Optional @SerialName("unread_count") val unreadCount: Int = 0,
     @Optional @SerialName("important") val isImportant: Boolean? = null,
     @Optional @SerialName("unanswered") val isUnanswered: Boolean? = null,

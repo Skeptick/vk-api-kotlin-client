@@ -21,7 +21,8 @@ data class Market(
     @Optional @SerialName("photos") val photos: List<Photo>? = null,
     @Optional @SerialName("can_comment") val canComment: BooleanInt? = null,
     @Optional @SerialName("can_repost") val canRepost: BooleanInt? = null,
-    @Optional @SerialName("likes") val likes: Likes? = null
+    @Optional @SerialName("likes") val likes: Likes? = null,
+    @Optional @SerialName("is_favorite") val isFavorite: Boolean? = null
 ) : MessageAttachment {
 
     @Transient override val typeAttachment: String get() = AttachmentType.MARKET.value

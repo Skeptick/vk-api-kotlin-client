@@ -716,6 +716,47 @@ class MessagesApi(override val client: VkApiClient)
         groupId = null
     )
 
+    override fun searchExtended(
+        query: String,
+        peerId: Int?,
+        maxDate: Date?,
+        previewLength: Int,
+        offset: Int,
+        count: Int,
+        groupId: Int?,
+        fields: List<ObjectField>
+    ): VkApiRequest<ExtendedListResponse<Message>> =
+        Methods.search.httpGet(
+            "q" to query,
+            "peer_id" to peerId,
+            "date" to maxDate?.toDMYString(),
+            "preview_length" to previewLength,
+            "offset" to offset,
+            "count" to count,
+            "extended" to 1,
+            "fields" to fields.joinToString(",") { it.value },
+            "group_id" to groupId
+        ).withSerializer(extendedList(Message.serializer()))
+
+    override fun searchExtended(
+        query: String,
+        peerId: Int?,
+        maxDate: Date?,
+        previewLength: Int,
+        offset: Int,
+        count: Int,
+        fields: List<ObjectField>
+    ): VkApiRequest<ExtendedListResponse<Message>> = searchExtended(
+        query = query,
+        peerId = peerId,
+        maxDate = maxDate,
+        previewLength = previewLength,
+        offset = offset,
+        count = count,
+        fields = fields,
+        groupId = null
+    )
+
     override fun searchConversations(
         query: String,
         count: Int,
@@ -746,15 +787,17 @@ class MessagesApi(override val client: VkApiClient)
 
     override fun send(
         peerId: Int,
-        randomId: Int?,
+        randomId: Int,
         message: String?,
         latitude: Int?,
         longitude: Int?,
         attachments: List<MessageAttachment>?,
+        replyToMessageId: Int?,
         forwardedMessages: List<Int>?,
         stickerId: Int?,
         keyboard: Keyboard?,
-        payload: MessagePayload?
+        payload: MessagePayload?,
+        dontParseLink: Boolean
     ): VkApiRequest<Int> =
         Methods.send.httpPost(
             "peer_id" to peerId,
@@ -763,21 +806,25 @@ class MessagesApi(override val client: VkApiClient)
             "lat" to latitude,
             "long" to longitude,
             "attachment" to attachments?.let(::prepareAttachments),
+            "reply_to" to replyToMessageId,
             "forward_messages" to forwardedMessages?.joinToString(","),
             "sticker_id" to stickerId,
             "keyboard" to keyboard?.serialize(),
-            "payload" to payload?.value
+            "payload" to payload?.value,
+            "dont_parse_links" to dontParseLink.asInt()
         ).withSerializer(IntSerializer)
 
     override fun send(
         peerId: Int,
-        randomId: Int?,
+        randomId: Int,
         message: String?,
         latitude: Int?,
         longitude: Int?,
         attachments: List<MessageAttachment>?,
+        replyToMessageId: Int?,
         forwardedMessages: List<Int>?,
         stickerId: Int?,
+        dontParseLink: Boolean,
         groupId: Int?
     ): VkApiRequest<Int> =
         Methods.send.httpPost(
@@ -787,14 +834,16 @@ class MessagesApi(override val client: VkApiClient)
             "lat" to latitude,
             "long" to longitude,
             "attachment" to attachments?.let(::prepareAttachments),
+            "reply_to" to replyToMessageId,
             "forward_messages" to forwardedMessages?.joinToString(","),
             "sticker_id" to stickerId,
+            "dont_parse_links" to dontParseLink.asInt(),
             "group_id" to groupId
         ).withSerializer(IntSerializer)
 
     override fun sendBulk(
         userIds: List<Int>,
-        randomId: Int?,
+        randomId: Int,
         message: String?,
         latitude: Int?,
         longitude: Int?,
@@ -802,7 +851,8 @@ class MessagesApi(override val client: VkApiClient)
         forwardedMessages: List<Int>?,
         stickerId: Int?,
         keyboard: Keyboard?,
-        payload: MessagePayload?
+        payload: MessagePayload?,
+        dontParseLink: Boolean
     ): VkApiRequest<List<SendBulkMessageResponse>> =
         Methods.send.httpPost(
             "user_ids" to userIds.joinToString(","),
@@ -814,7 +864,8 @@ class MessagesApi(override val client: VkApiClient)
             "forward_messages" to forwardedMessages?.joinToString(","),
             "sticker_id" to stickerId,
             "keyboard" to keyboard?.serialize(),
-            "payload" to payload?.value
+            "payload" to payload?.value,
+            "dont_parse_links" to dontParseLink.asInt()
         ).withSerializer(SendBulkMessageResponse.serializer().list)
 
     override fun setActivity(

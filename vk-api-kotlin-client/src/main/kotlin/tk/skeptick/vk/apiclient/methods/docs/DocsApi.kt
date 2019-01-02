@@ -98,12 +98,12 @@ class DocsApi(override val client: VkApiClient)
         file: String,
         title: String?,
         tags: List<String>?
-    ): VkApiRequest<List<Document>> =
+    ): VkApiRequest<DocumentSaveResponse> =
         Methods.save.httpPost(
             "file" to file,
             "title" to title,
             "tags" to tags?.joinToString(",")
-        ).withSerializer(Document.serializer().list)
+        ).withSerializer(DocumentSaveResponse.serializer())
 
     override fun search(
         query: String,

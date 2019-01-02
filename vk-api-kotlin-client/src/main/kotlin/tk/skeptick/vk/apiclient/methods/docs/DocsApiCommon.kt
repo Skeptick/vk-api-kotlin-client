@@ -29,7 +29,7 @@ interface DocsApiCommon {
         file: String,
         title: String? = null,
         tags: List<String>? = null
-    ): VkApiRequest<List<Document>>
+    ): VkApiRequest<DocumentSaveResponse>
 
     /**
      * @param[count] maximum value 1000

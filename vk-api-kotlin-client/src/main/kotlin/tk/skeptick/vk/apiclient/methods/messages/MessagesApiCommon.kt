@@ -236,6 +236,20 @@ interface MessagesApiCommon {
     ): VkApiRequest<DefaultListResponse<Message>>
 
     /**
+     * @param[count] maximum value 100
+     * @see <a href="https://vk.com/dev/messages.search">VK API</a>
+     */
+    fun searchExtended(
+        query: String,
+        peerId: Int? = null,
+        maxDate: Date? = null,
+        previewLength: Int = 0,
+        offset: Int = 0,
+        count: Int = 20,
+        fields: List<ObjectField> = DefaultMethodsParams.userFields
+    ): VkApiRequest<ExtendedListResponse<Message>>
+
+    /**
      * @see <a href="https://vk.com/dev/messages.searchConversations">VK API</a>
      */
     fun searchConversations(

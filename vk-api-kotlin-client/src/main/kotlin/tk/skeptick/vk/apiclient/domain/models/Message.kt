@@ -24,15 +24,22 @@ data class Message(
     @Optional @SerialName("geo") val geo: Geo? = null,
     @Optional @SerialName("payload") val payload: MessagePayload? = null,
     @Optional @SerialName("fwd_messages") val forwardedMessages: List<Forward>? = null,
+    @Optional @SerialName("reply_message") val replyMessage: Forward? = null,
     @Optional @SerialName("action") val serviceAction: ServiceAction? = null,
     @Optional @SerialName("random_id") val randomId: Int? = null,
-    @Optional @SerialName("chat_id") val chatId: Int? = null) {
+    @Optional @SerialName("ref") val ref: String? = null,
+    @Optional @SerialName("ref_source") val refSource: String? = null,
+    @Optional @SerialName("chat_id") val chatId: Int? = null,
+    @Optional @SerialName("admin_author_id") val adminAuthorId: Int? = null) {
 
     @Transient val isFromChat: Boolean get() = peerId.isChatPeerId
     @Transient val isServiceAction: Boolean get() = serviceAction != null
 
     @Serializable
     data class Forward(
+        @SerialName("id") val id: Int? = null,
+        @SerialName("conversation_message_id") val conversationMessageId: Int? = null,
+        @SerialName("peer_id") val peerId: Int? = null,
         @SerialName("from_id") val userId: Int,
         @SerialName("date") val date: Int,
         @SerialName("text") val body: String,
@@ -43,9 +50,11 @@ data class Message(
 
     @Serializable
     data class Pinned(
+        @SerialName("id") val id: Int,
         @SerialName("from_id") val userId: Int,
         @SerialName("date") val date: Int,
         @SerialName("text") val body: String,
+        @Optional @SerialName("conversation_message_id") val conversationMessageId: Int? = null,
         @Optional @SerialName("geo") val geo: Geo? = null,
         @Optional @SerialName("attachments") val attachments: List<Attachment>? = null,
         @Optional @SerialName("fwd_messages") val forwardedMessages: List<Forward>? = null)

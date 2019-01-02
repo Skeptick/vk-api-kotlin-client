@@ -33,6 +33,7 @@ data class WallPost(
     @Optional @SerialName("can_pin") val canPin: BooleanInt? = null,
     @Optional @SerialName("can_delete") val canDelete: BooleanInt? = null,
     @Optional @SerialName("can_edit") val canEdit: BooleanInt? = null,
+    @Optional @SerialName("is_favorite") val isFavorite: Boolean? = null,
     @Optional @SerialName("access_key") override val accessKey: String? = null
 ) : MessageAttachment {
 

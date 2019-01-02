@@ -17,6 +17,7 @@ data class Community(
     @Optional @SerialName("is_admin") val isAdmin: BooleanInt? = null,
     @Optional @SerialName("admin_level") val adminLevel: AdminLevel? = null,
     @Optional @SerialName("is_member") val isMember: BooleanInt? = null,
+    @Optional @SerialName("is_advertiser") val isAdvertiser: BooleanInt? = null,
     @Optional @SerialName("invited_by") val invitedBy: Int? = null,
     @Optional @SerialName("photo_50") val photo50: String? = null,
     @Optional @SerialName("photo_100") val photo100: String? = null,
@@ -55,6 +56,7 @@ data class Community(
     @Optional @SerialName("status") val status: String? = null,
     @Optional @SerialName("trending") val isTrending: BooleanInt? = null,
     @Optional @SerialName("verified") val isVerified: BooleanInt? = null,
+    @Optional @SerialName("wall") val wallCloseType: WallCloseType? = null,
     @Optional @SerialName("wiki_page") val wikiPage: String? = null) {
 
     @Transient val isOpened: Boolean get() = closeType == CloseType.OPEN
@@ -137,6 +139,16 @@ data class Community(
         INVITED(5);
 
         companion object : EnumIntSerializer<MemberStatus>(MemberStatus::class)
+    }
+
+    @Serializable(with = WallCloseType.Companion::class)
+    enum class WallCloseType(override val value: Int) : SerializableEnum<Int> {
+        DISABLED(0),
+        OPEN(1),
+        LIMITED(2),
+        CLOSED(3);
+
+        companion object : EnumIntSerializer<WallCloseType>(WallCloseType::class)
     }
 
     @Serializable

@@ -28,6 +28,7 @@ data class Video(
     @Optional @SerialName("processing") val isInProcessing: BooleanInt = BooleanInt(false),
     @Optional @SerialName("live") val isLive: BooleanInt = BooleanInt(false),
     @Optional @SerialName("upcoming") val isUpcoming: BooleanInt = BooleanInt(false),
+    @Optional @SerialName("is_favorite") val isFavorite: Boolean? = null,
     @Optional @SerialName("access_key") override val accessKey: String? = null
 ) : MessageAttachment {
 

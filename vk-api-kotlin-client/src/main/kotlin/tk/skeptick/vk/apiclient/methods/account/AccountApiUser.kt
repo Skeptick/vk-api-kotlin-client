@@ -6,6 +6,7 @@ import tk.skeptick.vk.apiclient.domain.models.User
 import tk.skeptick.vk.apiclient.methods.AccountInfoField
 import tk.skeptick.vk.apiclient.methods.CounterFilter
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
+import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
 
 interface AccountApiUser : AccountApiCommon {
 
@@ -49,7 +50,7 @@ interface AccountApiUser : AccountApiCommon {
     fun getBanned(
         offset: Int = 0,
         count: Int = 20
-    ): VkApiRequest<DefaultListResponse<User>>
+    ): VkApiRequest<ExtendedListResponse<Int>>
 
     /**
      * @see <a href="https://vk.com/dev/account.getCounters">VK API</a>
