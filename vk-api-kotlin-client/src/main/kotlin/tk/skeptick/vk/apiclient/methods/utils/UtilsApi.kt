@@ -11,25 +11,25 @@ class UtilsApi(override val client: VkApiClient)
     override fun checkLink(
         url: String
     ): VkApiRequest<CheckLinkResponse> =
-        Methods.checkLink.httpGet(
-            "url" to url
-        ).withSerializer(CheckLinkResponse.serializer())
+        Methods.checkLink.httpGet(CheckLinkResponse.serializer()) {
+            append("url", url)
+        }
 
     override fun deleteFromLastShortened(
         key: String
     ): VkApiRequest<BooleanInt> =
-        Methods.deleteFromLastShortened.httpGet(
-            "key" to key
-        ).withSerializer(BooleanInt.serializer())
+        Methods.deleteFromLastShortened.httpGet(BooleanInt.serializer()) {
+            append("key", key)
+        }
 
     override fun getLastShortenedLinks(
         count: Int,
         offset: Int
     ): VkApiRequest<DefaultListResponse<ShortLink>> =
-        Methods.getLastShortenedLinks.httpGet(
-            "count" to count,
-            "offset" to offset
-        ).withSerializer(list(ShortLink.serializer()))
+        Methods.getLastShortenedLinks.httpGet(list(ShortLink.serializer())) {
+            append("count", count)
+            append("offset", offset)
+        }
 
     override fun getLinkStats(
         key: String,
@@ -38,33 +38,32 @@ class UtilsApi(override val client: VkApiClient)
         intervalsCount: Int,
         extended: Boolean
     ): VkApiRequest<ShortLinkStats> =
-        Methods.getLinkStats.httpGet(
-            "key" to key,
-            "access_key" to accessKey,
-            "interval" to interval.value,
-            "intervals_count" to intervalsCount,
-            "extended" to extended.asInt()
-        ).withSerializer(ShortLinkStats.serializer())
+        Methods.getLinkStats.httpGet(ShortLinkStats.serializer()) {
+            append("key", key)
+            append("access_key", accessKey)
+            append("interval", interval.value)
+            append("intervals_count", intervalsCount)
+            append("extended", extended.asInt())
+        }
 
     override fun getServerTime(): VkApiRequest<Int> =
-        Methods.getServerTime.httpGet()
-            .withSerializer(IntSerializer)
+        Methods.getServerTime.httpGet(IntSerializer)
 
     override fun getShortLink(
         url: String,
         private: Boolean
     ): VkApiRequest<ShortLink> =
-        Methods.getShortLink.httpGet(
-            "url" to url,
-            "private" to private.asInt()
-        ).withSerializer(ShortLink.serializer())
+        Methods.getShortLink.httpGet(ShortLink.serializer()) {
+            append("url", url)
+            append("private", private.asInt())
+        }
 
     override fun resolveScreenName(
         screenName: String
     ): VkApiRequest<ResolveScreenNameResponse> =
-        Methods.resolveScreenName.httpGet(
-            "screen_name" to screenName
-        ).withSerializer(ResolveScreenNameResponse.serializer())
+        Methods.resolveScreenName.httpGet(ResolveScreenNameResponse.serializer()) {
+            append("screen_name", screenName)
+        }
 
     private object Methods {
         private const val it = "utils."

@@ -1,5 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.messages
 
+import io.ktor.util.date.GMTDate
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.AttachmentType
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
@@ -8,7 +9,6 @@ import tk.skeptick.vk.apiclient.methods.ConversationFilter
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
 import tk.skeptick.vk.apiclient.methods.ObjectField
-import java.util.*
 
 interface MessagesApiCommon {
 
@@ -229,7 +229,7 @@ interface MessagesApiCommon {
     fun search(
         query: String,
         peerId: Int? = null,
-        maxDate: Date? = null,
+        maxDate: GMTDate? = null,
         previewLength: Int = 0,
         offset: Int = 0,
         count: Int = 20
@@ -242,7 +242,7 @@ interface MessagesApiCommon {
     fun searchExtended(
         query: String,
         peerId: Int? = null,
-        maxDate: Date? = null,
+        maxDate: GMTDate? = null,
         previewLength: Int = 0,
         offset: Int = 0,
         count: Int = 20,

@@ -4,6 +4,12 @@ package tk.skeptick.vk.apiclient
 
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.flatMap
+import io.ktor.client.request.forms.*
+import io.ktor.http.*
+import io.ktor.util.date.GMTDate
+import kotlinx.io.core.ByteReadPacket
+import kotlinx.io.core.buildPacket
+import kotlinx.io.core.writeFully
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.JSON
 import kotlinx.serialization.json.JsonTreeParser
@@ -16,49 +22,56 @@ import tk.skeptick.vk.apiclient.oauth.OAuth
 import tk.skeptick.vk.apiclient.oauth.OAuthError
 import tk.skeptick.vk.apiclient.oauth.OAuthResponse
 
-internal val json = JSON.nonstrict
-
 internal interface MethodsContext {
 
     val client: VkApiClient
 
-    fun String.httpGet(
-        vararg parameters: Pair<String, Any?>
-    ): VkApiRequestBuilder = VkApiRequestBuilder(
-        client = client,
-        httpMethod = HttpMethod.GET,
-        path = this,
-        parameters = parameters.toList()
-    )
-
-    fun String.httpPost(
-        vararg params: Pair<String, Any?>
-    ): VkApiRequestBuilder = VkApiRequestBuilder(
-        client = client,
-        httpMethod = HttpMethod.POST,
-        path = this,
-        parameters = params.toList()
-    )
-
-}
-
-internal class VkApiRequestBuilder(
-    private val client: VkApiClient,
-    private val httpMethod: HttpMethod,
-    private val path: String,
-    private val parameters: List<Pair<String, Any?>>) {
-
-    fun <T : Any> withSerializer(
-        serializer: KSerializer<T>
+    fun <T : Any> String.httpGet(
+        serializer: KSerializer<T>,
+        block: ParametersBuilder.() -> Unit = {}
     ): VkApiRequest<T> = VkApiRequest(
         client = client,
-        httpMethod = httpMethod,
-        path = path,
-        parameters = parameters,
+        httpMethod = HttpMethod.Get,
+        path = this,
+        parameters = Parameters.build(block),
+        serializer = serializer
+    )
+
+    fun <T : Any> String.httpPost(
+        serializer: KSerializer<T>,
+        block: ParametersBuilder.() -> Unit = {}
+    ): VkApiRequest<T> = VkApiRequest(
+        client = client,
+        httpMethod = HttpMethod.Post,
+        path = this,
+        parameters = Parameters.build(block),
         serializer = serializer
     )
 
 }
+
+internal inline fun ParametersBuilder.append(first: String, second: Any?) {
+    if (second != null) append(first, second.toString())
+}
+
+internal inline val GMTDate.unixtime: Int
+    get() = (GMTDate(seconds, minutes, hours, dayOfMonth, month, year).timestamp / 1000).toInt()
+
+internal inline operator fun Parameters.plus(other: Parameters?): Parameters =
+    if (other == null) this
+    else Parameters.build {
+        appendAll(this@plus)
+        appendAll(other)
+    }
+
+internal inline val UploadableFile.formPart: FormPart<ByteReadPacket>
+    get() = FormPart(key, content.bytes.packet, content.filename.filenameHeader)
+
+private inline val String.filenameHeader: Headers
+    get() = headersOf(HttpHeaders.ContentDisposition, "filename=$this")
+
+private inline val ByteArray.packet: ByteReadPacket
+    get() = buildPacket { writeFully(this@packet) }
 
 internal inline fun <T : Any> list(nestedSerializer: KSerializer<T>) =
     DefaultListResponse.serializer(nestedSerializer)
@@ -71,67 +84,59 @@ internal inline fun Boolean.asInt(): Int? =
 
 //--- Mappers to parameters list ---//
 
-internal val OAuth.parameters: List<Pair<String, String>> get() = when (this) {
-    is OAuth.User -> when (this) {
-        is OAuth.User.CodeFlow -> listOf(
-            "client_id" to clientId.toString(),
-            "client_secret" to clientSecret,
-            "code" to code,
-            "redirect_uri" to redirectUri
-        )
-        is OAuth.User.PasswordFlow -> listOf(
-            "grant_type" to "password",
-            "client_id" to clientId.toString(),
-            "client_secret" to clientSecret,
-            "username" to username,
-            "password" to password
-        )
+internal inline val OAuth.parameters: Parameters
+    get() = when (this) {
+        is OAuth.User -> when (this) {
+            is OAuth.User.CodeFlow -> Parameters.build {
+                append("client_id", clientId.toString())
+                append("client_secret", clientSecret)
+                append("code", code)
+                append("redirect_uri", redirectUri)
+            }
+            is OAuth.User.PasswordFlow -> Parameters.build {
+                append("grant_type", "password")
+                append("client_id", clientId.toString())
+                append("client_secret", clientSecret)
+                append("username", username)
+                append("password", password)
+            }
+        }
+        is OAuth.Community -> when (this) {
+            is OAuth.Community.CodeFlow -> Parameters.build {
+                append("client_id", clientId.toString())
+                append("client_secret", clientSecret)
+                append("code", code)
+                append("redirect_uri", redirectUri)
+            }
+        }
     }
-    is OAuth.Community -> when (this) {
-        is OAuth.Community.CodeFlow -> listOf(
-            "client_id" to clientId.toString(),
-            "client_secret" to clientSecret,
-            "code" to code,
-            "redirect_uri" to redirectUri
-        )
+
+internal inline val CaptchaResponse.parameters: Parameters
+    get() = Parameters.build {
+        append("captcha_sid", sid)
+        append("captcha_key", key)
     }
-}
 
-internal val CaptchaResponse.parameters get() = listOf(
-    "captcha_sid" to sid,
-    "captcha_key" to key
-)
-
-internal fun combineParameters(
-    vararg parametersArray: List<Pair<String, Any?>>
-): List<Pair<String, String>> {
-    val result = mutableListOf<Pair<String, String>>()
-    for (parameters in parametersArray)
-        for ((key, value) in parameters)
-            if (value != null) result.add(key to value.toString())
-
-    return result
-}
-
-internal fun prepareAttachments(
-    attachments: List<MessageAttachment>
-): String = attachments.joinToString(",") { attachment ->
-    buildString {
-        append(attachment.typeAttachment)
-        append(attachment.ownerId)
-        append('_').append(attachment.id)
-        attachment.accessKey?.let { append(it) }
+internal inline val MessageAttachment.attachment: String
+    get() = buildString {
+        append(typeAttachment)
+        append(ownerId)
+        append('_').append(id)
+        if (accessKey != null) append(accessKey)
     }
-}
 
 //--- Parsers ---//
+
+internal val json = JSON.nonstrict
+
 
 internal fun <T : Any> parseMethodResponse(
     responseString: String,
     serializer: KSerializer<T>
-): Result<T, Exception> = Result.of<VkApiResponse<T>, Exception> {
-    json.parse(VkApiResponse.serializer(serializer), responseString)
-}.flatMap { it.asResult() }
+): Result<T, Exception> =
+    Result.of<VkApiResponse<T>, Exception> {
+        json.parse(VkApiResponse.serializer(serializer), responseString)
+    }.flatMap(VkApiResponse<T>::asResult)
 
 private inline fun <T : Any> VkApiResponse<T>.asResult(): Result<T, Exception> =
     when {

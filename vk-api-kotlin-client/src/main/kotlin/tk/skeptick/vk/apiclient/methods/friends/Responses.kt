@@ -3,7 +3,6 @@ package tk.skeptick.vk.apiclient.methods.friends
 import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.enumClassName
 import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.EnumIntSerializer
 import tk.skeptick.vk.apiclient.SerializableEnum

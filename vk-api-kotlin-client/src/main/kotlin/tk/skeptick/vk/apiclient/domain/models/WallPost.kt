@@ -23,17 +23,17 @@ data class WallPost(
     @Optional @SerialName("comments") val comments: Comments? = null,
     @Optional @SerialName("views") val views: Views? = null,
     @Optional @SerialName("post_source") val postSource: Source? = null,
-    @Optional @SerialName("Attachments") val attachments: Attachments? = null,
+    @Optional @SerialName("attachments") val attachments: Attachments? = null,
     @Optional @SerialName("geo") val geo: Geo? = null,
     @Optional @SerialName("signer_id") val signerUserId: Int? = null,
     @Optional @SerialName("copy_history") val copyHistory: List<WallPost>? = null,
-    @Optional @SerialName("friends_only") val isFriendsOnly: BooleanInt = BooleanInt(false),
+    @Optional @SerialName("friends_only") val isFriendsOnly: BooleanInt? = null,
     @Optional @SerialName("is_pinned") val isPinned: BooleanInt = BooleanInt(false),
     @Optional @SerialName("marked_as_ads") val isMarkedAsAds: BooleanInt = BooleanInt(false),
     @Optional @SerialName("can_pin") val canPin: BooleanInt? = null,
     @Optional @SerialName("can_delete") val canDelete: BooleanInt? = null,
     @Optional @SerialName("can_edit") val canEdit: BooleanInt? = null,
-    @Optional @SerialName("is_favorite") val isFavorite: Boolean? = null,
+    @Optional @SerialName("is_favorite") val isFavorite: Boolean = false,
     @Optional @SerialName("access_key") override val accessKey: String? = null
 ) : MessageAttachment {
 
@@ -46,7 +46,8 @@ data class WallPost(
         COPY("copy"),
         REPLY("reply"),
         POSTPONE("postpone"),
-        SUGGEST("suggest");
+        SUGGEST("suggest"),
+        PHOTO("photo");
 
         companion object : EnumStringSerializer<Type>(Type::class)
     }
@@ -54,22 +55,23 @@ data class WallPost(
     @Serializable
     data class Comments(
         @SerialName("count") val count: Int,
-        @SerialName("can_post") val canPost: BooleanInt,
+        @Optional @SerialName("list") val list: List<WallComment>? = null,
         @Optional @SerialName("groups_can_post") val isGroupsCanComment: Boolean = false,
-        @Optional @SerialName("can_close") val canClose: BooleanInt = BooleanInt(false),
-        @Optional @SerialName("can_open") val canOpen: BooleanInt = BooleanInt(false))
+        @Optional @SerialName("can_post") val canPost: BooleanInt? = null,
+        @Optional @SerialName("can_close") val canClose: BooleanInt? = null,
+        @Optional @SerialName("can_open") val canOpen: BooleanInt? = null)
 
     @Serializable
     data class Likes(
         @SerialName("count") val count: Int,
-        @SerialName("user_likes") val isUserLikes: BooleanInt,
-        @SerialName("can_like") val canLike: BooleanInt,
-        @SerialName("can_publish") val canPublish: BooleanInt)
+        @Optional @SerialName("user_likes") val isUserLikes: BooleanInt? = null,
+        @Optional @SerialName("can_like") val canLike: BooleanInt? = null,
+        @Optional @SerialName("can_publish") val canPublish: BooleanInt? = null)
 
     @Serializable
     data class Reposts(
         @SerialName("count") val count: Int,
-        @SerialName("user_reposted") val isUserReposted: BooleanInt)
+        @Optional @SerialName("user_reposted") val isUserReposted: BooleanInt? = null)
 
     @Serializable
     data class Views(

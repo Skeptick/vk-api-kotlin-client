@@ -1,7 +1,7 @@
 package tk.skeptick.vk.apiclient.methods.uploads
 
+import tk.skeptick.vk.apiclient.FileContent
 import tk.skeptick.vk.apiclient.UploadFilesRequest
-import java.io.File
 
 interface UploadsApiCommon {
 
@@ -10,7 +10,7 @@ interface UploadsApiCommon {
      */
     fun document(
         uploadUrl: String,
-        file: Pair<String, File>
+        file: FileContent
     ): UploadFilesRequest<UploadDocumentResponse>
 
     /**
@@ -21,7 +21,7 @@ interface UploadsApiCommon {
      */
     fun photoIntoMessage(
         uploadUrl: String,
-        files: List<Pair<String, File>>
+        files: List<FileContent>
     ): UploadFilesRequest<UploadPhotoIntoMessageResponse>
 
 }

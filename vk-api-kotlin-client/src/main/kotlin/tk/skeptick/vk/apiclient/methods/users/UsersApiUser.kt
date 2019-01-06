@@ -69,7 +69,7 @@ interface UsersApiUser : UsersApiCommon {
      */
     fun report(
         userId: Int,
-        complaintType: ReportComplaintType,
+        complaintType: UserReportComplaintType,
         comment: String? = null
     ): VkApiRequest<BooleanInt>
 

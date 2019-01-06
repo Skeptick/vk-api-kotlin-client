@@ -1,9 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.gifts
 
-import tk.skeptick.vk.apiclient.MethodsContext
-import tk.skeptick.vk.apiclient.VkApiClient
-import tk.skeptick.vk.apiclient.VkApiRequest
-import tk.skeptick.vk.apiclient.list
+import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 
 class GiftsApi(override val client: VkApiClient)
@@ -14,11 +11,11 @@ class GiftsApi(override val client: VkApiClient)
         count: Int?,
         offset: Int
     ): VkApiRequest<DefaultListResponse<UserGift>> =
-        Methods.get.httpGet(
-            "user_id" to userId,
-            "count" to count,
-            "offset" to offset
-        ).withSerializer(list(UserGift.serializer()))
+        Methods.get.httpGet(list(UserGift.serializer())) {
+            append("user_id", userId)
+            append("count", count)
+            append("offset", offset)
+        }
 
     private object Methods {
         private const val it = "gifts."

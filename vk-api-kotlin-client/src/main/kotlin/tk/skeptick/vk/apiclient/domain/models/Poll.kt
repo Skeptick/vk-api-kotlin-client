@@ -6,12 +6,14 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import tk.skeptick.vk.apiclient.EnumStringSerializer
 import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.domain.AttachmentType
+import tk.skeptick.vk.apiclient.domain.MessageAttachment
 import tk.skeptick.vk.apiclient.domain.models.Photo.Size as PhotoSize
 
 @Serializable
 data class Poll(
-    @SerialName("id") val id: Int,
-    @SerialName("owner_id") val ownerId: Int,
+    @SerialName("id") override val id: Int,
+    @SerialName("owner_id") override val ownerId: Int,
     @SerialName("created") val createdDate: Int,
     @SerialName("question") val question: String,
     @SerialName("votes") val votesCount: Int,
@@ -29,8 +31,10 @@ data class Poll(
     @SerialName("author_id") val authorId: Int,
     @Optional @SerialName("photo") val photo: Photo? = null,
     @Optional @SerialName("background") val background: Background? = null,
-    @Optional @SerialName("friends") val friends: List<Friend>? = null) {
+    @Optional @SerialName("friends") val friends: List<Friend>? = null
+) : MessageAttachment {
 
+    @Transient override val typeAttachment: String get() = AttachmentType.POLL.value
     @Transient val isUnlimited: Boolean get() = endDate == 0
 
     @Serializable

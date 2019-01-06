@@ -1,11 +1,12 @@
 VK API Kotlin Client
 ======================
 Библиотека для работы с API vk.com на языке Kotlin
-#### [Версия VK API](https://vk.com/dev/versions): 5.84
+#### [Версия VK API](https://vk.com/dev/versions): 5.92
 ______________________
 #### Использует:
   - [kotlinx.coroutines]
   - [kotlinx.serialization]
+  - [ktor-client]
 
 
 
@@ -14,67 +15,61 @@ ______________________
 | --------------- | :------------: | -                        |
 | [Account]       |    18 из 19    | :heavy_check_mark:       |
 | [AppWidgets]    |     0 из 8     | :heavy_multiplication_x: |
-| [Apps]          |     0 из 7     | :heavy_multiplication_x: |
-| [Auth]          |     0 из 3     | :heavy_multiplication_x: |
+| [Apps]          |     0 из 8     | :heavy_multiplication_x: |
+| [Auth]          |     0 из 2     | :heavy_multiplication_x: |
 | [Board]         |     0 из 13    | :heavy_multiplication_x: |
-| [Database]      |     0 из 11    | :heavy_multiplication_x: |
+| [Database]      |     0 из 10    | :heavy_multiplication_x: |
 | [Docs]          |    11 из 11    | :heavy_check_mark:       |
 | [Fave]          |    12 из 12    | :heavy_check_mark:       |
 | [Friends]       |    18 из 18    | :heavy_check_mark:       |
 | [Gifts]         |     1 из 1     | :heavy_check_mark:       |
-| [Groups]        |    41 из 41    | :heavy_check_mark:       |
+| [Groups]        |    42 из 42    | :heavy_check_mark:       |
+| [LeadForms]     |     0 из 7     | :heavy_multiplication_x: |
 | [Likes]         |     4 из 4     | :heavy_check_mark:       |
 | [Market]        |     0 из 24    | :heavy_multiplication_x: |
 | [Messages]      |    38 из 38    | :heavy_check_mark:       |
-| [Newsfeed]      |     0 из 15    | :heavy_multiplication_x: |
+| [Newsfeed]      |     0 из 16    | :heavy_multiplication_x: |
 | [Notes]         |     0 из 10    | :heavy_multiplication_x: |
-| [Notifications] |     0 из 2     | :heavy_multiplication_x: |
+| [Notifications] |     0 из 3     | :heavy_multiplication_x: |
 | [Pages]         |     0 из 8     | :heavy_multiplication_x: |
 | [Photos]        |     0 из 46    | :heavy_multiplication_x: |
-| [Places]        |     0 из 6     | :heavy_multiplication_x: |
-| [Polls]         |     0 из 6     | :heavy_multiplication_x: |
+| [Polls]         |     0 из 9     | :heavy_multiplication_x: |
+| [PrettyCards]   |     0 из 6     | :heavy_multiplication_x: |
 | [Search]        |     0 из 1     | :heavy_multiplication_x: |
 | [Stats]         |     0 из 3     | :heavy_multiplication_x: |
 | [Status]        |     0 из 2     | :heavy_multiplication_x: |
 | [Storage]       |     0 из 3     | :heavy_multiplication_x: |
 | [Stories]       |     0 из 13    | :heavy_multiplication_x: |
-| [Streaming]     |     0 из 4     | :heavy_multiplication_x: |
-| [Users]         |     7 из 7     | :heavy_check_mark:       |
+| [Streaming]     |     0 из 5     | :heavy_multiplication_x: |
+| [Users]         |     7 из 6     | :heavy_check_mark:       |
 | [Utils]         |     7 из 7     | :heavy_check_mark:       |
-| [Video]         |     0 из 27    | :heavy_multiplication_x: |
-| [Wall]          |     0 из 22    | :heavy_multiplication_x: |
+| [Video]         |     0 из 24    | :heavy_multiplication_x: |
+| [Wall]          |    23 из 23    | :heavy_check_mark:       |
 | [Widgets]       |     0 из 2     | :heavy_multiplication_x: |
 
 #### Использование
 На данный момент библиотека не опубликована ни в каком репозитории java-библиотек, если рискнёте затащить к себе в проект, просто клонируйте git-репозиторий :)
 
-#### HTTP-клиенты
-На выбор имеется два HTTP-клиента:
- - [Async Http Client] (Java 1.8+)
- - [Fuel] (Java 1.7, подходит для Android)
-
-Можете также реализовать `TransoprtClient` под свою любимую библиотеку.
+В библиотеке отсутствуют какие-либо платформенные зависимости, так что в теории, её можно использовать и с __Kotlin JS__ и с __Kotlin Native__ (ни то, ни другое не тестировалось).
 
 Примеры использования
 --------------------
+#### Подготовка
+Первым делом подключите подходящий вам [HTTP-клиент](https://github.com/ktorio/ktor/tree/master/ktor-client), например CIO:
+```
+compile "io.ktor:ktor-client-cio:1.1.1"
+```
+
 #### Авторизация и инициализация клиента
 ```kotlin
-val transportClient = NettyTransportClient()
-
-val authData = OAuth.User.CodeFlow(
-    clientId = 123456,
-    clientSecret = "######",
-    code = "######"
+val apiClient = VkApiClient.byOAuth(
+    engine = CIO.create(),
+    authData = OAuth.User.CodeFlow(
+        clientId = 123456,
+        clientSecret = "######",
+        code = "######"
+    )
 )
-
-val authResult = transportClient.authorize(authData).await()
-
-val accessToken = when (authResult) {
-    is Result.Success -> authResult.value.accessToken
-    is Result.Failure -> return
-}
-
-val apiClient = VkApiClient(accessToken, transportClient)
 
 val api = VkApiUser(apiClient) // for user token
 val api = VkApiCommunity(apiClient) // for community token
@@ -85,13 +80,13 @@ val api = VkApiCommunity(apiClient) // for community token
 val sendResult = api.messages.send(
     peerId = 1000000,
     message = "Hello!"
-).awaitResult()
+).execute()
 
 // Getting a list of friends
 val friendsResult = api.friends.get(
     order = FriendsOrder.NAME,
     count = 10
-).awaitResult()
+).execute()
 ```
 #### Обработка результата
 В качестве результата любого запроса возвращается ~~монада~~ объект Result. Подробнее о нём можно почитать в [ReadMe самой библиотеки](https://github.com/kittinunf/Result).
@@ -100,18 +95,17 @@ val friendsResult = api.friends.get(
 val file = File("file.txt")
 
 // Note that get() can throw an exception!
-val uploadServer = api.docs.getUploadServer()
-    .awaitResult().get()
+val server = api.docs.getUploadServer().execute().get()
 
 val uploadResponse = api.upload.document(
-    uploadUrl = uploadServer.uploadUrl,
-    file = file.name to file
-).awaitResult().get()
+    uploadUrl = server.uploadUrl,
+    file = FileContent(file.name, file.readBytes())
+).execute().get()
 
 val documents = api.docs.save(
     file = uploadResponse.file,
     title = "Some name.txt"
-).awaitResult().get()
+).execute().get()
 ```
 #### Использование метода `execute`
 ```kotlin
@@ -140,7 +134,7 @@ val exampleCode = """
 val executeResult = api.execute(
     code = exampleCode,
     serializer = ExampleResponse.serializer().list
-).awaitResult()
+).execute()
 ```
 
 Дополнительно
@@ -189,7 +183,7 @@ keyboard {
 License
 =======
 
-    Copyright 2018 Danil Yudov
+    Copyright 2019 Danil Yudov
     
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -205,9 +199,7 @@ License
 
 [kotlinx.coroutines]: <https://github.com/Kotlin/kotlinx.coroutines>
 [kotlinx.serialization]: <https://github.com/Kotlin/kotlinx.serialization>
-
-[Async Http Client]: <https://github.com/AsyncHttpClient/async-http-client>
-[Fuel]: <https://github.com/kittinunf/Fuel>
+[ktor-client]: <https://github.com/ktorio/ktor/tree/master/ktor-client>
 
 [Account]: <https://vk.com/dev/account>
 [AppWidgets]: <https://vk.com/dev/appWidgets>
@@ -220,6 +212,7 @@ License
 [Friends]: <https://vk.com/dev/friends>
 [Gifts]: <https://vk.com/dev/gifts>
 [Groups]: <https://vk.com/dev/groups>
+[LeadForms]: <https://vk.com/dev/leadForms>
 [Likes]: <https://vk.com/dev/likes>
 [Market]: <https://vk.com/dev/market>
 [Messages]: <https://vk.com/dev/messages>
@@ -228,8 +221,8 @@ License
 [Notifications]: <https://vk.com/dev/notifications>
 [Pages]: <https://vk.com/dev/pages>
 [Photos]: <https://vk.com/dev/photos>
-[Places]: <https://vk.com/dev/places>
 [Polls]: <https://vk.com/dev/polls>
+[PrettyCards]: <https://vk.com/dev/prettyCards>
 [Search]: <https://vk.com/dev/search>
 [Stats]: <https://vk.com/dev/stats>
 [Status]: <https://vk.com/dev/status>

@@ -3,7 +3,6 @@ package tk.skeptick.vk.apiclient.domain
 import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.serializer
 import tk.skeptick.vk.apiclient.EnumStringSerializer
 import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.json

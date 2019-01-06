@@ -12,9 +12,9 @@ class ExecuteApi(override val client: VkApiClient)
         code: CharSequence,
         serializer: KSerializer<T>
     ): VkApiRequest<T> =
-        Methods.execute.httpPost(
-            "code" to code.toString()
-        ).withSerializer(serializer)
+        Methods.execute.httpPost(serializer) {
+            append("code", code.toString())
+        }
 
     private object Methods {
         const val execute = "execute"

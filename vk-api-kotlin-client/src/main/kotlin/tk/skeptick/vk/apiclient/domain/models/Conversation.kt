@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.EnumStringSerializer
 import tk.skeptick.vk.apiclient.domain.Keyboard
 import tk.skeptick.vk.apiclient.SerializableEnum
-import tk.skeptick.vk.apiclient.domain.models.SimplePhoto
 
 @Serializable
 data class Conversation(

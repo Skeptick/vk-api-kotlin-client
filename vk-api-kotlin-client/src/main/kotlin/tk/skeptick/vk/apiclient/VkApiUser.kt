@@ -24,6 +24,8 @@ import tk.skeptick.vk.apiclient.methods.users.UsersApi
 import tk.skeptick.vk.apiclient.methods.users.UsersApiUser
 import tk.skeptick.vk.apiclient.methods.utils.UtilsApi
 import tk.skeptick.vk.apiclient.methods.utils.UtilsApiUser
+import tk.skeptick.vk.apiclient.methods.wall.WallApi
+import tk.skeptick.vk.apiclient.methods.wall.WallApiUser
 
 open class VkApiUser(val client: VkApiClient) {
 
@@ -38,6 +40,7 @@ open class VkApiUser(val client: VkApiClient) {
     val messages: MessagesApiUser = MessagesApi(client)
     val users: UsersApiUser = UsersApi(client)
     val utils: UtilsApiUser = UtilsApi(client)
+    val wall: WallApiUser = WallApi(client)
     val upload: UploadsApiUser = UploadsApi(client)
 
 }

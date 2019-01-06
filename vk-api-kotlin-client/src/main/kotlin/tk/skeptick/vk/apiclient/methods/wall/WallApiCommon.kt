@@ -13,4 +13,12 @@ interface WallApiCommon {
         postId: Int
     ): VkApiRequest<BooleanInt>
 
+    /**
+     * @see <a href="https://vk.com/dev/wall.openComments">VK API</a>
+     */
+    fun openComments(
+        ownerId: Int,
+        postId: Int
+    ): VkApiRequest<BooleanInt>
+
 }

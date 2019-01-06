@@ -1,7 +1,6 @@
 package tk.skeptick.vk.apiclient.domain
 
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.StringSerializer
 import tk.skeptick.vk.apiclient.json
 
 @Serializable

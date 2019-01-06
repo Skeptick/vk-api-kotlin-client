@@ -1,5 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.messages
 
+import io.ktor.util.date.GMTDate
 import kotlinx.serialization.internal.IntSerializer
 import kotlinx.serialization.list
 import kotlinx.serialization.map
@@ -12,8 +13,6 @@ import tk.skeptick.vk.apiclient.methods.ConversationFilter
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
 import tk.skeptick.vk.apiclient.methods.ObjectField
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MessagesApi(override val client: VkApiClient)
     : MessagesApiUser, MessagesApiCommunity, MethodsContext {
@@ -22,28 +21,28 @@ class MessagesApi(override val client: VkApiClient)
         chatId: Int,
         userId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.addChatUser.httpGet(
-            "chat_id" to chatId, 
-            "user_id" to userId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.addChatUser.httpGet(BooleanInt.serializer()) {
+            append("chat_id", chatId)
+            append("user_id", userId)
+        }
 
     override fun allowMessagesFromGroup(
         groupId: Int,
         key: String?
     ): VkApiRequest<BooleanInt> = 
-        Methods.allowMessagesFromGroup.httpGet(
-            "group_id" to groupId,
-            "key" to key
-        ).withSerializer(BooleanInt.serializer())
+        Methods.allowMessagesFromGroup.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("key", key)
+        }
     
     override fun createChat(
         userIds: List<Int>,
         title: String
     ): VkApiRequest<Int> =
-        Methods.createChat.httpPost(
-            "user_ids" to userIds.joinToString(","),
-            "title" to title
-        ).withSerializer(IntSerializer)
+        Methods.createChat.httpPost(IntSerializer) {
+            append("user_ids", userIds.joinToString(","))
+            append("title", title)
+        }
 
     override fun delete(
         messageIds: List<Int>,
@@ -51,39 +50,41 @@ class MessagesApi(override val client: VkApiClient)
         deleteForAll: Boolean,
         groupId: Int?
     ): VkApiRequest<Map<Int, BooleanInt>> =
-        Methods.delete.httpPost(
-            "message_ids" to messageIds.joinToString(","),
-            "spam" to markAsSpam.asInt(),
-            "delete_for_all" to deleteForAll.asInt(),
-            "group_id" to groupId
-        ).withSerializer((IntSerializer to BooleanInt.serializer()).map)
+        Methods.delete.httpPost((IntSerializer to BooleanInt.serializer()).map) {
+            append("message_ids", messageIds.joinToString(","))
+            append("spam", markAsSpam.asInt())
+            append("delete_for_all", deleteForAll.asInt())
+            append("group_id", groupId)
+        }
 
     override fun delete(
         messageIds: List<Int>,
         markAsSpam: Boolean,
         deleteForAll: Boolean
-    ): VkApiRequest<Map<Int, BooleanInt>> = delete(
-        messageIds = messageIds,
-        markAsSpam = markAsSpam,
-        deleteForAll = deleteForAll,
-        groupId = null
-    )
+    ): VkApiRequest<Map<Int, BooleanInt>> =
+        delete(
+            messageIds = messageIds,
+            markAsSpam = markAsSpam,
+            deleteForAll = deleteForAll,
+            groupId = null
+        )
 
     override fun deleteChatPhoto(
         chatId: Int,
         groupId: Int?
     ): VkApiRequest<ChatChangePhotoResponse> =
-        Methods.deleteChatPhoto.httpGet(
-            "chat_id" to chatId,
-            "group_id" to groupId
-        ).withSerializer(ChatChangePhotoResponse.serializer())
+        Methods.deleteChatPhoto.httpGet(ChatChangePhotoResponse.serializer()) {
+            append("chat_id", chatId)
+            append("group_id", groupId)
+        }
 
     override fun deleteChatPhoto(
         chatId: Int
-    ): VkApiRequest<ChatChangePhotoResponse> = deleteChatPhoto(
-        chatId = chatId,
-        groupId = null
-    )
+    ): VkApiRequest<ChatChangePhotoResponse> =
+        deleteChatPhoto(
+            chatId = chatId,
+            groupId = null
+        )
 
     override fun deleteConversation(
         peerId: Int,
@@ -91,30 +92,31 @@ class MessagesApi(override val client: VkApiClient)
         count: Int,
         groupId: Int?
     ): VkApiRequest<BooleanInt> =
-        Methods.deleteConversation.httpGet(
-            "peer_id" to peerId,
-            "offset" to offset,
-            "count" to count,
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.deleteConversation.httpGet(BooleanInt.serializer()) {
+            append("peer_id", peerId)
+            append("offset", offset)
+            append("count", count)
+            append("group_id", groupId)
+        }
 
     override fun deleteConversation(
         peerId: Int,
         offset: Int,
         count: Int
-    ): VkApiRequest<BooleanInt> = deleteConversation(
-        peerId = peerId,
-        offset = offset,
-        count = count,
-        groupId = null
-    )
+    ): VkApiRequest<BooleanInt> =
+        deleteConversation(
+            peerId = peerId,
+            offset = offset,
+            count = count,
+            groupId = null
+        )
 
     override fun denyMessagesFromGroup(
         groupId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.denyMessagesFromGroup.httpGet(
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.denyMessagesFromGroup.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+        }
 
     override fun edit(
         peerId: Int,
@@ -127,17 +129,17 @@ class MessagesApi(override val client: VkApiClient)
         keepSnippets: Boolean,
         groupId: Int?
     ): VkApiRequest<BooleanInt> = 
-        Methods.edit.httpPost(
-            "peer_id" to peerId,
-            "message_id" to messageId,
-            "message" to message,
-            "lat" to latitude,
-            "long" to longitude,
-            "attachment" to attachments?.let(::prepareAttachments),
-            "keep_forward_messages" to keepForwardMessages.asInt(),
-            "keep_snippets" to keepSnippets.asInt(),
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.edit.httpPost(BooleanInt.serializer()) {
+            append("peer_id", peerId)
+            append("message_id", messageId)
+            append("message", message)
+            append("lat", latitude)
+            append("long", longitude)
+            append("attachment", attachments?.joinToString(",") { it.attachment })
+            append("keep_forward_messages", keepForwardMessages.asInt())
+            append("keep_snippets", keepSnippets.asInt())
+            append("group_id", groupId)
+        }
 
     override fun edit(
         peerId: Int,
@@ -148,37 +150,39 @@ class MessagesApi(override val client: VkApiClient)
         attachments: List<MessageAttachment>?,
         keepForwardMessages: Boolean,
         keepSnippets: Boolean
-    ): VkApiRequest<BooleanInt> = edit(
-        peerId = peerId,
-        messageId = messageId,
-        message = message,
-        latitude = latitude,
-        longitude = longitude,
-        attachments = attachments,
-        keepForwardMessages = keepForwardMessages,
-        keepSnippets = keepSnippets,
-        groupId = null
-    )
+    ): VkApiRequest<BooleanInt> =
+        edit(
+            peerId = peerId,
+            messageId = messageId,
+            message = message,
+            latitude = latitude,
+            longitude = longitude,
+            attachments = attachments,
+            keepForwardMessages = keepForwardMessages,
+            keepSnippets = keepSnippets,
+            groupId = null
+        )
 
     override fun editChat(
         chatId: Int,
         title: String,
         groupId: Int?
     ): VkApiRequest<BooleanInt> = 
-        Methods.editChat.httpGet(
-            "chat_id" to chatId,
-            "title" to title,
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.editChat.httpGet(BooleanInt.serializer()) {
+            append("chat_id", chatId)
+            append("title", title)
+            append("group_id", groupId)
+        }
 
     override fun editChat(
         chatId: Int,
         title: String
-    ): VkApiRequest<BooleanInt> = editChat(
-        chatId = chatId,
-        title = title,
-        groupId = null
-    )
+    ): VkApiRequest<BooleanInt> =
+        editChat(
+            chatId = chatId,
+            title = title,
+            groupId = null
+        )
 
     override fun getByConversationMessageId(
         peerId: Int,
@@ -187,26 +191,27 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<ExtendedListResponse<Message>> =
-        Methods.getByConversationMessageId.httpPost(
-            "peer_id" to peerId,
-            "conversation_message_ids" to conversationMessageIds.joinToString(","),
-            "extended" to extended.asInt(),
-            "fields" to fields.joinToString(",") { it.value },
-            "group_id" to groupId
-        ).withSerializer(extendedList(Message.serializer()))
+        Methods.getByConversationMessageId.httpPost(extendedList(Message.serializer())) {
+            append("peer_id", peerId)
+            append("conversation_message_ids", conversationMessageIds.joinToString(","))
+            append("extended", extended.asInt())
+            append("fields", fields.joinToString(",") { it.value })
+            append("group_id", groupId)
+        }
 
     override fun getByConversationMessageId(
         peerId: Int,
         conversationMessageIds: List<Int>,
         extended: Boolean,
         fields: List<ObjectField>
-    ): VkApiRequest<ExtendedListResponse<Message>> = getByConversationMessageId(
-        peerId = peerId,
-        conversationMessageIds = conversationMessageIds,
-        extended = extended,
-        fields = fields,
-        groupId = null
-    )
+    ): VkApiRequest<ExtendedListResponse<Message>> =
+        getByConversationMessageId(
+            peerId = peerId,
+            conversationMessageIds = conversationMessageIds,
+            extended = extended,
+            fields = fields,
+            groupId = null
+        )
 
     override fun getById(
         messageIds: List<Int>,
@@ -215,62 +220,64 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<ExtendedListResponse<Message>> =
-        Methods.getById.httpPost(
-            "message_ids" to messageIds.joinToString(","),
-            "preview_length" to previewLength,
-            "extended" to extended.asInt(),
-            "fields" to fields.joinToString(",") { it.value },
-            "group_id" to groupId
-        ).withSerializer(extendedList(Message.serializer()))
+        Methods.getById.httpPost(extendedList(Message.serializer())) {
+            append("message_ids", messageIds.joinToString(","))
+            append("preview_length", previewLength)
+            append("extended", extended.asInt())
+            append("fields", fields.joinToString(",") { it.value })
+            append("group_id", groupId)
+        }
 
     override fun getById(
         messageIds: List<Int>,
         previewLength: Int,
         extended: Boolean,
         fields: List<ObjectField>
-    ): VkApiRequest<ExtendedListResponse<Message>> = getById(
-        messageIds = messageIds,
-        previewLength = previewLength,
-        extended = extended,
-        fields = fields,
-        groupId = null
-    )
+    ): VkApiRequest<ExtendedListResponse<Message>> =
+        getById(
+            messageIds = messageIds,
+            previewLength = previewLength,
+            extended = extended,
+            fields = fields,
+            groupId = null
+        )
 
     override fun getChat(
         chatIds: List<Int>
     ): VkApiRequest<List<Chat>> =
-        Methods.getChat.httpPost(
-            "chat_ids" to chatIds.joinToString(",")
-        ).withSerializer(Chat.serializer().list)
+        Methods.getChat.httpPost(Chat.serializer().list) {
+            append("chat_ids", chatIds.joinToString(","))
+        }
 
     override fun getChatPreview(
         link: String,
         fields: List<ObjectField>
     ): VkApiRequest<ChatPreview> =
-        Methods.getChatPreview.httpPost(
-            "link" to link,
-            "fields" to fields.joinToString(",") { it.value }
-        ).withSerializer(ChatPreview.serializer())
+        Methods.getChatPreview.httpPost(ChatPreview.serializer()) {
+            append("link", link)
+            append("fields", fields.joinToString(",") { it.value })
+        }
 
     override fun getConversationMembers(
         peerId: Int,
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<ExtendedListResponse<ConversationMember>> =
-        Methods.getConversationMembers.httpPost(
-            "peer_id" to peerId,
-            "fields" to fields.joinToString(",") { it.value },
-            "group_id" to groupId
-        ).withSerializer(extendedList(ConversationMember.serializer()))
+        Methods.getConversationMembers.httpPost(extendedList(ConversationMember.serializer())) {
+            append("peer_id", peerId)
+            append("fields", fields.joinToString(",") { it.value })
+            append("group_id", groupId)
+        }
 
     override fun getConversationMembers(
         peerId: Int,
         fields: List<ObjectField>
-    ): VkApiRequest<ExtendedListResponse<ConversationMember>> = getConversationMembers(
-        peerId = peerId,
-        fields = fields,
-        groupId = null
-    )
+    ): VkApiRequest<ExtendedListResponse<ConversationMember>> =
+        getConversationMembers(
+            peerId = peerId,
+            fields = fields,
+            groupId = null
+        )
 
     override fun getConversations(
         offset: Int,
@@ -281,15 +288,15 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<ConversationsListResponse> =
-        Methods.getConversations.httpPost(
-            "offset" to offset,
-            "count" to count,
-            "filter" to filter.value,
-            "start_message_id" to startMessageId,
-            "extended" to extended.asInt(),
-            "fields" to fields.joinToString(",") { it.value },
-            "group_id" to groupId
-        ).withSerializer(ConversationsListResponse.serializer())
+        Methods.getConversations.httpPost(ConversationsListResponse.serializer()) {
+            append("offset", offset)
+            append("count", count)
+            append("filter", filter.value)
+            append("start_message_id", startMessageId)
+            append("extended", extended.asInt())
+            append("fields", fields.joinToString(",") { it.value })
+            append("group_id", groupId)
+        }
 
     override fun getConversations(
         offset: Int,
@@ -298,15 +305,16 @@ class MessagesApi(override val client: VkApiClient)
         startMessageId: Int?,
         extended: Boolean,
         fields: List<ObjectField>
-    ): VkApiRequest<ConversationsListResponse> = getConversations(
-        offset = offset,
-        count = count,
-        filter = filter,
-        startMessageId = startMessageId,
-        extended = extended,
-        fields = fields,
-        groupId = null
-    )
+    ): VkApiRequest<ConversationsListResponse> =
+        getConversations(
+            offset = offset,
+            count = count,
+            filter = filter,
+            startMessageId = startMessageId,
+            extended = extended,
+            fields = fields,
+            groupId = null
+        )
 
     override fun getConversationsById(
         peerIds: List<Int>,
@@ -314,23 +322,24 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<ExtendedListResponse<Conversation>> =
-        Methods.getConversationsById.httpPost(
-            "peer_ids" to peerIds.joinToString(","),
-            "extended" to extended.asInt(),
-            "fields" to fields.joinToString(",") { it.value },
-            "group_id" to groupId
-        ).withSerializer(extendedList(Conversation.serializer()))
+        Methods.getConversationsById.httpPost(extendedList(Conversation.serializer())) {
+            append("peer_ids", peerIds.joinToString(","))
+            append("extended", extended.asInt())
+            append("fields", fields.joinToString(",") { it.value })
+            append("group_id", groupId)
+        }
 
     override fun getConversationsById(
         peerIds: List<Int>,
         extended: Boolean,
         fields: List<ObjectField>
-    ): VkApiRequest<ExtendedListResponse<Conversation>> = getConversationsById(
-        peerIds = peerIds,
-        extended = extended,
-        fields = fields,
-        groupId = null
-    )
+    ): VkApiRequest<ExtendedListResponse<Conversation>> =
+        getConversationsById(
+            peerIds = peerIds,
+            extended = extended,
+            fields = fields,
+            groupId = null
+        )
 
     override fun getHistory(
         peerId: Int,
@@ -342,16 +351,16 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<HistoryMessagesListResponse> = 
-        Methods.getHistory.httpPost(
-            "peer_id" to peerId,
-            "offset" to offset,
-            "count" to count,
-            "start_message_id" to startMessageId,
-            "rev" to reverse.asInt(),
-            "extended" to extended.asInt(),
-            "fields" to fields.joinToString(",") { it.value },
-            "group_id" to groupId
-        ).withSerializer(HistoryMessagesListResponse.serializer())
+        Methods.getHistory.httpPost(HistoryMessagesListResponse.serializer()) {
+            append("peer_id", peerId)
+            append("offset", offset)
+            append("count", count)
+            append("start_message_id", startMessageId)
+            append("rev", reverse.asInt())
+            append("extended", extended.asInt())
+            append("fields", fields.joinToString(",") { it.value })
+            append("group_id", groupId)
+        }
 
     override fun getHistory(
         peerId: Int,
@@ -361,16 +370,17 @@ class MessagesApi(override val client: VkApiClient)
         reverse: Boolean,
         extended: Boolean,
         fields: List<ObjectField>
-    ): VkApiRequest<HistoryMessagesListResponse> = getHistory(
-        peerId = peerId,
-        offset = offset,
-        count = count,
-        startMessageId = startMessageId,
-        reverse = reverse,
-        extended = extended,
-        fields = fields,
-        groupId = null
-    )
+    ): VkApiRequest<HistoryMessagesListResponse> =
+        getHistory(
+            peerId = peerId,
+            offset = offset,
+            count = count,
+            startMessageId = startMessageId,
+            reverse = reverse,
+            extended = extended,
+            fields = fields,
+            groupId = null
+        )
 
     override fun getHistoryAttachments(
         peerId: Int,
@@ -381,15 +391,15 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<HistoryAttachmentsResponse> = 
-        Methods.getHistoryAttachments.httpPost(
-            "peer_id" to peerId,
-            "media_type" to mediaType.value,
-            "start_from" to startFrom,
-            "count" to count,
-            "photo_sizes" to withPhotoSizes.asInt(),
-            "fields" to fields.joinToString(",") { it.value },
-            "group_id" to groupId
-        ).withSerializer(HistoryAttachmentsResponse.serializer())
+        Methods.getHistoryAttachments.httpPost(HistoryAttachmentsResponse.serializer()) {
+            append("peer_id", peerId)
+            append("media_type", mediaType.value)
+            append("start_from", startFrom)
+            append("count", count)
+            append("photo_sizes", withPhotoSizes.asInt())
+            append("fields", fields.joinToString(",") { it.value })
+            append("group_id", groupId)
+        }
 
     override fun getHistoryAttachments(
         peerId: Int,
@@ -398,15 +408,16 @@ class MessagesApi(override val client: VkApiClient)
         count: Int,
         withPhotoSizes: Boolean,
         fields: List<ObjectField>
-    ): VkApiRequest<HistoryAttachmentsResponse> = getHistoryAttachments(
-        peerId = peerId,
-        mediaType = mediaType,
-        startFrom = startFrom,
-        count = count,
-        withPhotoSizes = withPhotoSizes,
-        fields = fields,
-        groupId = null
-    )
+    ): VkApiRequest<HistoryAttachmentsResponse> =
+        getHistoryAttachments(
+            peerId = peerId,
+            mediaType = mediaType,
+            startFrom = startFrom,
+            count = count,
+            withPhotoSizes = withPhotoSizes,
+            fields = fields,
+            groupId = null
+        )
 
     override fun getImportantMessages(
         count: Int,
@@ -417,15 +428,15 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<ImportantMessagesResponse> =
-        Methods.getImportantMessages.httpPost(
-            "count" to count,
-            "offset" to offset,
-            "start_message_id" to startMessageId,
-            "preview_length" to previewLength,
-            "extended" to extended.asInt(),
-            "fields" to fields.joinToString(",") { it.value },
-            "group_id" to groupId
-        ).withSerializer(ImportantMessagesResponse.serializer())
+        Methods.getImportantMessages.httpPost(ImportantMessagesResponse.serializer()) {
+            append("count", count)
+            append("offset", offset)
+            append("start_message_id", startMessageId)
+            append("preview_length", previewLength)
+            append("extended", extended.asInt())
+            append("fields", fields.joinToString(",") { it.value })
+            append("group_id", groupId)
+        }
 
     override fun getImportantMessages(
         count: Int,
@@ -434,42 +445,44 @@ class MessagesApi(override val client: VkApiClient)
         previewLength: Int,
         extended: Boolean,
         fields: List<ObjectField>
-    ): VkApiRequest<ImportantMessagesResponse> = getImportantMessages(
-        count = count,
-        offset = offset,
-        startMessageId = startMessageId,
-        previewLength = previewLength,
-        extended = extended,
-        fields = fields,
-        groupId = null
-    )
+    ): VkApiRequest<ImportantMessagesResponse> =
+        getImportantMessages(
+            count = count,
+            offset = offset,
+            startMessageId = startMessageId,
+            previewLength = previewLength,
+            extended = extended,
+            fields = fields,
+            groupId = null
+        )
 
     override fun getInviteLink(
         peerId: Int,
         generateNewLink: Boolean,
         groupId: Int?
     ): VkApiRequest<ChatInviteLink> =
-        Methods.getInviteLink.httpGet(
-            "peer_id" to peerId,
-            "reset" to generateNewLink.asInt(),
-            "group_id" to groupId
-        ).withSerializer(ChatInviteLink.serializer())
+        Methods.getInviteLink.httpGet(ChatInviteLink.serializer()) {
+            append("peer_id", peerId)
+            append("reset", generateNewLink.asInt())
+            append("group_id", groupId)
+        }
 
     override fun getInviteLink(
         peerId: Int,
         generateNewLink: Boolean
-    ): VkApiRequest<ChatInviteLink> = getInviteLink(
-        peerId = peerId,
-        generateNewLink = generateNewLink,
-        groupId = null
-    )
+    ): VkApiRequest<ChatInviteLink> =
+        getInviteLink(
+            peerId = peerId,
+            generateNewLink = generateNewLink,
+            groupId = null
+        )
 
     override fun getLastActivity(
         userId: Int
     ): VkApiRequest<LastActivityResponse> = 
-        Methods.getLastActivity.httpGet(
-            "user_id" to userId
-        ).withSerializer(LastActivityResponse.serializer())
+        Methods.getLastActivity.httpGet(LastActivityResponse.serializer()) {
+            append("user_id", userId)
+        }
 
     override fun getLongPollHistory(
         ts: Long,
@@ -483,18 +496,18 @@ class MessagesApi(override val client: VkApiClient)
         longPollVersion: Int,
         groupId: Int?
     ): VkApiRequest<LongPollHistoryResponse> = 
-        Methods.getLongPollHistory.httpPost(
-            "ts" to ts,
-            "pts" to pts,
-            "preview_length" to previewLength,
-            "onlines" to withOnlineStatuses.asInt(),
-            "fields" to userFields.joinToString(",") { it.value },
-            "events_limit" to eventsLimit,
-            "msgs_limit" to messagesLimit,
-            "max_msg_id" to maxMessageId,
-            "lp_version" to longPollVersion,
-            "group_id" to groupId
-        ).withSerializer(LongPollHistoryResponse.serializer())
+        Methods.getLongPollHistory.httpPost(LongPollHistoryResponse.serializer()) {
+            append("ts", ts)
+            append("pts", pts)
+            append("preview_length", previewLength)
+            append("onlines", withOnlineStatuses.asInt())
+            append("fields", userFields.joinToString(",") { it.value })
+            append("events_limit", eventsLimit)
+            append("msgs_limit", messagesLimit)
+            append("max_msg_id", maxMessageId)
+            append("lp_version", longPollVersion)
+            append("group_id", groupId)
+        }
 
     override fun getLongPollHistory(
         ts: Long,
@@ -506,256 +519,264 @@ class MessagesApi(override val client: VkApiClient)
         messagesLimit: Int,
         maxMessageId: Int?,
         longPollVersion: Int
-    ): VkApiRequest<LongPollHistoryResponse> = getLongPollHistory(
-        ts = ts,
-        pts = pts,
-        previewLength = previewLength,
-        withOnlineStatuses = withOnlineStatuses,
-        userFields = userFields,
-        eventsLimit = eventsLimit,
-        messagesLimit = messagesLimit,
-        maxMessageId = maxMessageId,
-        longPollVersion = longPollVersion,
-        groupId = null
-    )
+    ): VkApiRequest<LongPollHistoryResponse> =
+        getLongPollHistory(
+            ts = ts,
+            pts = pts,
+            previewLength = previewLength,
+            withOnlineStatuses = withOnlineStatuses,
+            userFields = userFields,
+            eventsLimit = eventsLimit,
+            messagesLimit = messagesLimit,
+            maxMessageId = maxMessageId,
+            longPollVersion = longPollVersion,
+            groupId = null
+        )
 
     override fun getLongPollServer(
         needPts: Boolean,
         longPollVersion: Int,
         groupId: Int?
     ): VkApiRequest<LongPollServerResponse> = 
-        Methods.getLongPollServer.httpGet(
-            "need_pts" to needPts.asInt(),
-            "lp_version" to longPollVersion,
-            "group_id" to groupId
-        ).withSerializer(LongPollServerResponse.serializer())
+        Methods.getLongPollServer.httpGet(LongPollServerResponse.serializer()) {
+            append("need_pts", needPts.asInt())
+            append("lp_version", longPollVersion)
+            append("group_id", groupId)
+        }
 
     override fun getLongPollServer(
         needPts: Boolean,
         longPollVersion: Int
-    ): VkApiRequest<LongPollServerResponse> = getLongPollServer(
-        needPts = needPts,
-        longPollVersion = longPollVersion,
-        groupId = null
-    )
+    ): VkApiRequest<LongPollServerResponse> =
+        getLongPollServer(
+            needPts = needPts,
+            longPollVersion = longPollVersion,
+            groupId = null
+        )
 
     override fun isMessagesFromGroupAllowed(
         groupId: Int,
         userId: Int
     ): VkApiRequest<MessagesFromGroupAllowedResponse> =
-        Methods.isMessagesFromGroupAllowed.httpGet(
-            "group_id" to groupId,
-            "user_id" to userId
-        ).withSerializer(MessagesFromGroupAllowedResponse.serializer())
+        Methods.isMessagesFromGroupAllowed.httpGet(MessagesFromGroupAllowedResponse.serializer()) {
+            append("group_id", groupId)
+            append("user_id", userId)
+        }
 
     override fun joinChatByInviteLink(
         link: String
     ): VkApiRequest<JoinChatByLinkResponse> = 
-        Methods.joinChatByInviteLink.httpGet(
-            "link" to link
-        ).withSerializer(JoinChatByLinkResponse.serializer())
+        Methods.joinChatByInviteLink.httpGet(JoinChatByLinkResponse.serializer()) {
+            append("link", link)
+        }
 
     override fun markAsAnsweredConversation(
         peerId: Int,
         isAnswered: Boolean
     ): VkApiRequest<BooleanInt> = 
-        Methods.markAsAnsweredConversation.httpGet(
-            "peer_id" to peerId,
-            "answered" to isAnswered.asInt()
-        ).withSerializer(BooleanInt.serializer())
+        Methods.markAsAnsweredConversation.httpGet(BooleanInt.serializer()) {
+            append("peer_id", peerId)
+            append("answered", isAnswered.asInt())
+        }
 
     override fun markAsAnsweredConversation(
         peerId: Int,
         isAnswered: Boolean,
         groupId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.markAsAnsweredConversation.httpGet(
-            "peer_id" to peerId,
-            "answered" to isAnswered.asInt(),
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.markAsAnsweredConversation.httpGet(BooleanInt.serializer()) {
+            append("peer_id", peerId)
+            append("answered", isAnswered.asInt())
+            append("group_id", groupId)
+        }
 
     override fun markAsImportant(
         messageIds: List<Int>,
         markAsImportant: Boolean
     ): VkApiRequest<List<Int>> = 
-        Methods.markAsImportant.httpPost(
-            "message_ids" to messageIds.joinToString(","),
-            "important" to markAsImportant.asInt()
-        ).withSerializer(IntSerializer.list)
+        Methods.markAsImportant.httpPost(IntSerializer.list) {
+            append("message_ids", messageIds.joinToString(","))
+            append("important", markAsImportant.asInt())
+        }
 
     override fun markAsImportantConversation(
         peerId: Int,
         isImportant: Boolean
     ): VkApiRequest<BooleanInt> = 
-        Methods.markAsImportantConversation.httpGet(
-            "peer_id" to peerId,
-            "important" to isImportant.asInt()
-        ).withSerializer(BooleanInt.serializer())
+        Methods.markAsImportantConversation.httpGet(BooleanInt.serializer()) {
+            append("peer_id", peerId)
+            append("important", isImportant.asInt())
+        }
 
     override fun markAsImportantConversation(
         peerId: Int,
         isImportant: Boolean,
         groupId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.markAsImportantConversation.httpGet(
-            "peer_id" to peerId,
-            "important" to isImportant.asInt(),
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.markAsImportantConversation.httpGet(BooleanInt.serializer()) {
+            append("peer_id", peerId)
+            append("important", isImportant.asInt())
+            append("group_id", groupId)
+        }
 
     override fun markAsRead(
         peerId: Int,
         startMessageId: Int?,
         groupId: Int?
     ): VkApiRequest<BooleanInt> = 
-        Methods.markAsRead.httpGet(
-            "peer_id" to peerId,
-            "start_message_id" to startMessageId,
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.markAsRead.httpGet(BooleanInt.serializer()) {
+            append("peer_id", peerId)
+            append("start_message_id", startMessageId)
+            append("group_id", groupId)
+        }
 
     override fun markAsRead(
         peerId: Int,
         startMessageId: Int?
-    ): VkApiRequest<BooleanInt> = markAsRead(
-        peerId = peerId,
-        startMessageId = startMessageId,
-        groupId = null
-    )
+    ): VkApiRequest<BooleanInt> =
+        markAsRead(
+            peerId = peerId,
+            startMessageId = startMessageId,
+            groupId = null
+        )
 
     override fun pin(
         peerId: Int,
         messageId: Int,
         groupId: Int?
     ): VkApiRequest<Message.Pinned> =
-        Methods.pin.httpGet(
-            "peer_id" to peerId,
-            "message_id" to messageId,
-            "group_id" to groupId
-        ).withSerializer(Message.Pinned.serializer())
+        Methods.pin.httpGet(Message.Pinned.serializer()) {
+            append("peer_id", peerId)
+            append("message_id", messageId)
+            append("group_id", groupId)
+        }
 
     override fun pin(
         peerId: Int,
         messageId: Int
-    ): VkApiRequest<Message.Pinned> = pin(
-        peerId = peerId,
-        messageId = messageId,
-        groupId = null
-    )
+    ): VkApiRequest<Message.Pinned> =
+        pin(
+            peerId = peerId,
+            messageId = messageId,
+            groupId = null
+        )
 
     override fun removeChatUser(
         chatId: Int,
         memberId: Int,
         groupId: Int?
     ): VkApiRequest<BooleanInt> = 
-        Methods.removeChatUser.httpGet(
-            "chat_id" to chatId,
-            "member_id" to memberId,
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.removeChatUser.httpGet(BooleanInt.serializer()) {
+            append("chat_id", chatId)
+            append("member_id", memberId)
+            append("group_id", groupId)
+        }
 
     override fun removeChatUser(
         chatId: Int,
         memberId: Int
-    ): VkApiRequest<BooleanInt> = removeChatUser(
-        chatId = chatId,
-        memberId = memberId,
-        groupId = null
-    )
+    ): VkApiRequest<BooleanInt> =
+        removeChatUser(
+            chatId = chatId,
+            memberId = memberId,
+            groupId = null
+        )
 
     override fun restore(
         messageId: Int,
         groupId: Int?
     ): VkApiRequest<BooleanInt> = 
-        Methods.restore.httpGet(
-            "message_id" to messageId,
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.restore.httpGet(BooleanInt.serializer()) {
+            append("message_id", messageId)
+            append("group_id", groupId)
+        }
 
     override fun restore(
         messageId: Int
-    ): VkApiRequest<BooleanInt> = restore(
-        messageId = messageId,
-        groupId = null
-    )
+    ): VkApiRequest<BooleanInt> =
+        restore(
+            messageId = messageId,
+            groupId = null
+        )
 
     override fun search(
         query: String,
         peerId: Int?,
-        maxDate: Date?,
+        maxDate: GMTDate?,
         previewLength: Int,
         offset: Int,
         count: Int,
         groupId: Int?
     ): VkApiRequest<DefaultListResponse<Message>> =
-        Methods.search.httpGet(
-            "q" to query,
-            "peer_id" to peerId,
-            "date" to maxDate?.toDMYString(),
-            "preview_length" to previewLength,
-            "offset" to offset,
-            "count" to count,
-            "group_id" to groupId
-        ).withSerializer(list(Message.serializer()))
+        Methods.search.httpGet(list(Message.serializer())) {
+            append("q", query)
+            append("peer_id", peerId)
+            append("date", maxDate?.toDMYString())
+            append("preview_length", previewLength)
+            append("offset", offset)
+            append("count", count)
+            append("group_id", groupId)
+        }
 
     override fun search(
         query: String,
         peerId: Int?,
-        maxDate: Date?,
+        maxDate: GMTDate?,
         previewLength: Int,
         offset: Int,
         count: Int
-    ): VkApiRequest<DefaultListResponse<Message>> = search(
-        query = query,
-        peerId = peerId,
-        maxDate = maxDate,
-        previewLength = previewLength,
-        offset = offset,
-        count = count,
-        groupId = null
-    )
+    ): VkApiRequest<DefaultListResponse<Message>> =
+        search(
+            query = query,
+            peerId = peerId,
+            maxDate = maxDate,
+            previewLength = previewLength,
+            offset = offset,
+            count = count,
+            groupId = null
+        )
 
     override fun searchExtended(
         query: String,
         peerId: Int?,
-        maxDate: Date?,
+        maxDate: GMTDate?,
         previewLength: Int,
         offset: Int,
         count: Int,
         groupId: Int?,
         fields: List<ObjectField>
     ): VkApiRequest<ExtendedListResponse<Message>> =
-        Methods.search.httpGet(
-            "q" to query,
-            "peer_id" to peerId,
-            "date" to maxDate?.toDMYString(),
-            "preview_length" to previewLength,
-            "offset" to offset,
-            "count" to count,
-            "extended" to 1,
-            "fields" to fields.joinToString(",") { it.value },
-            "group_id" to groupId
-        ).withSerializer(extendedList(Message.serializer()))
+        Methods.search.httpGet(extendedList(Message.serializer())) {
+            append("q", query)
+            append("peer_id", peerId)
+            append("date", maxDate?.toDMYString())
+            append("preview_length", previewLength)
+            append("offset", offset)
+            append("count", count)
+            append("extended", 1)
+            append("fields", fields.joinToString(",") { it.value })
+            append("group_id", groupId)
+        }
 
     override fun searchExtended(
         query: String,
         peerId: Int?,
-        maxDate: Date?,
+        maxDate: GMTDate?,
         previewLength: Int,
         offset: Int,
         count: Int,
         fields: List<ObjectField>
-    ): VkApiRequest<ExtendedListResponse<Message>> = searchExtended(
-        query = query,
-        peerId = peerId,
-        maxDate = maxDate,
-        previewLength = previewLength,
-        offset = offset,
-        count = count,
-        fields = fields,
-        groupId = null
-    )
+    ): VkApiRequest<ExtendedListResponse<Message>> =
+        searchExtended(
+            query = query,
+            peerId = peerId,
+            maxDate = maxDate,
+            previewLength = previewLength,
+            offset = offset,
+            count = count,
+            fields = fields,
+            groupId = null
+        )
 
     override fun searchConversations(
         query: String,
@@ -764,26 +785,27 @@ class MessagesApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         groupId: Int?
     ): VkApiRequest<ExtendedListResponse<Conversation>> =
-        Methods.searchConversations.httpPost(
-            "q" to query,
-            "count" to count,
-            "extended" to extended.asInt(),
-            "fields" to fields.joinToString(",") { it.value },
-            "group_id" to groupId
-        ).withSerializer(extendedList(Conversation.serializer()))
+        Methods.searchConversations.httpPost(extendedList(Conversation.serializer())) {
+            append("q", query)
+            append("count", count)
+            append("extended", extended.asInt())
+            append("fields", fields.joinToString(",") { it.value })
+            append("group_id", groupId)
+        }
 
     override fun searchConversations(
         query: String,
         count: Int,
         extended: Boolean,
         fields: List<ObjectField>
-    ): VkApiRequest<ExtendedListResponse<Conversation>> = searchConversations(
-        query = query,
-        count = count,
-        extended = extended,
-        fields = fields,
-        groupId = null
-    )
+    ): VkApiRequest<ExtendedListResponse<Conversation>> =
+        searchConversations(
+            query = query,
+            count = count,
+            extended = extended,
+            fields = fields,
+            groupId = null
+        )
 
     override fun send(
         peerId: Int,
@@ -799,20 +821,20 @@ class MessagesApi(override val client: VkApiClient)
         payload: MessagePayload?,
         dontParseLink: Boolean
     ): VkApiRequest<Int> =
-        Methods.send.httpPost(
-            "peer_id" to peerId,
-            "random_id" to randomId,
-            "message" to message,
-            "lat" to latitude,
-            "long" to longitude,
-            "attachment" to attachments?.let(::prepareAttachments),
-            "reply_to" to replyToMessageId,
-            "forward_messages" to forwardedMessages?.joinToString(","),
-            "sticker_id" to stickerId,
-            "keyboard" to keyboard?.serialize(),
-            "payload" to payload?.value,
-            "dont_parse_links" to dontParseLink.asInt()
-        ).withSerializer(IntSerializer)
+        Methods.send.httpPost(IntSerializer) {
+            append("peer_id", peerId)
+            append("random_id", randomId)
+            append("message", message)
+            append("lat", latitude)
+            append("long", longitude)
+            append("attachment", attachments?.joinToString(",") { it.attachment })
+            append("reply_to", replyToMessageId)
+            append("forward_messages", forwardedMessages?.joinToString(","))
+            append("sticker_id", stickerId)
+            append("keyboard", keyboard?.serialize())
+            append("payload", payload?.value)
+            append("dont_parse_links", dontParseLink.asInt())
+        }
 
     override fun send(
         peerId: Int,
@@ -827,19 +849,19 @@ class MessagesApi(override val client: VkApiClient)
         dontParseLink: Boolean,
         groupId: Int?
     ): VkApiRequest<Int> =
-        Methods.send.httpPost(
-            "peer_id" to peerId,
-            "random_id" to randomId,
-            "message" to message,
-            "lat" to latitude,
-            "long" to longitude,
-            "attachment" to attachments?.let(::prepareAttachments),
-            "reply_to" to replyToMessageId,
-            "forward_messages" to forwardedMessages?.joinToString(","),
-            "sticker_id" to stickerId,
-            "dont_parse_links" to dontParseLink.asInt(),
-            "group_id" to groupId
-        ).withSerializer(IntSerializer)
+        Methods.send.httpPost(IntSerializer) {
+            append("peer_id", peerId)
+            append("random_id", randomId)
+            append("message", message)
+            append("lat", latitude)
+            append("long", longitude)
+            append("attachment", attachments?.joinToString(",") { it.attachment })
+            append("reply_to", replyToMessageId)
+            append("forward_messages", forwardedMessages?.joinToString(","))
+            append("sticker_id", stickerId)
+            append("dont_parse_links", dontParseLink.asInt())
+            append("group_id", groupId)
+        }
 
     override fun sendBulk(
         userIds: List<Int>,
@@ -854,78 +876,81 @@ class MessagesApi(override val client: VkApiClient)
         payload: MessagePayload?,
         dontParseLink: Boolean
     ): VkApiRequest<List<SendBulkMessageResponse>> =
-        Methods.send.httpPost(
-            "user_ids" to userIds.joinToString(","),
-            "random_id" to randomId,
-            "message" to message,
-            "lat" to latitude,
-            "long" to longitude,
-            "attachment" to attachments?.let(::prepareAttachments),
-            "forward_messages" to forwardedMessages?.joinToString(","),
-            "sticker_id" to stickerId,
-            "keyboard" to keyboard?.serialize(),
-            "payload" to payload?.value,
-            "dont_parse_links" to dontParseLink.asInt()
-        ).withSerializer(SendBulkMessageResponse.serializer().list)
+        Methods.send.httpPost(SendBulkMessageResponse.serializer().list) {
+            append("user_ids", userIds.joinToString(","))
+            append("random_id", randomId)
+            append("message", message)
+            append("lat", latitude)
+            append("long", longitude)
+            append("attachment", attachments?.joinToString(",") { it.attachment })
+            append("forward_messages", forwardedMessages?.joinToString(","))
+            append("sticker_id", stickerId)
+            append("keyboard", keyboard?.serialize())
+            append("payload", payload?.value)
+            append("dont_parse_links", dontParseLink.asInt())
+        }
 
     override fun setActivity(
         peerId: Int,
         type: String,
         groupId: Int?
     ): VkApiRequest<BooleanInt> = 
-        Methods.setActivity.httpGet(
-            "peer_id" to peerId,
-            "type" to type
-        ).withSerializer(BooleanInt.serializer())
+        Methods.setActivity.httpGet(BooleanInt.serializer()) {
+            append("peer_id", peerId)
+            append("type", type)
+        }
 
     override fun setActivity(
         peerId: Int,
         type: String
-    ): VkApiRequest<BooleanInt> = setActivity(
-        peerId = peerId,
-        type = type,
-        groupId = null
-    )
+    ): VkApiRequest<BooleanInt> =
+        setActivity(
+            peerId = peerId,
+            type = type,
+            groupId = null
+        )
 
     override fun setChatPhoto(
         file: String,
         groupId: Int?
     ): VkApiRequest<ChatChangePhotoResponse> = 
-        Methods.setChatPhoto.httpGet(
-            "file" to file,
-            "group_id" to groupId
-        ).withSerializer(ChatChangePhotoResponse.serializer())
+        Methods.setChatPhoto.httpGet(ChatChangePhotoResponse.serializer()) {
+            append("file", file)
+            append("group_id", groupId)
+        }
 
     override fun setChatPhoto(
         file: String
-    ): VkApiRequest<ChatChangePhotoResponse> = setChatPhoto(
-        file = file,
-        groupId = null
-    )
+    ): VkApiRequest<ChatChangePhotoResponse> =
+        setChatPhoto(
+            file = file,
+            groupId = null
+        )
 
     override fun unpin(
         peerId: Int,
         groupId: Int?
     ): VkApiRequest<BooleanInt> =
-        Methods.unpin.httpGet(
-            "peer_id" to peerId,
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.unpin.httpGet(BooleanInt.serializer()) {
+            append("peer_id", peerId)
+            append("group_id", groupId)
+        }
 
     override fun unpin(
         peerId: Int
-    ): VkApiRequest<BooleanInt> = unpin(
-        peerId = peerId,
-        groupId = null
-    )
+    ): VkApiRequest<BooleanInt> =
+        unpin(
+            peerId = peerId,
+            groupId = null
+        )
 
     private companion object {
 
-        private val dateFormatter =
-            SimpleDateFormat("ddMMyyyy", Locale.getDefault())
-
-        fun Date.toDMYString(): String =
-            dateFormatter.format(this)
+        fun GMTDate.toDMYString(): String = buildString {
+            append(dayOfMonth.toString().padStart(2, '0'))
+            append((month.ordinal + 1).toString().padStart(2, '0'))
+            append(year.toString().padStart(4, '0'))
+        }
 
     }
 

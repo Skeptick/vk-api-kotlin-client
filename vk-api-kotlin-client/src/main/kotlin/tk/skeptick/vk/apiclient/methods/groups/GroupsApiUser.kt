@@ -1,12 +1,13 @@
 package tk.skeptick.vk.apiclient.methods.groups
 
+import io.ktor.util.date.GMTDate
 import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.DefaultMethodsParams
 import tk.skeptick.vk.apiclient.VkApiRequest
+import tk.skeptick.vk.apiclient.domain.models.Address
 import tk.skeptick.vk.apiclient.domain.models.Community
 import tk.skeptick.vk.apiclient.domain.models.User
 import tk.skeptick.vk.apiclient.methods.*
-import java.util.*
 
 interface GroupsApiUser : GroupsApiCommon {
 
@@ -33,7 +34,7 @@ interface GroupsApiUser : GroupsApiCommon {
     fun ban(
         groupId: Int,
         ownerId: Int,
-        endDate: Date? = null,
+        endDate: GMTDate? = null,
         reason: CommunityBan.Reason = CommunityBan.Reason.OTHER,
         comment: String? = null,
         commentVisible: Boolean = false
@@ -128,8 +129,8 @@ interface GroupsApiUser : GroupsApiCommon {
         email: String? = null,
         phone: String? = null,
         rss: String? = null,
-        eventStartDate: Date? = null,
-        eventFinishDate: Date? = null,
+        eventStartDate: GMTDate? = null,
+        eventFinishDate: GMTDate? = null,
         eventGroupId: Int? = null,
         wall: GroupUnitAccessTypeExtended? = null,
         topics: GroupUnitAccessType? = null,
@@ -247,6 +248,19 @@ interface GroupsApiUser : GroupsApiCommon {
         offset: Int = 0,
         count: Int = 1000
     ): VkApiRequest<DefaultListResponse<Community>>
+
+    /**
+     * @see <a href="https://vk.com/dev/groups.getAddresses">VK API</a>
+     */
+    fun getAddresses(
+        groupId: Int,
+        addressIds: List<Int>? = null,
+        latitude: Double? = null,
+        longitude: Double? = null,
+        offset: Int = 0,
+        count: Int = 10,
+        fields: List<AddressOptionalFields>? = null
+    ): VkApiRequest<DefaultListResponse<Address>>
 
     /**
      * @see <a href="https://vk.com/dev/groups.getCatalog">VK API</a>

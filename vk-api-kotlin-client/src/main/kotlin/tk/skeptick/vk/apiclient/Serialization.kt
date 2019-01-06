@@ -7,8 +7,10 @@ import kotlin.reflect.KClass
 
 @Serializable
 data class BooleanInt(val value: Boolean) {
+
     @Serializer(forClass = BooleanInt::class)
     companion object : KSerializer<BooleanInt> {
+
         override fun serialize(output: Encoder, obj: BooleanInt) =
             output.encodeInt(if (obj.value) 1 else 0)
 
@@ -42,5 +44,4 @@ abstract class CustomEnumSerializer<E, T>(clazz: KClass<E>)
     protected val values = members.map(SerializableEnum<T>::value)
     private val names = members.map(Enum<E>::name).toTypedArray()
     override val descriptor: EnumDescriptor = EnumDescriptor(clazz.enumClassName(), names)
-
 }

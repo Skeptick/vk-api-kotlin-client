@@ -16,23 +16,23 @@ class LikesApi(override val client: VkApiClient)
         ownerId: Int?,
         accessKey: String?
     ): VkApiRequest<ChangeLikeResponse> =
-        Methods.add.httpGet(
-            "type" to type.value,
-            "owner_id" to ownerId,
-            "item_id" to itemId,
-            "access_key" to accessKey
-        ).withSerializer(ChangeLikeResponse.serializer())
+        Methods.add.httpGet(ChangeLikeResponse.serializer()) {
+            append("type", type.value)
+            append("owner_id", ownerId)
+            append("item_id", itemId)
+            append("access_key", accessKey)
+        }
 
     override fun delete(
         type: LikeType,
         itemId: Int,
         ownerId: Int?
     ): VkApiRequest<ChangeLikeResponse> =
-        Methods.delete.httpGet(
-            "type" to type.value,
-            "owner_id" to ownerId,
-            "item_id" to itemId
-        ).withSerializer(ChangeLikeResponse.serializer())
+        Methods.delete.httpGet(ChangeLikeResponse.serializer()) {
+            append("type", type.value)
+            append("owner_id", ownerId)
+            append("item_id", itemId)
+        }
 
     override fun getList(
         type: LikeType,
@@ -45,18 +45,18 @@ class LikesApi(override val client: VkApiClient)
         count: Int,
         skipOwn: Boolean
     ): VkApiRequest<DefaultListResponse<EntityWrapper>> =
-        Methods.getList.httpGet(
-            "type" to type.value,
-            "item_id" to itemId,
-            "owner_id" to ownerId,
-            "page_url" to pageUrl,
-            "filter" to filter.value,
-            "friends_only" to onlyFriends.asInt(),
-            "extended" to 1,
-            "offset" to offset,
-            "count" to count,
-            "skip_own" to skipOwn.asInt()
-        ).withSerializer(list(EntityWrapper.serializer()))
+        Methods.getList.httpGet(list(EntityWrapper.serializer())) {
+            append("type", type.value)
+            append("item_id", itemId)
+            append("owner_id", ownerId)
+            append("page_url", pageUrl)
+            append("filter", filter.value)
+            append("friends_only", onlyFriends.asInt())
+            append("extended", 1)
+            append("offset", offset)
+            append("count", count)
+            append("skip_own", skipOwn.asInt())
+        }
 
     override fun getListIds(
         type: LikeType,
@@ -69,17 +69,17 @@ class LikesApi(override val client: VkApiClient)
         count: Int,
         skipOwn: Boolean
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.getList.httpGet(
-            "type" to type.value,
-            "item_id" to itemId,
-            "owner_id" to ownerId,
-            "page_url" to pageUrl,
-            "filter" to filter.value,
-            "friends_only" to onlyFriends.asInt(),
-            "offset" to offset,
-            "count" to count,
-            "skip_own" to skipOwn.asInt()
-        ).withSerializer(list(IntSerializer))
+        Methods.getList.httpGet(list(IntSerializer)) {
+            append("type", type.value)
+            append("item_id", itemId)
+            append("owner_id", ownerId)
+            append("page_url", pageUrl)
+            append("filter", filter.value)
+            append("friends_only", onlyFriends.asInt())
+            append("offset", offset)
+            append("count", count)
+            append("skip_own", skipOwn.asInt())
+        }
 
     override fun isLiked(
         type: LikeType,
@@ -87,12 +87,12 @@ class LikesApi(override val client: VkApiClient)
         ownerId: Int?,
         userId: Int?
     ): VkApiRequest<IsLikedResponse> =
-        Methods.isLiked.httpGet(
-            "type" to type.value,
-            "owner_id" to ownerId,
-            "item_id" to itemId,
-            "user_id" to userId
-        ).withSerializer(IsLikedResponse.serializer())
+        Methods.isLiked.httpGet(IsLikedResponse.serializer()) {
+            append("type", type.value)
+            append("owner_id", ownerId)
+            append("item_id", itemId)
+            append("user_id", userId)
+        }
 
     private object Methods {
         private const val it = "likes."

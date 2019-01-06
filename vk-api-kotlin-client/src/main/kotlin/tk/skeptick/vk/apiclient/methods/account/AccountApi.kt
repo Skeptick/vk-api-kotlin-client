@@ -15,9 +15,9 @@ class AccountApi(override val client: VkApiClient)
     override fun ban(
         ownerId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.ban.httpGet(
-            "owner_id" to ownerId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.ban.httpGet(BooleanInt.serializer()) {
+            append("owner_id", ownerId)
+        }
 
     override fun changePassword(
         oldPassword: String,
@@ -25,62 +25,61 @@ class AccountApi(override val client: VkApiClient)
         restoreSid: String?,
         changePasswordHash: String?
     ): VkApiRequest<ChangePasswordResponse> =
-        Methods.changePassword.httpPost(
-            "old_password" to oldPassword,
-            "new_password" to newPassword,
-            "restore_sid" to restoreSid,
-            "change_password_hash" to changePasswordHash
-        ).withSerializer(ChangePasswordResponse.serializer())
+        Methods.changePassword.httpPost(ChangePasswordResponse.serializer()) {
+            append("old_password", oldPassword)
+            append("new_password", newPassword)
+            append("restore_sid", restoreSid)
+            append("change_password_hash", changePasswordHash)
+        }
 
     override fun getActiveOffers(
         offset: Int,
         count: Int
     ): VkApiRequest<DefaultListResponse<ActiveOffer>> =
-        Methods.getActiveOffers.httpGet(
-            "offset" to offset,
-            "count" to count
-        ).withSerializer(list(ActiveOffer.serializer()))
+        Methods.getActiveOffers.httpGet(list(ActiveOffer.serializer())) {
+            append("offset", offset)
+            append("count", count)
+        }
 
     override fun getAppPermissions(
         userId: Int?
     ): VkApiRequest<AccessPermissionsUser> =
-        Methods.getAppPermissions.httpGet(
-            "user_id" to userId
-        ).withSerializer(AccessPermissionsUser.Companion)
+        Methods.getAppPermissions.httpGet(AccessPermissionsUser.Companion) {
+            append("user_id", userId)
+        }
 
     override fun getBanned(
         offset: Int,
         count: Int
     ): VkApiRequest<ExtendedListResponse<Int>> =
-        Methods.getBanned.httpGet(
-            "offset" to offset,
-            "count" to count
-        ).withSerializer(extendedList(IntSerializer))
+        Methods.getBanned.httpGet(extendedList(IntSerializer)) {
+            append("offset", offset)
+            append("count", count)
+        }
 
     override fun getCounters(
         filter: List<CounterFilter>?
     ): VkApiRequest<AccountCounters> =
-        Methods.getCounters.httpGet(
-            "filter" to filter?.joinToString(",") { it.value }
-        ).withSerializer(AccountCounters.serializer())
+        Methods.getCounters.httpGet(AccountCounters.serializer()) {
+            append("filter", filter?.joinToString(",") { it.value })
+        }
 
     override fun getInfo(
         fields: List<AccountInfoField>?
     ): VkApiRequest<AccountInfo> =
-        Methods.getInfo.httpGet(
-            "fields" to fields?.joinToString(",") { it.value }
-        ).withSerializer(AccountInfo.serializer())
+        Methods.getInfo.httpGet(AccountInfo.serializer()) {
+            append("fields", fields?.joinToString(",") { it.value })
+        }
 
     override fun getProfileInfo(): VkApiRequest<AccountProfileInfo> =
-        Methods.getProfileInfo.httpGet()
-            .withSerializer(AccountProfileInfo.serializer())
+        Methods.getProfileInfo.httpGet(AccountProfileInfo.serializer())
 
     override fun getPushSettings(
         deviceId: String
     ): VkApiRequest<PushSettings> =
-        Methods.getPushSettings.httpGet(
-            "device_id" to deviceId
-        ).withSerializer(PushSettings.serializer())
+        Methods.getPushSettings.httpGet(PushSettings.serializer()) {
+            append("device_id", deviceId)
+        }
 
     override fun registerDevice(
         token: String,
@@ -89,13 +88,13 @@ class AccountApi(override val client: VkApiClient)
         deviceYear: Int?,
         systemVersion: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.registerDevice.httpGet(
-            "token" to token,
-            "device_id" to deviceId,
-            "device_model" to deviceModel,
-            "device_year" to deviceYear,
-            "system_version" to systemVersion
-        ).withSerializer(BooleanInt.serializer())
+        Methods.registerDevice.httpGet(BooleanInt.serializer()) {
+            append("token", token)
+            append("device_id", deviceId)
+            append("device_model", deviceModel)
+            append("device_year", deviceYear)
+            append("system_version", systemVersion)
+        }
 
     override fun saveProfileInfo(
         firstName: String?,
@@ -113,62 +112,61 @@ class AccountApi(override val client: VkApiClient)
         cityId: Int?,
         status: String?
     ): VkApiRequest<SaveAccountProfileInfoResponse> =
-        Methods.saveProfileInfo.httpPost(
-            "first_name" to firstName,
-            "last_name" to lastName,
-            "maiden_name" to maidenName,
-            "screen_name" to screenName,
-            "cancel_request_id" to cancelRequestId,
-            "sex" to sex?.value,
-            "relation" to relation?.value,
-            "relation_partner_id" to relationPartnerId,
-            "bdate" to birthDate,
-            "bdate_visibility" to birthDateVisibility?.value,
-            "home_town" to homeTown,
-            "country_id" to countryId,
-            "city_id" to cityId,
-            "status" to status
-        ).withSerializer(SaveAccountProfileInfoResponse.serializer())
+        Methods.saveProfileInfo.httpPost(SaveAccountProfileInfoResponse.serializer()) {
+            append("first_name", firstName)
+            append("last_name", lastName)
+            append("maiden_name", maidenName)
+            append("screen_name", screenName)
+            append("cancel_request_id", cancelRequestId)
+            append("sex", sex?.value)
+            append("relation", relation?.value)
+            append("relation_partner_id", relationPartnerId)
+            append("bdate", birthDate)
+            append("bdate_visibility", birthDateVisibility?.value)
+            append("home_town", homeTown)
+            append("country_id", countryId)
+            append("city_id", cityId)
+            append("status", status)
+        }
 
     override fun setInfo(
         ownPostsDefault: Boolean?,
         noWallReplies: Boolean?
     ): VkApiRequest<BooleanInt> =
-        Methods.setInfo.httpGet(
-            "own_posts_default" to ownPostsDefault?.asInt(),
-            "no_wall_replies" to noWallReplies?.asInt()
-        ).withSerializer(BooleanInt.serializer())
+        Methods.setInfo.httpGet(BooleanInt.serializer()) {
+            append("own_posts_default", ownPostsDefault?.asInt())
+            append("no_wall_replies", noWallReplies?.asInt())
+        }
 
     override fun setNameInMenu(
         userId: Int?,
         name: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.setNameInMenu.httpGet(
-            "user_id" to userId,
-            "name" to name
-        ).withSerializer(BooleanInt.serializer())
+        Methods.setNameInMenu.httpGet(BooleanInt.serializer()) {
+            append("user_id", userId)
+            append("name", name)
+        }
 
     override fun setOffline(): VkApiRequest<BooleanInt> =
-        Methods.setOffline.httpGet()
-            .withSerializer(BooleanInt.serializer())
+        Methods.setOffline.httpGet(BooleanInt.serializer())
 
     override fun setOnline(
         isVoipSupported: Boolean?
     ): VkApiRequest<BooleanInt> =
-        Methods.setOnline.httpGet(
-            "voip" to isVoipSupported?.asInt()
-        ).withSerializer(BooleanInt.serializer())
+        Methods.setOnline.httpGet(BooleanInt.serializer()) {
+            append("voip", isVoipSupported?.asInt())
+        }
 
     override fun setSilenceMode(
         peerId: Int,
         time: Int,
         enableSound: Boolean?
     ): VkApiRequest<BooleanInt> =
-        Methods.setSilenceMode.httpGet(
-            "peer_id" to peerId,
-            "time" to time,
-            "sound" to enableSound?.asInt()
-        ).withSerializer(BooleanInt.serializer())
+        Methods.setSilenceMode.httpGet(BooleanInt.serializer()) {
+            append("peer_id", peerId)
+            append("time", time)
+            append("sound", enableSound?.asInt())
+        }
 
     override fun setSilenceModeForever(
         peerId: Int,
@@ -183,16 +181,16 @@ class AccountApi(override val client: VkApiClient)
     override fun unban(
         ownerId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.unban.httpGet(
-            "owner_id" to ownerId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.unban.httpGet(BooleanInt.serializer()) {
+            append("owner_id", ownerId)
+        }
 
     override fun unregisterDevice(
         deviceId: String
     ): VkApiRequest<BooleanInt> =
-        Methods.unregisterDevice.httpGet(
-            "device_id" to deviceId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.unregisterDevice.httpGet(BooleanInt.serializer()) {
+            append("device_id", deviceId)
+        }
 
     private object Methods {
         private const val it = "account."

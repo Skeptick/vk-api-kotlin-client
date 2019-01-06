@@ -14,7 +14,8 @@ data class Link(
     @Optional @SerialName("product") val product: Product? = null,
     @Optional @SerialName("button") val button: Button? = null,
     @Optional @SerialName("preview_page") val previewPage: String? = null,
-    @Optional @SerialName("preview_url") val previewUrl: String? = null) {
+    @Optional @SerialName("preview_url") val previewUrl: String? = null,
+    @Optional @SerialName("is_favorite") val isFavorite: Boolean? = null) {
 
     @Serializable
     data class Product(

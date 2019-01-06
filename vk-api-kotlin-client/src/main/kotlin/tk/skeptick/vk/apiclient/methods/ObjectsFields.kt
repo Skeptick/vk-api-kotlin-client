@@ -120,6 +120,20 @@ enum class CommunityOptionalField(override val value: String) : ObjectField {
     WIKI_PAGE("wiki_page") // название главной вики-страницы
 }
 
+enum class AddressOptionalFields(internal val value: String) {
+    TITLE("title"),
+    ADDRESS("address"),
+    ADDITIONAL_ADDRESS("additional_address"),
+    COUNTRY_ID("country_id"),
+    CITY_ID("city_id"),
+    LATITUDE("latitude"),
+    LONGITUDE("longitude"),
+    WORK_INFO_STATUS("work_info_status"),
+    TIMETABLE("timetable"),
+    PHONE("phone"),
+    TIME_OFFSET("time_offset")
+}
+
 enum class NameCase(internal val value: String) {
     NOM("nom"), // именительный
     GEN("gen"), // родительный
@@ -175,6 +189,14 @@ enum class LikesFilter(internal val value: String) {
     COPIES("copies") // только поделившиеся
 }
 
+enum class WallPostFilter(internal val value: String) {
+    SUGGESTS("suggests"), // предложенные на стене сообщества
+    POSTPONED("postponed"), // отложенные
+    OWNER("owner"), // от владельца
+    OTHERS("others"), // не от владельца
+    ALL("all") // все
+}
+
 //--- Order & Sort ---//
 
 enum class FriendsOrder(internal val value: String) {
@@ -203,6 +225,11 @@ enum class CommunitySearchOrder(internal val value: Int) {
 enum class UserSearchSort(internal val value: Int) {
     DATE_REGISTERED(1),
     RATING(0)
+}
+
+enum class CommentsSort(internal val value: String) {
+    ASC("asc"),
+    DESC("desc")
 }
 
 //--- Types & other Enums ---//
@@ -286,11 +313,22 @@ enum class NearbyRadius(internal val value: Int) {
     KM_150(4)
 }
 
-enum class ReportComplaintType(internal val value: String) {
+enum class UserReportComplaintType(internal val value: String) {
     PORN("porn"),
     SPAM("spam"),
     INSULT("insult"),
     ADVERTISEMENT("advertisment")
+}
+
+enum class PostReportComplaintType(internal val value: Int) {
+    SPAM(0),
+    CHILD_PORN(1),
+    EXTREMISM(2),
+    VIOLENCE(3),
+    DRUG_PROPAGANDA(4),
+    MATERIAL_FOR_ADULTS(5),
+    INSULT(6),
+    CALLS_FOR_SUICIDE(8)
 }
 
 enum class UsersListType(internal val value: String) {
@@ -311,6 +349,33 @@ enum class LikeType(internal val value: String) {
     TOPIC_COMMENT("topic_comment"),
     MARKET_COMMENT("market_comment"),
     SITE_PAGE("sitepage")
+}
+
+enum class LinkButtonType(internal val value: String) {
+    AUTO("auto"),
+    APP_JOIN("app_join"), // "Запустить", переход по ссылке, для приложений и игр
+    APP_GAME_JOIN("app_game_join"), // "Играть", переход по ссылке, для игр
+    OPEN_URL("open_url"), // "Перейти", переход по ссылке, для сайтов, сообществ и приложений
+    OPEN("open"), // "Открыть", переход по ссылке, для сайтов
+    MORE("more"), // "Подробнее", переход по ссылке, для сообществ
+    CALL("call"), // "Позвонить", набор номера, для телефонов
+    BOOK("book"), // "Забронировать", набор номера, для телефонов
+    ENROLL("enroll"), // "Записаться", переход по ссылке или набор номера, для сайтов и телефонов
+    REGISTER("register"), // "Зарегистрироваться", набор номера, для телефонов
+    BUY("buy"), // "Купить", переход по ссылке, для сайтов
+    BUY_TICKET("buy_ticket"), // "Купить билет", переход по ссылке, для сайтов
+    ORDER("order"), // "Заказать", переход по ссылке, для сайтов
+    CREATE("create"), // "Создать", переход по ссылке, для сайтов
+    INSTALL("install"), // "Установить", переход по ссылке, для сайтов
+    CONTACT("contact"), // "Связаться", переход по ссылке, для сайтов
+    FILL("fill"), // "Заполнить", переход по ссылке, для сайтов
+    JOIN_PUBLIC("join_public"), // "Подписаться", подписка на паблик, для пабликов
+    JOIN_EVENT("join_event"), // "Я пойду", участие в мероприятии, для событий
+    JOIN("join"), // "Вступить", вступление в сообщество, для сообществ
+    IM("im"), // "Связаться", переход к диалогу с сообществом, для сообществ, пабликов и событий
+    IM2("im2"), // "Написать", переход к диалогу с сообществом, для сообществ, пабликов и событий
+    BEGIN("begin"), // "Начать", переход по ссылке, для сайтов
+    GET("get") // "Получить", переход по ссылке, для сайтов
 }
 
 enum class ShortLinkStatsInterval(internal val value: String) {

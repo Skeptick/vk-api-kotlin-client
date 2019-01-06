@@ -14,21 +14,22 @@ class UsersApi(override val client: VkApiClient)
         userFields: List<UserOptionalField>,
         nameCase: NameCase
     ): VkApiRequest<List<User>> =
-        Methods.get.httpPost(
-            "user_ids" to userNames?.joinToString(","),
-            "fields" to userFields.joinToString(",") { it.value },
-            "name_case" to nameCase.value
-        ).withSerializer(User.serializer().list)
+        Methods.get.httpPost(User.serializer().list) {
+            append("user_ids", userNames?.joinToString(","))
+            append("fields", userFields.joinToString(",") { it.value })
+            append("name_case", nameCase.value)
+        }
 
     override fun getById(
         userIds: List<Int>,
         userFields: List<UserOptionalField>,
         nameCase: NameCase
-    ): VkApiRequest<List<User>> = get(
-        userNames = userIds.map(Int::toString),
-        userFields = userFields,
-        nameCase = nameCase
-    )
+    ): VkApiRequest<List<User>> =
+        get(
+            userNames = userIds.map(Int::toString),
+            userFields = userFields,
+            nameCase = nameCase
+        )
 
     override fun getFollowers(
         userId: Int?,
@@ -37,13 +38,13 @@ class UsersApi(override val client: VkApiClient)
         userFields: List<UserOptionalField>,
         nameCase: NameCase
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.getFollowers.httpPost(
-            "user_id" to userId,
-            "offset" to offset,
-            "count" to count,
-            "fields" to userFields.joinToString(",") { it.value },
-            "name_case" to nameCase.value
-        ).withSerializer(list(User.serializer()))
+        Methods.getFollowers.httpPost(list(User.serializer())) {
+            append("user_id", userId)
+            append("offset", offset)
+            append("count", count)
+            append("fields", userFields.joinToString(",") { it.value })
+            append("name_case", nameCase.value)
+        }
 
     override fun getNearby(
         latitude: Double,
@@ -55,16 +56,16 @@ class UsersApi(override val client: VkApiClient)
         nameCase: NameCase,
         needDescription: Boolean
     ): VkApiRequest<NearbyUsersListResponse> =
-        Methods.getNearby.httpPost(
-            "latitude" to latitude,
-            "longitude" to longitude,
-            "accuracy" to accuracy,
-            "timeout" to timeout,
-            "radius" to radius.value,
-            "fields" to userFields.joinToString(",") { it.value },
-            "name_case" to nameCase.value,
-            "need_description" to needDescription.asInt()
-        ).withSerializer(NearbyUsersListResponse.serializer())
+        Methods.getNearby.httpPost(NearbyUsersListResponse.serializer()) {
+            append("latitude", latitude)
+            append("longitude", longitude)
+            append("accuracy", accuracy)
+            append("timeout", timeout)
+            append("radius", radius.value)
+            append("fields", userFields.joinToString(",") { it.value })
+            append("name_case", nameCase.value)
+            append("need_description", needDescription.asInt())
+        }
 
     override fun getSubscriptions(
         userId: Int?,
@@ -72,38 +73,38 @@ class UsersApi(override val client: VkApiClient)
         count: Int,
         fields: List<ObjectField>
     ): VkApiRequest<DefaultListResponse<EntityWrapper>> =
-        Methods.getSubscriptions.httpPost(
-            "user_id" to userId,
-            "extended" to 1,
-            "offset" to offset,
-            "count" to count,
-            "fields" to fields.joinToString(",") { it.value }
-        ).withSerializer(list(EntityWrapper.serializer()))
+        Methods.getSubscriptions.httpPost(list(EntityWrapper.serializer())) {
+            append("user_id", userId)
+            append("extended", 1)
+            append("offset", offset)
+            append("count", count)
+            append("fields", fields.joinToString(",") { it.value })
+        }
 
     override fun getSubscriptionsIds(
         userId: Int?
     ): VkApiRequest<SubscriptionsResponse> =
-        Methods.getSubscriptions.httpGet(
-            "user_id" to userId
-        ).withSerializer(SubscriptionsResponse.serializer())
+        Methods.getSubscriptions.httpGet(SubscriptionsResponse.serializer()) {
+            append("user_id", userId)
+        }
 
     override fun isAppUser(
         userId: Int?
     ): VkApiRequest<BooleanInt> =
-        Methods.isAppUser.httpGet(
-            "user_id" to userId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.isAppUser.httpGet(BooleanInt.serializer()) {
+            append("user_id", userId)
+        }
 
     override fun report(
         userId: Int,
-        complaintType: ReportComplaintType,
+        complaintType: UserReportComplaintType,
         comment: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.report.httpPost(
-            "user_id" to userId,
-            "type" to complaintType.value,
-            "comment" to comment
-        ).withSerializer(BooleanInt.serializer())
+        Methods.report.httpPost(BooleanInt.serializer()) {
+            append("user_id", userId)
+            append("type", complaintType.value)
+            append("comment", comment)
+        }
 
     override fun search(
         query: String?,
@@ -140,41 +141,41 @@ class UsersApi(override val client: VkApiClient)
         groupId: Int?,
         fromList: List<UsersListType>?
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.search.httpPost(
-            "q" to query,
-            "sort" to sort.value,
-            "offset" to offset,
-            "count" to count,
-            "fields" to userFields.joinToString(",") { it.value },
-            "city" to cityId,
-            "country" to countryId,
-            "hometown" to hometown,
-            "university_country" to universityCountryId,
-            "university" to universityId,
-            "university_year" to universityYear,
-            "university_faculty" to universityFacultyId,
-            "university_chair" to universityChairId,
-            "sex" to sex.value,
-            "status" to relationStatus.value,
-            "age_from" to ageFrom,
-            "age_to" to ageTo,
-            "birth_day" to birthDay,
-            "birth_month" to birthMonth,
-            "birth_year" to birthYear,
-            "online" to onlyOnline.asInt(),
-            "has_photo" to onlyWithPhoto.asInt(),
-            "school_country" to schoolCountryId,
-            "school_city" to schoolCityId,
-            "school_class" to schoolClassId,
-            "school" to schoolId,
-            "school_year" to schoolYear,
-            "religion" to religion,
-            "interests" to interests,
-            "company" to companyName,
-            "position" to positionName,
-            "group_id" to groupId,
-            "from_list" to fromList?.joinToString(",") { it.value }
-        ).withSerializer(list(User.serializer()))
+        Methods.search.httpPost(list(User.serializer())) {
+            append("q", query)
+            append("sort", sort.value)
+            append("offset", offset)
+            append("count", count)
+            append("fields", userFields.joinToString(",") { it.value })
+            append("city", cityId)
+            append("country", countryId)
+            append("hometown", hometown)
+            append("university_country", universityCountryId)
+            append("university", universityId)
+            append("university_year", universityYear)
+            append("university_faculty", universityFacultyId)
+            append("university_chair", universityChairId)
+            append("sex", sex.value)
+            append("status", relationStatus.value)
+            append("age_from", ageFrom)
+            append("age_to", ageTo)
+            append("birth_day", birthDay)
+            append("birth_month", birthMonth)
+            append("birth_year", birthYear)
+            append("online", onlyOnline.asInt())
+            append("has_photo", onlyWithPhoto.asInt())
+            append("school_country", schoolCountryId)
+            append("school_city", schoolCityId)
+            append("school_class", schoolClassId)
+            append("school", schoolId)
+            append("school_year", schoolYear)
+            append("religion", religion)
+            append("interests", interests)
+            append("company", companyName)
+            append("position", positionName)
+            append("group_id", groupId)
+            append("from_list", fromList?.joinToString(",") { it.value })
+        }
 
     private object Methods {
         private const val it = "users."

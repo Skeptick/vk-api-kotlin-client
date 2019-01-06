@@ -17,67 +17,66 @@ class FriendsApi(override val client: VkApiClient)
         text: String?,
         declineRequest: Boolean
     ): VkApiRequest<AddFriendResponse> =
-        Methods.add.httpPost(
-            "user_id" to userId,
-            "text" to text,
-            "follow" to declineRequest.asInt()
-        ).withSerializer(AddFriendResponse.Companion)
+        Methods.add.httpPost(AddFriendResponse.Companion) {
+            append("user_id", userId)
+            append("text", text)
+            append("follow", declineRequest.asInt())
+        }
 
     override fun addList(
         name: String,
         userIds: List<Int>?
     ): VkApiRequest<Int> =
-        Methods.addList.httpPost(
-            "name" to name,
-            "user_ids" to userIds?.joinToString(",")
-        ).withSerializer(IntSerializer)
+        Methods.addList.httpPost(IntSerializer) {
+            append("name", name)
+            append("user_ids", userIds?.joinToString(","))
+        }
 
     override fun areFriends(
         userIds: List<Int>,
         needSign: Boolean
     ): VkApiRequest<AreFriendResponse> =
-        Methods.areFriends.httpPost(
-            "user_ids" to userIds.joinToString(","),
-            "need_sign" to needSign.asInt()
-        ).withSerializer(AreFriendResponse.serializer())
+        Methods.areFriends.httpPost(AreFriendResponse.serializer()) {
+            append("user_ids", userIds.joinToString(","))
+            append("need_sign", needSign.asInt())
+        }
 
     override fun delete(
         userId: Int
     ): VkApiRequest<DeleteFriendResponse> =
-        Methods.delete.httpGet(
-            "user_id" to userId
-        ).withSerializer(DeleteFriendResponse.serializer())
+        Methods.delete.httpGet(DeleteFriendResponse.serializer()) {
+            append("user_id", userId)
+        }
 
     override fun deleteAllRequests(): VkApiRequest<BooleanInt> =
-        Methods.deleteAllRequests.httpGet()
-            .withSerializer(BooleanInt.serializer())
+        Methods.deleteAllRequests.httpGet(BooleanInt.serializer())
 
     override fun deleteList(
         listId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.deleteList.httpGet(
-            "list_id" to listId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.deleteList.httpGet(BooleanInt.serializer()) {
+            append("list_id", listId)
+        }
 
     override fun edit(
         userId: Int,
         listIds: List<Int>?
     ): VkApiRequest<BooleanInt> =
-        Methods.edit.httpPost(
-            "user_id" to userId,
-            "list_ids" to listIds?.joinToString(",")
-        ).withSerializer(BooleanInt.serializer())
+        Methods.edit.httpPost(BooleanInt.serializer()) {
+            append("user_id", userId)
+            append("list_ids", listIds?.joinToString(","))
+        }
 
     override fun editList(
         listId: Int,
         userIds: List<Int>,
         name: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.editList.httpPost(
-            "list_id" to listId,
-            "user_ids" to userIds.joinToString(","),
-            "name" to name
-        ).withSerializer(BooleanInt.serializer())
+        Methods.editList.httpPost(BooleanInt.serializer()) {
+            append("list_id", listId)
+            append("user_ids", userIds.joinToString(","))
+            append("name", name)
+        }
 
     override fun editList(
         listId: Int,
@@ -85,12 +84,12 @@ class FriendsApi(override val client: VkApiClient)
         deleteUserIds: List<Int>?,
         name: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.editList.httpPost(
-            "list_id" to listId,
-            "add_user_ids" to addUserIds?.joinToString(","),
-            "delete_user_ids" to deleteUserIds?.joinToString(","),
-            "name" to name
-        ).withSerializer(BooleanInt.serializer())
+        Methods.editList.httpPost(BooleanInt.serializer()) {
+            append("list_id", listId)
+            append("add_user_ids", addUserIds?.joinToString(","))
+            append("delete_user_ids", deleteUserIds?.joinToString(","))
+            append("name", name)
+        }
 
     override fun get(
         userId: Int?,
@@ -101,15 +100,15 @@ class FriendsApi(override val client: VkApiClient)
         userFields: List<UserOptionalField>,
         nameCase: NameCase
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.get.httpPost(
-            "user_id" to userId,
-            "order" to order?.value,
-            "list_id" to listId,
-            "count" to count,
-            "offset" to offset,
-            "fields" to userFields.joinToString(",") { it.value },
-            "name_case" to nameCase.value
-        ).withSerializer(list(User.serializer()))
+        Methods.get.httpPost(list(User.serializer())) {
+            append("user_id", userId)
+            append("order", order?.value)
+            append("list_id", listId)
+            append("count", count)
+            append("offset", offset)
+            append("fields", userFields.joinToString(",") { it.value })
+            append("name_case", nameCase.value)
+        }
 
     override fun getIds(
         userId: Int?,
@@ -118,35 +117,34 @@ class FriendsApi(override val client: VkApiClient)
         count: Int,
         offset: Int
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.get.httpGet(
-            "user_id" to userId,
-            "order" to order?.value,
-            "list_id" to listId,
-            "count" to count,
-            "offset" to offset
-        ).withSerializer(list(IntSerializer))
+        Methods.get.httpGet(list(IntSerializer)) {
+            append("user_id", userId)
+            append("order", order?.value)
+            append("list_id", listId)
+            append("count", count)
+            append("offset", offset)
+        }
 
     override fun getAppUsers(): VkApiRequest<List<Int>> =
-        Methods.getAppUsers.httpGet()
-            .withSerializer(IntSerializer.list)
+        Methods.getAppUsers.httpGet(IntSerializer.list)
 
     override fun getByPhones(
         phones: List<String>,
         userFields: List<UserOptionalField>
     ): VkApiRequest<List<User>> =
-        Methods.getByPhones.httpPost(
-            "phones" to phones.joinToString(","),
-            "fields" to userFields.joinToString(",") { it.value }
-        ).withSerializer(User.serializer().list)
+        Methods.getByPhones.httpPost(User.serializer().list) {
+            append("phones", phones.joinToString(","))
+            append("fields", userFields.joinToString(",") { it.value })
+        }
 
     override fun getLists(
         userId: Int?,
         withSystem: Boolean
     ): VkApiRequest<DefaultListResponse<FriendsList>> =
-        Methods.getLists.httpGet(
-            "user_id" to userId,
-            "return_system" to withSystem.asInt()
-        ).withSerializer(list(FriendsList.serializer()))
+        Methods.getLists.httpGet(list(FriendsList.serializer())) {
+            append("user_id", userId)
+            append("return_system", withSystem.asInt())
+        }
 
     override fun getMutual(
         targetUserId: Int,
@@ -155,13 +153,13 @@ class FriendsApi(override val client: VkApiClient)
         count: Int?,
         offset: Int
     ): VkApiRequest<List<Int>> =
-        Methods.getMutual.httpGet(
-            "target_uid" to targetUserId,
-            "source_uid" to sourceUserId,
-            "order" to if (sortRandomly) "random" else null,
-            "count" to count,
-            "offset" to offset
-        ).withSerializer(IntSerializer.list)
+        Methods.getMutual.httpGet(IntSerializer.list) {
+            append("target_uid", targetUserId)
+            append("source_uid", sourceUserId)
+            append("order", if (sortRandomly) "random" else null)
+            append("count", count)
+            append("offset", offset)
+        }
 
     override fun getMutual(
         targetUserIds: List<Int>,
@@ -170,13 +168,13 @@ class FriendsApi(override val client: VkApiClient)
         count: Int?,
         offset: Int
     ): VkApiRequest<List<MutualFriendsResponse>> =
-        Methods.getMutual.httpPost(
-            "target_uids" to targetUserIds.joinToString(","),
-            "source_uid" to sourceUserId,
-            "order" to if (sortRandomly) "random" else null,
-            "count" to count,
-            "offset" to offset
-        ).withSerializer(MutualFriendsResponse.serializer().list)
+        Methods.getMutual.httpPost(MutualFriendsResponse.serializer().list) {
+            append("target_uids", targetUserIds.joinToString(","))
+            append("source_uid", sourceUserId)
+            append("order", if (sortRandomly) "random" else null)
+            append("count", count)
+            append("offset", offset)
+        }
 
     override fun getOnline(
         userId: Int?,
@@ -185,13 +183,13 @@ class FriendsApi(override val client: VkApiClient)
         count: Int?,
         offset: Int
     ): VkApiRequest<List<Int>> =
-        Methods.getOnline.httpGet(
-            "user_id" to userId,
-            "list_id" to listId,
-            "order" to if (sortRandomly) "random" else null,
-            "count" to count,
-            "offset" to offset
-        ).withSerializer(IntSerializer.list)
+        Methods.getOnline.httpGet(IntSerializer.list) {
+            append("user_id", userId)
+            append("list_id", listId)
+            append("order", if (sortRandomly) "random" else null)
+            append("count", count)
+            append("offset", offset)
+        }
 
     override fun getOnlineWithOnlineFromMobile(
         userId: Int?,
@@ -200,40 +198,40 @@ class FriendsApi(override val client: VkApiClient)
         count: Int?,
         offset: Int
     ): VkApiRequest<OnlineFriendsResponse> =
-        Methods.getOnline.httpGet(
-            "user_id" to userId,
-            "list_id" to listId,
-            "online_mobile" to 1,
-            "order" to if (sortRandomly) "random" else null,
-            "count" to count,
-            "offset" to offset
-        ).withSerializer(OnlineFriendsResponse.serializer())
+        Methods.getOnline.httpGet(OnlineFriendsResponse.serializer()) {
+            append("user_id", userId)
+            append("list_id", listId)
+            append("online_mobile", 1)
+            append("order", if (sortRandomly) "random" else null)
+            append("count", count)
+            append("offset", offset)
+        }
 
     override fun getRecent(
         count: Int
     ): VkApiRequest<List<Int>> =
-        Methods.getRecent.httpGet(
-            "count" to count
-        ).withSerializer(IntSerializer.list)
+        Methods.getRecent.httpGet(IntSerializer.list) {
+            append("count", count)
+        }
 
     override fun getOutgoingRequests(
         count: Int,
         offset: Int
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.getRequests.httpGet(
-            "count" to count,
-            "offset" to offset,
-            "out" to 1
-        ).withSerializer(list(IntSerializer))
+        Methods.getRequests.httpGet(list(IntSerializer)) {
+            append("count", count)
+            append("offset", offset)
+            append("out", 1)
+        }
 
     override fun getOutgoingRequestsWithMutual(
         offset: Int
     ): VkApiRequest<DefaultListResponse<FriendRequest>> =
-        Methods.getRequests.httpGet(
-            "offset" to offset,
-            "need_mutual" to 1,
-            "out" to 1
-        ).withSerializer(list(FriendRequest.serializer()))
+        Methods.getRequests.httpGet(list(FriendRequest.serializer())) {
+            append("offset", offset)
+            append("need_mutual", 1)
+            append("out", 1)
+        }
 
     override fun getRequests(
         count: Int,
@@ -241,61 +239,61 @@ class FriendsApi(override val client: VkApiClient)
         sortByMutual: Boolean,
         needViewed: Boolean
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.getRequests.httpGet(
-            "count" to count,
-            "offset" to offset,
-            "sort" to sortByMutual.asInt(),
-            "need_viewed" to needViewed.asInt()
-        ).withSerializer(list(IntSerializer))
+        Methods.getRequests.httpGet(list(IntSerializer)) {
+            append("count", count)
+            append("offset", offset)
+            append("sort", sortByMutual.asInt())
+            append("need_viewed", needViewed.asInt())
+        }
 
     override fun getRequestsWithMutual(
         offset: Int,
         sortByMutual: Boolean,
         needViewed: Boolean
     ): VkApiRequest<DefaultListResponse<FriendRequest>> =
-        Methods.getRequests.httpGet(
-            "offset" to offset,
-            "sort" to sortByMutual.asInt(),
-            "need_viewed" to needViewed.asInt(),
-            "need_mutual" to 1
-        ).withSerializer(list(FriendRequest.serializer()))
+        Methods.getRequests.httpGet(list(FriendRequest.serializer())) {
+            append("offset", offset)
+            append("sort", sortByMutual.asInt())
+            append("need_viewed", needViewed.asInt())
+            append("need_mutual", 1)
+        }
 
     override fun getSuggestedRequests(
         count: Int,
         offset: Int,
         sortByMutual: Boolean
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.getRequests.httpGet(
-            "count" to count,
-            "offset" to offset,
-            "sort" to sortByMutual.asInt(),
-            "suggested" to 1
-        ).withSerializer(list(IntSerializer))
+        Methods.getRequests.httpGet(list(IntSerializer)) {
+            append("count", count)
+            append("offset", offset)
+            append("sort", sortByMutual.asInt())
+            append("suggested", 1)
+        }
 
     override fun getSuggestedRequestsExtended(
         count: Int,
         offset: Int,
         sortByMutual: Boolean
     ): VkApiRequest<DefaultListResponse<FriendRequest>> =
-        Methods.getRequests.httpGet(
-            "count" to count,
-            "offset" to offset,
-            "sort" to sortByMutual.asInt(),
-            "extended" to 1,
-            "suggested" to 1
-        ).withSerializer(list(FriendRequest.serializer()))
+        Methods.getRequests.httpGet(list(FriendRequest.serializer())) {
+            append("count", count)
+            append("offset", offset)
+            append("sort", sortByMutual.asInt())
+            append("extended", 1)
+            append("suggested", 1)
+        }
 
     override fun getSuggestedRequestsWithMutual(
         offset: Int,
         sortByMutual: Boolean
     ): VkApiRequest<DefaultListResponse<FriendRequest>> =
-        Methods.getRequests.httpGet(
-            "offset" to offset,
-            "sort" to sortByMutual.asInt(),
-            "extended" to 1,
-            "need_mutual" to 1,
-            "suggested" to 1
-        ).withSerializer(list(FriendRequest.serializer()))
+        Methods.getRequests.httpGet(list(FriendRequest.serializer())) {
+            append("offset", offset)
+            append("sort", sortByMutual.asInt())
+            append("extended", 1)
+            append("need_mutual", 1)
+            append("suggested", 1)
+        }
 
     override fun getSuggestions(
         count: Int,
@@ -304,13 +302,13 @@ class FriendsApi(override val client: VkApiClient)
         userFields: List<UserOptionalField>,
         nameCase: NameCase
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.getSuggestions.httpPost(
-            "count" to count,
-            "offset" to offset,
-            "filter" to if (onlyWithMutual) "mutual" else null,
-            "fields" to userFields.joinToString(",") { it.value },
-            "name_case" to nameCase.value
-        ).withSerializer(list(User.serializer()))
+        Methods.getSuggestions.httpPost(list(User.serializer())) {
+            append("count", count)
+            append("offset", offset)
+            append("filter", if (onlyWithMutual) "mutual" else null)
+            append("fields", userFields.joinToString(",") { it.value })
+            append("name_case", nameCase.value)
+        }
 
     override fun search(
         query: String,
@@ -320,14 +318,14 @@ class FriendsApi(override val client: VkApiClient)
         userFields: List<UserOptionalField>,
         nameCase: NameCase
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.search.httpPost(
-            "q" to query,
-            "user_id" to userId,
-            "count" to count,
-            "offset" to offset,
-            "fields" to userFields.joinToString(",") { it.value },
-            "name_case" to nameCase.value
-        ).withSerializer(list(User.serializer()))
+        Methods.search.httpPost(list(User.serializer())) {
+            append("q", query)
+            append("user_id", userId)
+            append("count", count)
+            append("offset", offset)
+            append("fields", userFields.joinToString(",") { it.value })
+            append("name_case", nameCase.value)
+        }
 
     private object Methods {
         private const val it = "friends."

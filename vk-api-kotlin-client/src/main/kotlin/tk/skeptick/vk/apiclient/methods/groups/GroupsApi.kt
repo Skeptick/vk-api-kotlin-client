@@ -1,13 +1,14 @@
 package tk.skeptick.vk.apiclient.methods.groups
 
+import io.ktor.util.date.GMTDate
 import kotlinx.serialization.internal.IntSerializer
 import kotlinx.serialization.internal.StringSerializer
 import kotlinx.serialization.list
 import tk.skeptick.vk.apiclient.*
+import tk.skeptick.vk.apiclient.domain.models.Address
 import tk.skeptick.vk.apiclient.domain.models.Community
 import tk.skeptick.vk.apiclient.domain.models.User
 import tk.skeptick.vk.apiclient.methods.*
-import java.util.*
 
 class GroupsApi(override val client: VkApiClient)
     : GroupsApiUser, GroupsApiCommunity, MethodsContext {
@@ -18,49 +19,49 @@ class GroupsApi(override val client: VkApiClient)
         title: String,
         secretKey: String?
     ): VkApiRequest<Int> =
-        Methods.addCallbackServer.httpGet(
-            "group_id" to groupId,
-            "url" to url,
-            "title" to title,
-            "secret_key" to secretKey
-        ).withSerializer(IntSerializer)
+        Methods.addCallbackServer.httpGet(IntSerializer) {
+            append("group_id", groupId)
+            append("url", url)
+            append("title", title)
+            append("secret_key", secretKey)
+        }
 
     override fun addLink(
         groupId: Int,
         link: String,
         text: String?
     ): VkApiRequest<AddLinkResponse> =
-        Methods.addLink.httpPost(
-            "group_id" to groupId,
-            "link" to link,
-            "text" to text
-        ).withSerializer(AddLinkResponse.serializer())
+        Methods.addLink.httpPost(AddLinkResponse.serializer()) {
+            append("group_id", groupId)
+            append("link", link)
+            append("text", text)
+        }
 
     override fun approveRequest(
         groupId: Int,
         userId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.approveRequest.httpGet(
-            "group_id" to groupId,
-            "user_id" to userId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.approveRequest.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("user_id", userId)
+        }
 
     override fun ban(
         groupId: Int,
         ownerId: Int,
-        endDate: Date?,
+        endDate: GMTDate?,
         reason: CommunityBan.Reason,
         comment: String?,
         commentVisible: Boolean
     ): VkApiRequest<BooleanInt> =
-        Methods.ban.httpPost(
-            "group_id" to groupId,
-            "owner_id" to ownerId,
-            "end_date" to endDate?.time,
-            "reason" to reason.value,
-            "comment" to comment,
-            "comment_visible" to commentVisible.asInt()
-        ).withSerializer(BooleanInt.serializer())
+        Methods.ban.httpPost(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("owner_id", ownerId)
+            append("end_date", endDate?.unixtime)
+            append("reason", reason.value)
+            append("comment", comment)
+            append("comment_visible", commentVisible.asInt())
+        }
 
     private fun create(
         title: String,
@@ -69,67 +70,70 @@ class GroupsApi(override val client: VkApiClient)
         publicCategory: Int? = null,
         subtype: PublicSubtype? = null
     ): VkApiRequest<Community> =
-        Methods.create.httpPost(
-            "title" to title,
-            "description" to description,
-            "type" to type.value,
-            "public_category" to publicCategory,
-            "subtype" to subtype?.value
-        ).withSerializer(Community.serializer())
+        Methods.create.httpPost(Community.serializer()) {
+            append("title", title)
+            append("description", description)
+            append("type", type.value)
+            append("public_category", publicCategory)
+            append("subtype", subtype?.value)
+        }
 
     override fun createEvent(
         title: String,
         description: String
-    ): VkApiRequest<Community> = create(
-        title = title,
-        type = GroupType.EVENT,
-        description = description
-    )
+    ): VkApiRequest<Community> =
+        create(
+            title = title,
+            type = GroupType.EVENT,
+            description = description
+        )
 
     override fun createGroup(
         title: String,
         description: String
-    ): VkApiRequest<Community> = create(
-        title = title,
-        type = GroupType.GROUP,
-        description = description
-    )
+    ): VkApiRequest<Community> =
+        create(
+            title = title,
+            type = GroupType.GROUP,
+            description = description
+        )
 
     override fun createPublic(
         title: String,
         subtype: PublicSubtype,
         publicCategory: Int?
-    ): VkApiRequest<Community> = create(
-        title = title,
-        type = GroupType.PUBLIC,
-        publicCategory = publicCategory,
-        subtype = subtype
-    )
+    ): VkApiRequest<Community> =
+        create(
+            title = title,
+            type = GroupType.PUBLIC,
+            publicCategory = publicCategory,
+            subtype = subtype
+        )
 
     override fun deleteCallbackServer(
         groupId: Int,
         serverId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.deleteCallbackServer.httpGet(
-            "group_id" to groupId,
-            "server_id" to serverId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.deleteCallbackServer.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("server_id", serverId)
+        }
 
     override fun deleteLink(
         groupId: Int,
         linkId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.deleteLink.httpGet(
-            "group_id" to groupId,
-            "link_id" to linkId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.deleteLink.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("link_id", linkId)
+        }
 
     override fun disableOnline(
         groupId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.disableOnline.httpGet(
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.disableOnline.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+        }
 
     private fun edit(
         groupId: Int,
@@ -142,8 +146,8 @@ class GroupsApi(override val client: VkApiClient)
         email: String? = null,
         phone: String? = null,
         rss: String? = null,
-        eventStartDate: Date? = null,
-        eventFinishDate: Date? = null,
+        eventStartDate: GMTDate? = null,
+        eventFinishDate: GMTDate? = null,
         eventGroupId: Int? = null,
         publicCategory: Int? = null,
         publicSubcategory: Int? = null,
@@ -174,49 +178,49 @@ class GroupsApi(override val client: VkApiClient)
         mainSection: Community.MainSectionType? = null,
         secondarySection: Community.MainSectionType? = null
     ): VkApiRequest<BooleanInt> =
-        Methods.edit.httpPost(
-            "group_id" to groupId,
-            "title" to title,
-            "description" to description,
-            "screen_name" to screenName,
-            "access" to access?.value,
-            "website" to website,
-            "subject" to subject?.value,
-            "email" to email,
-            "phone" to phone,
-            "rss" to rss,
-            "event_start_date" to eventStartDate?.time,
-            "event_finish_date" to eventFinishDate?.time,
-            "event_group_id" to eventGroupId,
-            "public_category" to publicCategory,
-            "public_subcategory" to publicSubcategory,
-            "public_date" to publicDate,
-            "wall" to wall,
-            "topics" to topics,
-            "photos" to photos,
-            "video" to video,
-            "audio" to audio,
-            "docs" to docs,
-            "wiki" to wiki,
-            "links" to links?.asInt(),
-            "events" to events?.asInt(),
-            "places" to places?.asInt(),
-            "contacts" to contacts?.asInt(),
-            "messages" to messages?.asInt(),
-            "age_limits" to ageLimits?.value,
-            "market" to market?.asInt(),
-            "market_comments" to marketComments?.asInt(),
-            "market_country" to marketCountries?.joinToString(","),
-            "market_city" to marketCities?.joinToString(","),
-            "market_currency" to marketCurrency?.value,
-            "market_contact" to marketContact,
-            "market_wiki" to marketWiki,
-            "obscene_filter" to obsceneFilter?.asInt(),
-            "obscene_stopwords" to obsceneStopwords?.asInt(),
-            "obscene_words" to obsceneWords?.joinToString(","),
-            "main_section" to mainSection?.value,
-            "secondary_section" to secondarySection?.value
-        ).withSerializer(BooleanInt.serializer())
+        Methods.edit.httpPost(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("title", title)
+            append("description", description)
+            append("screen_name", screenName)
+            append("access", access?.value)
+            append("website", website)
+            append("subject", subject?.value)
+            append("email", email)
+            append("phone", phone)
+            append("rss", rss)
+            append("event_start_date", eventStartDate?.unixtime)
+            append("event_finish_date", eventFinishDate?.unixtime)
+            append("event_group_id", eventGroupId)
+            append("public_category", publicCategory)
+            append("public_subcategory", publicSubcategory)
+            append("public_date", publicDate)
+            append("wall", wall)
+            append("topics", topics)
+            append("photos", photos)
+            append("video", video)
+            append("audio", audio)
+            append("docs", docs)
+            append("wiki", wiki)
+            append("links", links?.asInt())
+            append("events", events?.asInt())
+            append("places", places?.asInt())
+            append("contacts", contacts?.asInt())
+            append("messages", messages?.asInt())
+            append("age_limits", ageLimits?.value)
+            append("market", market?.asInt())
+            append("market_comments", marketComments?.asInt())
+            append("market_country", marketCountries?.joinToString(","))
+            append("market_city", marketCities?.joinToString(","))
+            append("market_currency", marketCurrency?.value)
+            append("market_contact", marketContact)
+            append("market_wiki", marketWiki)
+            append("obscene_filter", obsceneFilter?.asInt())
+            append("obscene_stopwords", obsceneStopwords?.asInt())
+            append("obscene_words", obsceneWords?.joinToString(","))
+            append("main_section", mainSection?.value)
+            append("secondary_section", secondarySection?.value)
+        }
 
     override fun editPublic(
         groupId: Int,
@@ -255,44 +259,45 @@ class GroupsApi(override val client: VkApiClient)
         obsceneWords: List<String>?,
         mainSection: Community.MainSectionType?,
         secondarySection: Community.MainSectionType?
-    ): VkApiRequest<BooleanInt> = edit(
-        groupId = groupId,
-        title = title,
-        description = description,
-        screenName = screenName,
-        access = access,
-        website = website,
-        subject = subject,
-        rss = rss,
-        publicCategory = publicCategory,
-        publicSubcategory = publicSubcategory,
-        publicDate = publicDate,
-        wall = wall?.value,
-        topics = topics?.value,
-        photos = photos?.value,
-        video = video?.value,
-        audio = audio?.value,
-        docs = docs?.value,
-        wiki = wiki?.value,
-        links = links,
-        events = events,
-        places = places,
-        contacts = contacts,
-        messages = messages,
-        market = market,
-        marketComments = marketComments,
-        marketCountries = marketCountries,
-        marketCities = marketCities,
-        ageLimits = ageLimits,
-        marketCurrency = marketCurrency,
-        marketContact = marketContact,
-        marketWiki = marketWiki,
-        obsceneFilter = obsceneFilter,
-        obsceneStopwords = obsceneStopwords,
-        obsceneWords = obsceneWords,
-        mainSection = mainSection,
-        secondarySection = secondarySection
-    )
+    ): VkApiRequest<BooleanInt> =
+        edit(
+            groupId = groupId,
+            title = title,
+            description = description,
+            screenName = screenName,
+            access = access,
+            website = website,
+            subject = subject,
+            rss = rss,
+            publicCategory = publicCategory,
+            publicSubcategory = publicSubcategory,
+            publicDate = publicDate,
+            wall = wall?.value,
+            topics = topics?.value,
+            photos = photos?.value,
+            video = video?.value,
+            audio = audio?.value,
+            docs = docs?.value,
+            wiki = wiki?.value,
+            links = links,
+            events = events,
+            places = places,
+            contacts = contacts,
+            messages = messages,
+            market = market,
+            marketComments = marketComments,
+            marketCountries = marketCountries,
+            marketCities = marketCities,
+            ageLimits = ageLimits,
+            marketCurrency = marketCurrency,
+            marketContact = marketContact,
+            marketWiki = marketWiki,
+            obsceneFilter = obsceneFilter,
+            obsceneStopwords = obsceneStopwords,
+            obsceneWords = obsceneWords,
+            mainSection = mainSection,
+            secondarySection = secondarySection
+        )
 
     override fun editEvent(
         groupId: Int,
@@ -305,8 +310,8 @@ class GroupsApi(override val client: VkApiClient)
         email: String?,
         phone: String?,
         rss: String?,
-        eventStartDate: Date?,
-        eventFinishDate: Date?,
+        eventStartDate: GMTDate?,
+        eventFinishDate: GMTDate?,
         eventGroupId: Int?,
         wall: GroupUnitAccessTypeExtended?,
         topics: GroupUnitAccessType?,
@@ -329,42 +334,43 @@ class GroupsApi(override val client: VkApiClient)
         obsceneWords: List<String>?,
         mainSection: Community.MainSectionType?,
         secondarySection: Community.MainSectionType?
-    ): VkApiRequest<BooleanInt> = edit(
-        groupId = groupId,
-        title = title,
-        description = description,
-        screenName = screenName,
-        access = access,
-        website = website,
-        subject = subject,
-        email = email,
-        phone = phone,
-        rss = rss,
-        eventStartDate = eventStartDate,
-        eventFinishDate = eventFinishDate,
-        eventGroupId = eventGroupId,
-        wall = wall?.value,
-        topics = topics?.value,
-        photos = photos?.value,
-        video = video?.value,
-        audio = audio?.value,
-        docs = docs?.value,
-        wiki = wiki?.value,
-        messages = messages,
-        market = market,
-        marketComments = marketComments,
-        marketCountries = marketCountries,
-        marketCities = marketCities,
-        ageLimits = ageLimits,
-        marketCurrency = marketCurrency,
-        marketContact = marketContact,
-        marketWiki = marketWiki,
-        obsceneFilter = obsceneFilter,
-        obsceneStopwords = obsceneStopwords,
-        obsceneWords = obsceneWords,
-        mainSection = mainSection,
-        secondarySection = secondarySection
-    )
+    ): VkApiRequest<BooleanInt> =
+        edit(
+            groupId = groupId,
+            title = title,
+            description = description,
+            screenName = screenName,
+            access = access,
+            website = website,
+            subject = subject,
+            email = email,
+            phone = phone,
+            rss = rss,
+            eventStartDate = eventStartDate,
+            eventFinishDate = eventFinishDate,
+            eventGroupId = eventGroupId,
+            wall = wall?.value,
+            topics = topics?.value,
+            photos = photos?.value,
+            video = video?.value,
+            audio = audio?.value,
+            docs = docs?.value,
+            wiki = wiki?.value,
+            messages = messages,
+            market = market,
+            marketComments = marketComments,
+            marketCountries = marketCountries,
+            marketCities = marketCities,
+            ageLimits = ageLimits,
+            marketCurrency = marketCurrency,
+            marketContact = marketContact,
+            marketWiki = marketWiki,
+            obsceneFilter = obsceneFilter,
+            obsceneStopwords = obsceneStopwords,
+            obsceneWords = obsceneWords,
+            mainSection = mainSection,
+            secondarySection = secondarySection
+        )
 
     override fun editGroup(
         groupId: Int,
@@ -396,37 +402,38 @@ class GroupsApi(override val client: VkApiClient)
         obsceneWords: List<String>?,
         mainSection: Community.MainSectionType?,
         secondarySection: Community.MainSectionType?
-    ): VkApiRequest<BooleanInt> = edit(
-        groupId = groupId,
-        title = title,
-        description = description,
-        screenName = screenName,
-        access = access,
-        website = website,
-        subject = subject,
-        rss = rss,
-        wall = wall?.value,
-        topics = topics?.value,
-        photos = photos?.value,
-        video = video?.value,
-        audio = audio?.value,
-        docs = docs?.value,
-        wiki = wiki?.value,
-        messages = messages,
-        market = market,
-        marketComments = marketComments,
-        marketCountries = marketCountries,
-        marketCities = marketCities,
-        ageLimits = ageLimits,
-        marketCurrency = marketCurrency,
-        marketContact = marketContact,
-        marketWiki = marketWiki,
-        obsceneFilter = obsceneFilter,
-        obsceneStopwords = obsceneStopwords,
-        obsceneWords = obsceneWords,
-        mainSection = mainSection,
-        secondarySection = secondarySection
-    )
+    ): VkApiRequest<BooleanInt> =
+        edit(
+            groupId = groupId,
+            title = title,
+            description = description,
+            screenName = screenName,
+            access = access,
+            website = website,
+            subject = subject,
+            rss = rss,
+            wall = wall?.value,
+            topics = topics?.value,
+            photos = photos?.value,
+            video = video?.value,
+            audio = audio?.value,
+            docs = docs?.value,
+            wiki = wiki?.value,
+            messages = messages,
+            market = market,
+            marketComments = marketComments,
+            marketCountries = marketCountries,
+            marketCities = marketCities,
+            ageLimits = ageLimits,
+            marketCurrency = marketCurrency,
+            marketContact = marketContact,
+            marketWiki = marketWiki,
+            obsceneFilter = obsceneFilter,
+            obsceneStopwords = obsceneStopwords,
+            obsceneWords = obsceneWords,
+            mainSection = mainSection,
+            secondarySection = secondarySection
+        )
 
     override fun editCallbackServer(
         groupId: Int,
@@ -435,24 +442,24 @@ class GroupsApi(override val client: VkApiClient)
         title: String,
         secretKey: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.editCallbackServer.httpPost(
-            "group_id" to groupId,
-            "server_id" to serverId,
-            "url" to url,
-            "title" to title,
-            "secret_key" to secretKey
-        ).withSerializer(BooleanInt.serializer())
+        Methods.editCallbackServer.httpPost(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("server_id", serverId)
+            append("url", url)
+            append("title", title)
+            append("secret_key", secretKey)
+        }
 
     override fun editLink(
         groupId: Int,
         linkId: Int,
         text: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.editLink.httpPost(
-            "group_id" to groupId,
-            "link_id" to linkId,
-            "text" to text
-        ).withSerializer(BooleanInt.serializer())
+        Methods.editLink.httpPost(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("link_id", linkId)
+            append("text", text)
+        }
 
     override fun editManager(
         groupId: Int,
@@ -463,15 +470,15 @@ class GroupsApi(override val client: VkApiClient)
         contactPhone: String?,
         contactEmail: String?
     ): VkApiRequest<BooleanInt> =
-        Methods.editManager.httpGet(
-            "group_id" to groupId,
-            "user_id" to userId,
-            "role" to role?.value,
-            "is_contact" to isContact?.asInt(),
-            "contact_position" to contactPosition,
-            "contact_phone" to contactPhone,
-            "contact_email" to contactEmail
-        ).withSerializer(BooleanInt.serializer())
+        Methods.editManager.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("user_id", userId)
+            append("role", role?.value)
+            append("is_contact", isContact?.asInt())
+            append("contact_position", contactPosition)
+            append("contact_phone", contactPhone)
+            append("contact_email", contactEmail)
+        }
 
     override fun editPlace(
         groupId: Int,
@@ -482,22 +489,22 @@ class GroupsApi(override val client: VkApiClient)
         latitude: Double?,
         longitude: Double?
     ): VkApiRequest<EditPlaceResponse> =
-        Methods.editPlace.httpPost(
-            "group_id" to groupId,
-            "title" to title,
-            "address" to address,
-            "country_id" to countryId,
-            "city_id" to cityId,
-            "latitude" to latitude,
-            "longitude" to longitude
-        ).withSerializer(EditPlaceResponse.serializer())
+        Methods.editPlace.httpPost(EditPlaceResponse.serializer()) {
+            append("group_id", groupId)
+            append("title", title)
+            append("address", address)
+            append("country_id", countryId)
+            append("city_id", cityId)
+            append("latitude", latitude)
+            append("longitude", longitude)
+        }
 
     override fun enableOnline(
         groupId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.enableOnline.httpGet(
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.enableOnline.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+        }
 
     override fun getIds(
         userId: Int?,
@@ -505,12 +512,12 @@ class GroupsApi(override val client: VkApiClient)
         offset: Int,
         count: Int
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.get.httpGet(
-            "user_id" to userId,
-            "filter" to filter?.value,
-            "offset" to offset,
-            "count" to count
-        ).withSerializer(list(IntSerializer))
+        Methods.get.httpGet(list(IntSerializer)) {
+            append("user_id", userId)
+            append("filter", filter?.value)
+            append("offset", offset)
+            append("count", count)
+        }
 
     override fun get(
         userId: Int?,
@@ -519,14 +526,33 @@ class GroupsApi(override val client: VkApiClient)
         offset: Int,
         count: Int
     ): VkApiRequest<DefaultListResponse<Community>> =
-        Methods.get.httpPost(
-            "user_id" to userId,
-            "extended" to 1,
-            "filter" to filter?.value,
-            "fields" to fields?.joinToString(",") { it.value },
-            "offset" to offset,
-            "count" to count
-        ).withSerializer(list(Community.serializer()))
+        Methods.get.httpPost(list(Community.serializer())) {
+            append("user_id", userId)
+            append("extended", 1)
+            append("filter", filter?.value)
+            append("fields", fields?.joinToString(",") { it.value })
+            append("offset", offset)
+            append("count", count)
+        }
+
+    override fun getAddresses(
+        groupId: Int,
+        addressIds: List<Int>?,
+        latitude: Double?,
+        longitude: Double?,
+        offset: Int,
+        count: Int,
+        fields: List<AddressOptionalFields>?
+    ): VkApiRequest<DefaultListResponse<Address>> =
+        Methods.getAddresses.httpGet(list(Address.serializer())) {
+            append("group_id", groupId)
+            append("address_ids", addressIds?.joinToString(","))
+            append("latitude", latitude)
+            append("longitude", longitude)
+            append("offset", offset)
+            append("count", count)
+            append("fields", fields?.joinToString(",") { it.value })
+        }
 
     override fun getBanned(
         groupId: Int,
@@ -535,73 +561,74 @@ class GroupsApi(override val client: VkApiClient)
         fields: List<ObjectField>,
         ownerId: Int?
     ): VkApiRequest<DefaultListResponse<CommunityBan>> =
-        Methods.getBanned.httpPost(
-            "group_id" to groupId,
-            "offset" to offset,
-            "count" to count,
-            "fields" to fields.joinToString(",") { it.value },
-            "owner_id" to ownerId
-        ).withSerializer(list(CommunityBan.serializer()))
+        Methods.getBanned.httpPost(list(CommunityBan.serializer())) {
+            append("group_id", groupId)
+            append("offset", offset)
+            append("count", count)
+            append("fields", fields.joinToString(",") { it.value })
+            append("owner_id", ownerId)
+        }
 
     override fun getByScreenName(
         groupNames: List<String>,
         communityFields: List<CommunityOptionalField>?
     ): VkApiRequest<List<Community>> =
-        Methods.getById.httpPost(
-            "group_ids" to groupNames.joinToString(","),
-            "fields" to communityFields?.joinToString(",") { it.value }
-        ).withSerializer(Community.serializer().list)
+        Methods.getById.httpPost(Community.serializer().list) {
+            append("group_ids", groupNames.joinToString(","))
+            append("fields", communityFields?.joinToString(",") { it.value })
+        }
 
     override fun getById(
         groupIds: List<Int>,
         communityFields: List<CommunityOptionalField>?
-    ): VkApiRequest<List<Community>> = getByScreenName(
-        groupNames = groupIds.map(Int::toString),
-        communityFields = communityFields
-    )
+    ): VkApiRequest<List<Community>> =
+        getByScreenName(
+            groupNames = groupIds.map(Int::toString),
+            communityFields = communityFields
+        )
 
     override fun getCallbackConfirmationCode(
         groupId: Int
     ): VkApiRequest<String> =
-        Methods.getCallbackConfirmationCode.httpGet(
-            "group_id" to groupId
-        ).withSerializer(StringSerializer)
+        Methods.getCallbackConfirmationCode.httpGet(StringSerializer) {
+            append("group_id", groupId)
+        }
 
     override fun getCallbackServers(
         groupId: Int,
         serverIds: List<Int>?
     ): VkApiRequest<DefaultListResponse<CommunityCallbackServer>> =
-        Methods.getCallbackServers.httpGet(
-            "group_id" to groupId,
-            "server_ids" to serverIds?.joinToString(",")
-        ).withSerializer(list(CommunityCallbackServer.serializer()))
+        Methods.getCallbackServers.httpGet(list(CommunityCallbackServer.serializer())) {
+            append("group_id", groupId)
+            append("server_ids", serverIds?.joinToString(","))
+        }
 
     override fun getCallbackSettings(
         groupId: Int,
         serverId: Int
     ): VkApiRequest<ServerSettings> =
-        Methods.getCallbackSettings.httpGet(
-            "group_id" to groupId,
-            "server_id" to serverId
-        ).withSerializer(ServerSettings.serializer())
+        Methods.getCallbackSettings.httpGet(ServerSettings.serializer()) {
+            append("group_id", groupId)
+            append("server_id", serverId)
+        }
 
     override fun getCatalog(
         categoryId: Int?,
         subcategoryId: Int?
     ): VkApiRequest<DefaultListResponse<Community>> =
-        Methods.getCatalog.httpGet(
-            "category_id" to categoryId,
-            "subcategory_id" to subcategoryId
-        ).withSerializer(list(Community.serializer()))
+        Methods.getCatalog.httpGet(list(Community.serializer())) {
+            append("category_id", categoryId)
+            append("subcategory_id", subcategoryId)
+        }
 
     override fun getCatalogInfo(
         extended: Boolean,
         withSubcategories: Boolean
     ): VkApiRequest<CommunitiesCatalog> =
-        Methods.getCatalogInfo.httpGet(
-            "extended" to extended.asInt(),
-            "subcategories" to withSubcategories.asInt()
-        ).withSerializer(CommunitiesCatalog.serializer())
+        Methods.getCatalogInfo.httpGet(CommunitiesCatalog.serializer()) {
+            append("extended", extended.asInt())
+            append("subcategories", withSubcategories.asInt())
+        }
 
     override fun getInvitedUsers(
         groupId: Int,
@@ -610,38 +637,38 @@ class GroupsApi(override val client: VkApiClient)
         userFields: List<UserOptionalField>,
         nameCase: NameCase
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.getInvitedUsers.httpPost(
-            "group_id" to groupId,
-            "offset" to offset,
-            "count" to count,
-            "fields" to userFields.joinToString(",") { it.value },
-            "name_case" to nameCase.value
-        ).withSerializer(list(User.serializer()))
+        Methods.getInvitedUsers.httpPost(list(User.serializer())) {
+            append("group_id", groupId)
+            append("offset", offset)
+            append("count", count)
+            append("fields", userFields.joinToString(",") { it.value })
+            append("name_case", nameCase.value)
+        }
 
     override fun getInvites(
         offset: Int,
         count: Int,
         extended: Boolean
     ): VkApiRequest<ExtendedListResponse<Community>> =
-        Methods.getInvites.httpGet(
-            "offset" to offset,
-            "count" to count,
-            "extended" to extended.asInt()
-        ).withSerializer(extendedList(Community.serializer()))
+        Methods.getInvites.httpGet(extendedList(Community.serializer())) {
+            append("offset", offset)
+            append("count", count)
+            append("extended", extended.asInt())
+        }
 
     override fun getLongPollServer(
         groupId: Int
     ): VkApiRequest<LongPollServerResponse> =
-        Methods.getLongPollServer.httpGet(
-            "group_id" to groupId
-        ).withSerializer(LongPollServerResponse.serializer())
+        Methods.getLongPollServer.httpGet(LongPollServerResponse.serializer()) {
+            append("group_id", groupId)
+        }
 
     override fun getLongPollSettings(
         groupId: Int
     ): VkApiRequest<ServerSettings> =
-        Methods.getLongPollSettings.httpGet(
-            "group_id" to groupId
-        ).withSerializer(ServerSettings.serializer())
+        Methods.getLongPollSettings.httpGet(ServerSettings.serializer()) {
+            append("group_id", groupId)
+        }
 
     override fun getMembersIds(
         groupId: Int,
@@ -650,13 +677,13 @@ class GroupsApi(override val client: VkApiClient)
         count: Int,
         onlyFriends: Boolean
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.getMembers.httpGet(
-            "group_id" to groupId,
-            "sort" to sort.value,
-            "offset" to offset,
-            "count" to count,
-            "filter" to if (onlyFriends) "friends" else null
-        ).withSerializer(list(IntSerializer))
+        Methods.getMembers.httpGet(list(IntSerializer)) {
+            append("group_id", groupId)
+            append("sort", sort.value)
+            append("offset", offset)
+            append("count", count)
+            append("filter", if (onlyFriends) "friends" else null)
+        }
 
     override fun getMembers(
         groupId: Int,
@@ -666,14 +693,14 @@ class GroupsApi(override val client: VkApiClient)
         userFields: List<UserOptionalField>,
         onlyFriends: Boolean
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.getMembers.httpPost(
-            "group_id" to groupId,
-            "sort" to sort.value,
-            "offset" to offset,
-            "count" to count,
-            "fields" to userFields.joinToString(",") { it.value },
-            "filter" to if (onlyFriends) "friends" else null
-        ).withSerializer(list(User.serializer()))
+        Methods.getMembers.httpPost(list(User.serializer())) {
+            append("group_id", groupId)
+            append("sort", sort.value)
+            append("offset", offset)
+            append("count", count)
+            append("fields", userFields.joinToString(",") { it.value })
+            append("filter", if (onlyFriends) "friends" else null)
+        }
 
     override fun getManagersIds(
         groupId: Int,
@@ -681,13 +708,13 @@ class GroupsApi(override val client: VkApiClient)
         offset: Int,
         count: Int
     ): VkApiRequest<DefaultListResponse<CommunityManager>> =
-        Methods.getMembers.httpGet(
-            "group_id" to groupId,
-            "sort" to sort.value,
-            "offset" to offset,
-            "count" to count,
-            "filter" to "managers"
-        ).withSerializer(list(CommunityManager.serializer()))
+        Methods.getMembers.httpGet(list(CommunityManager.serializer())) {
+            append("group_id", groupId)
+            append("sort", sort.value)
+            append("offset", offset)
+            append("count", count)
+            append("filter", "managers")
+        }
 
     override fun getManagers(
         groupId: Int,
@@ -696,32 +723,32 @@ class GroupsApi(override val client: VkApiClient)
         count: Int,
         userFields: List<UserOptionalField>
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.getMembers.httpPost(
-            "group_id" to groupId,
-            "sort" to sort.value,
-            "offset" to offset,
-            "count" to count,
-            "fields" to userFields.joinToString(",") { it.value },
-            "filter" to "managers"
-        ).withSerializer(list(User.serializer()))
+        Methods.getMembers.httpPost(list(User.serializer())) {
+            append("group_id", groupId)
+            append("sort", sort.value)
+            append("offset", offset)
+            append("count", count)
+            append("fields", userFields.joinToString(",") { it.value })
+            append("filter", "managers")
+        }
 
     override fun getOnlineStatus(
         groupId: Int
     ): VkApiRequest<CommunityOnlineStatus> =
-        Methods.getOnlineStatus.httpGet(
-            "group_id" to groupId
-        ).withSerializer(CommunityOnlineStatus.serializer())
+        Methods.getOnlineStatus.httpGet(CommunityOnlineStatus.serializer()) {
+            append("group_id", groupId)
+        }
 
     override fun getRequestsIds(
         groupId: Int,
         offset: Int,
         count: Int
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.getRequests.httpGet(
-            "group_id" to groupId,
-            "offset" to offset,
-            "count" to count
-        ).withSerializer(list(IntSerializer))
+        Methods.getRequests.httpGet(list(IntSerializer)) {
+            append("group_id", groupId)
+            append("offset", offset)
+            append("count", count)
+        }
 
     override fun getRequests(
         groupId: Int,
@@ -729,87 +756,86 @@ class GroupsApi(override val client: VkApiClient)
         count: Int,
         userFields: List<UserOptionalField>
     ): VkApiRequest<DefaultListResponse<User>> =
-        Methods.getRequests.httpPost(
-            "group_id" to groupId,
-            "offset" to offset,
-            "count" to count,
-            "fields" to userFields.joinToString(",") { it.value }
-        ).withSerializer(list(User.serializer()))
+        Methods.getRequests.httpPost(list(User.serializer())) {
+            append("group_id", groupId)
+            append("offset", offset)
+            append("count", count)
+            append("fields", userFields.joinToString(",") { it.value })
+        }
 
     override fun getSettings(
         groupId: Int
     ): VkApiRequest<CommunitySettings> =
-        Methods.getSettings.httpGet(
-            "group_id" to groupId
-        ).withSerializer(CommunitySettings.serializer())
+        Methods.getSettings.httpGet(CommunitySettings.serializer()) {
+            append("group_id", groupId)
+        }
 
     override fun getTokenPermissions(): VkApiRequest<CommunityTokenPermissions> =
-        Methods.getTokenPermissions.httpGet()
-            .withSerializer(CommunityTokenPermissions.serializer())
+        Methods.getTokenPermissions.httpGet(CommunityTokenPermissions.serializer())
 
     override fun invite(
         groupId: Int,
         userId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.invite.httpGet(
-            "group_id" to groupId,
-            "user_id" to userId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.invite.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("user_id", userId)
+        }
 
     override fun isMember(
         groupId: Int,
         userId: Int?
     ): VkApiRequest<CommunityMemberResponse> =
-        Methods.isMember.httpGet(
-            "group_id" to groupId,
-            "user_id" to userId,
-            "extended" to 1
-        ).withSerializer(CommunityMemberResponse.serializer())
+        Methods.isMember.httpGet(CommunityMemberResponse.serializer()) {
+            append("group_id", groupId)
+            append("user_id", userId)
+            append("extended", 1)
+        }
 
     override fun isMembers(
         groupId: Int,
         userIds: List<Int>
     ): VkApiRequest<List<CommunityMemberResponse>> =
-        Methods.isMember.httpPost(
-            "group_id" to groupId,
-            "user_ids" to userIds.joinToString(",")
-        ).withSerializer(CommunityMemberResponse.serializer().list)
+        Methods.isMember.httpPost(CommunityMemberResponse.serializer().list) {
+            append("group_id", groupId)
+            append("user_ids", userIds.joinToString(","))
+        }
 
     override fun join(
         groupId: Int,
         notSure: Boolean?
     ): VkApiRequest<BooleanInt> =
-        Methods.join.httpGet(
-            "group_id" to groupId,
-            "not_sure" to notSure?.asInt()
-        ).withSerializer(BooleanInt.serializer())
+        Methods.join.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("not_sure", notSure?.asInt())
+        }
 
     override fun leave(
         groupId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.leave.httpGet(
-            "group_id" to groupId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.leave.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+        }
 
     override fun removeUser(
         groupId: Int,
         userId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.removeUser.httpGet(
-            "group_id" to groupId,
-            "user_id" to userId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.removeUser.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("user_id", userId)
+        }
 
     override fun reorderLink(
         groupId: Int,
         linkId: Int,
         after: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.reorderLink.httpGet(
-            "group_id" to groupId,
-            "link_id" to linkId,
-            "after" to after
-        ).withSerializer(BooleanInt.serializer())
+        Methods.reorderLink.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("link_id", linkId)
+            append("after", after)
+        }
 
     override fun search(
         query: String,
@@ -822,17 +848,17 @@ class GroupsApi(override val client: VkApiClient)
         offset: Int,
         count: Int
     ): VkApiRequest<DefaultListResponse<Community>> =
-        Methods.search.httpPost(
-            "q" to query,
-            "type" to type?.value,
-            "country_id" to countryId,
-            "city_id" to cityId,
-            "future" to isFuture?.asInt(),
-            "market" to hasMarket?.asInt(),
-            "sort" to sort.value,
-            "offset" to offset,
-            "count" to count
-        ).withSerializer(list(Community.serializer()))
+        Methods.search.httpPost(list(Community.serializer())) {
+            append("q", query)
+            append("type", type?.value)
+            append("country_id", countryId)
+            append("city_id", cityId)
+            append("future", isFuture?.asInt())
+            append("market", hasMarket?.asInt())
+            append("sort", sort.value)
+            append("offset", offset)
+            append("count", count)
+        }
 
     override fun setCallbackSettings(
         groupId: Int,
@@ -879,51 +905,51 @@ class GroupsApi(override val client: VkApiClient)
         messageTypingState: Boolean?,
         leadFormsNew: Boolean?
     ): VkApiRequest<BooleanInt> =
-        Methods.setCallbackSettings.httpGet(
-            "group_id" to groupId,
-            "server_id" to serverId,
-            "api_version" to apiVersion,
-            "message_new" to messageNew?.asInt(),
-            "message_reply" to messageReply?.asInt(),
-            "photo_new" to photoNew?.asInt(),
-            "audio_new" to audioNew?.asInt(),
-            "video_new" to videoNew?.asInt(),
-            "wall_reply_new" to wallReplyNew?.asInt(),
-            "wall_reply_edit" to wallReplyEdit?.asInt(),
-            "wall_reply_delete" to wallReplyDelete?.asInt(),
-            "wall_reply_restore" to wallReplyRestore?.asInt(),
-            "wall_post_new" to wallPostNew?.asInt(),
-            "board_post_new" to boardPostNew?.asInt(),
-            "board_post_edit" to boardPostEdit?.asInt(),
-            "board_post_restore" to boardPostRestore?.asInt(),
-            "board_post_delete" to boardPostDelete?.asInt(),
-            "photo_comment_new" to photoCommentNew?.asInt(),
-            "photo_comment_edit" to photoCommentEdit?.asInt(),
-            "photo_comment_delete" to photoCommentDelete?.asInt(),
-            "photo_comment_restore" to photoCommentRestore?.asInt(),
-            "video_comment_new" to videoCommentNew?.asInt(),
-            "video_comment_edit" to videoCommentEdit?.asInt(),
-            "video_comment_delete" to videoCommentDelete?.asInt(),
-            "video_comment_restore" to videoCommentRestore?.asInt(),
-            "market_comment_new" to marketCommentNew?.asInt(),
-            "market_comment_edit" to marketCommentEdit?.asInt(),
-            "market_comment_delete" to marketCommentDelete?.asInt(),
-            "market_comment_restore" to marketCommentRestore?.asInt(),
-            "poll_vote_new" to pollVoteNew?.asInt(),
-            "group_join" to groupJoin?.asInt(),
-            "group_leave" to groupLeave?.asInt(),
-            "group_change_settings" to groupChangeSettings?.asInt(),
-            "group_change_photo" to groupChangePhoto?.asInt(),
-            "group_officers_edit" to groupOfficersEdit?.asInt(),
-            "message_allow" to messageAllow?.asInt(),
-            "message_deny" to messageDeny?.asInt(),
-            "wall_repost" to wallRepost?.asInt(),
-            "user_block" to userBlock?.asInt(),
-            "user_unblock" to userUnblock?.asInt(),
-            "messages_edit" to messagesEdit?.asInt(),
-            "message_typing_state" to messageTypingState?.asInt(),
-            "lead_forms_new" to leadFormsNew?.asInt()
-        ).withSerializer(BooleanInt.serializer())
+        Methods.setCallbackSettings.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("server_id", serverId)
+            append("api_version", apiVersion)
+            append("message_new", messageNew?.asInt())
+            append("message_reply", messageReply?.asInt())
+            append("photo_new", photoNew?.asInt())
+            append("audio_new", audioNew?.asInt())
+            append("video_new", videoNew?.asInt())
+            append("wall_reply_new", wallReplyNew?.asInt())
+            append("wall_reply_edit", wallReplyEdit?.asInt())
+            append("wall_reply_delete", wallReplyDelete?.asInt())
+            append("wall_reply_restore", wallReplyRestore?.asInt())
+            append("wall_post_new", wallPostNew?.asInt())
+            append("board_post_new", boardPostNew?.asInt())
+            append("board_post_edit", boardPostEdit?.asInt())
+            append("board_post_restore", boardPostRestore?.asInt())
+            append("board_post_delete", boardPostDelete?.asInt())
+            append("photo_comment_new", photoCommentNew?.asInt())
+            append("photo_comment_edit", photoCommentEdit?.asInt())
+            append("photo_comment_delete", photoCommentDelete?.asInt())
+            append("photo_comment_restore", photoCommentRestore?.asInt())
+            append("video_comment_new", videoCommentNew?.asInt())
+            append("video_comment_edit", videoCommentEdit?.asInt())
+            append("video_comment_delete", videoCommentDelete?.asInt())
+            append("video_comment_restore", videoCommentRestore?.asInt())
+            append("market_comment_new", marketCommentNew?.asInt())
+            append("market_comment_edit", marketCommentEdit?.asInt())
+            append("market_comment_delete", marketCommentDelete?.asInt())
+            append("market_comment_restore", marketCommentRestore?.asInt())
+            append("poll_vote_new", pollVoteNew?.asInt())
+            append("group_join", groupJoin?.asInt())
+            append("group_leave", groupLeave?.asInt())
+            append("group_change_settings", groupChangeSettings?.asInt())
+            append("group_change_photo", groupChangePhoto?.asInt())
+            append("group_officers_edit", groupOfficersEdit?.asInt())
+            append("message_allow", messageAllow?.asInt())
+            append("message_deny", messageDeny?.asInt())
+            append("wall_repost", wallRepost?.asInt())
+            append("user_block", userBlock?.asInt())
+            append("user_unblock", userUnblock?.asInt())
+            append("messages_edit", messagesEdit?.asInt())
+            append("message_typing_state", messageTypingState?.asInt())
+            append("lead_forms_new", leadFormsNew?.asInt())
+        }
 
     override fun setLongPollSettings(
         groupId: Int,
@@ -969,59 +995,59 @@ class GroupsApi(override val client: VkApiClient)
         messageTypingState: Boolean?,
         leadFormsNew: Boolean?
     ): VkApiRequest<BooleanInt> =
-        Methods.setLongPollSettings.httpGet(
-            "group_id" to groupId,
-            "enabled" to enabled?.asInt(),
-            "message_new" to messageNew?.asInt(),
-            "message_reply" to messageReply?.asInt(),
-            "photo_new" to photoNew?.asInt(),
-            "audio_new" to audioNew?.asInt(),
-            "video_new" to videoNew?.asInt(),
-            "wall_reply_new" to wallReplyNew?.asInt(),
-            "wall_reply_edit" to wallReplyEdit?.asInt(),
-            "wall_reply_delete" to wallReplyDelete?.asInt(),
-            "wall_reply_restore" to wallReplyRestore?.asInt(),
-            "wall_post_new" to wallPostNew?.asInt(),
-            "board_post_new" to boardPostNew?.asInt(),
-            "board_post_edit" to boardPostEdit?.asInt(),
-            "board_post_restore" to boardPostRestore?.asInt(),
-            "board_post_delete" to boardPostDelete?.asInt(),
-            "photo_comment_new" to photoCommentNew?.asInt(),
-            "photo_comment_edit" to photoCommentEdit?.asInt(),
-            "photo_comment_delete" to photoCommentDelete?.asInt(),
-            "photo_comment_restore" to photoCommentRestore?.asInt(),
-            "video_comment_new" to videoCommentNew?.asInt(),
-            "video_comment_edit" to videoCommentEdit?.asInt(),
-            "video_comment_delete" to videoCommentDelete?.asInt(),
-            "video_comment_restore" to videoCommentRestore?.asInt(),
-            "market_comment_new" to marketCommentNew?.asInt(),
-            "market_comment_edit" to marketCommentEdit?.asInt(),
-            "market_comment_delete" to marketCommentDelete?.asInt(),
-            "market_comment_restore" to marketCommentRestore?.asInt(),
-            "poll_vote_new" to pollVoteNew?.asInt(),
-            "group_join" to groupJoin?.asInt(),
-            "group_leave" to groupLeave?.asInt(),
-            "group_change_settings" to groupChangeSettings?.asInt(),
-            "group_change_photo" to groupChangePhoto?.asInt(),
-            "group_officers_edit" to groupOfficersEdit?.asInt(),
-            "message_allow" to messageAllow?.asInt(),
-            "message_deny" to messageDeny?.asInt(),
-            "wall_repost" to wallRepost?.asInt(),
-            "user_block" to userBlock?.asInt(),
-            "user_unblock" to userUnblock?.asInt(),
-            "messages_edit" to messagesEdit?.asInt(),
-            "message_typing_state" to messageTypingState?.asInt(),
-            "lead_forms_new" to leadFormsNew?.asInt()
-        ).withSerializer(BooleanInt.serializer())
+        Methods.setLongPollSettings.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("enabled", enabled?.asInt())
+            append("message_new", messageNew?.asInt())
+            append("message_reply", messageReply?.asInt())
+            append("photo_new", photoNew?.asInt())
+            append("audio_new", audioNew?.asInt())
+            append("video_new", videoNew?.asInt())
+            append("wall_reply_new", wallReplyNew?.asInt())
+            append("wall_reply_edit", wallReplyEdit?.asInt())
+            append("wall_reply_delete", wallReplyDelete?.asInt())
+            append("wall_reply_restore", wallReplyRestore?.asInt())
+            append("wall_post_new", wallPostNew?.asInt())
+            append("board_post_new", boardPostNew?.asInt())
+            append("board_post_edit", boardPostEdit?.asInt())
+            append("board_post_restore", boardPostRestore?.asInt())
+            append("board_post_delete", boardPostDelete?.asInt())
+            append("photo_comment_new", photoCommentNew?.asInt())
+            append("photo_comment_edit", photoCommentEdit?.asInt())
+            append("photo_comment_delete", photoCommentDelete?.asInt())
+            append("photo_comment_restore", photoCommentRestore?.asInt())
+            append("video_comment_new", videoCommentNew?.asInt())
+            append("video_comment_edit", videoCommentEdit?.asInt())
+            append("video_comment_delete", videoCommentDelete?.asInt())
+            append("video_comment_restore", videoCommentRestore?.asInt())
+            append("market_comment_new", marketCommentNew?.asInt())
+            append("market_comment_edit", marketCommentEdit?.asInt())
+            append("market_comment_delete", marketCommentDelete?.asInt())
+            append("market_comment_restore", marketCommentRestore?.asInt())
+            append("poll_vote_new", pollVoteNew?.asInt())
+            append("group_join", groupJoin?.asInt())
+            append("group_leave", groupLeave?.asInt())
+            append("group_change_settings", groupChangeSettings?.asInt())
+            append("group_change_photo", groupChangePhoto?.asInt())
+            append("group_officers_edit", groupOfficersEdit?.asInt())
+            append("message_allow", messageAllow?.asInt())
+            append("message_deny", messageDeny?.asInt())
+            append("wall_repost", wallRepost?.asInt())
+            append("user_block", userBlock?.asInt())
+            append("user_unblock", userUnblock?.asInt())
+            append("messages_edit", messagesEdit?.asInt())
+            append("message_typing_state", messageTypingState?.asInt())
+            append("lead_forms_new", leadFormsNew?.asInt())
+        }
 
     override fun unban(
         groupId: Int,
         ownerId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.unban.httpGet(
-            "group_id" to groupId,
-            "owner_id" to ownerId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.unban.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("owner_id", ownerId)
+        }
 
     private object Methods {
         private const val it = "groups."
@@ -1040,6 +1066,7 @@ class GroupsApi(override val client: VkApiClient)
         const val editPlace = it + "editPlace"
         const val enableOnline = it + "enableOnline"
         const val get = it + "get"
+        const val getAddresses = it + "getAddresses"
         const val getBanned = it + "getBanned"
         const val getById = it + "getById"
         const val getCallbackConfirmationCode = it + "getCallbackConfirmationCode"

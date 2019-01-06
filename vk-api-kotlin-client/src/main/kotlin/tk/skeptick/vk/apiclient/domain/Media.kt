@@ -6,12 +6,6 @@ interface Media {
     val accessKey: String?
 }
 
-data class SimpleMedia(
-    override val id: Int,
-    override val ownerId: Int,
-    override val accessKey: String?
-) : Media
-
 interface MessageAttachment : Media {
     override val id: Int
     override val ownerId: Int

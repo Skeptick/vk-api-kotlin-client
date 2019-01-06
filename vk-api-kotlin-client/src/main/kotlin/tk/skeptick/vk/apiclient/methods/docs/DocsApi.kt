@@ -16,20 +16,20 @@ class DocsApi(override val client: VkApiClient)
         docId: Int,
         accessKey: String?
     ): VkApiRequest<Int> =
-        Methods.add.httpGet(
-            "owner_id" to ownerId,
-            "doc_id" to docId,
-            "access_key" to accessKey
-        ).withSerializer(IntSerializer)
+        Methods.add.httpGet(IntSerializer) {
+            append("owner_id", ownerId)
+            append("doc_id", docId)
+            append("access_key", accessKey)
+        }
 
     override fun delete(
         ownerId: Int,
         docId: Int
     ): VkApiRequest<BooleanInt> =
-        Methods.delete.httpGet(
-            "owner_id" to ownerId,
-            "doc_id" to docId
-        ).withSerializer(BooleanInt.serializer())
+        Methods.delete.httpGet(BooleanInt.serializer()) {
+            append("owner_id", ownerId)
+            append("doc_id", docId)
+        }
 
     override fun edit(
         docId: Int,
@@ -37,12 +37,12 @@ class DocsApi(override val client: VkApiClient)
         ownerId: Int?,
         tags: List<String>?
     ): VkApiRequest<BooleanInt> =
-        Methods.edit.httpPost(
-            "doc_id" to docId,
-            "title" to title,
-            "owner_id" to ownerId,
-            "tags" to tags?.joinToString(",")
-        ).withSerializer(BooleanInt.serializer())
+        Methods.edit.httpPost(BooleanInt.serializer()) {
+            append("doc_id", docId)
+            append("title", title)
+            append("owner_id", ownerId)
+            append("tags", tags?.joinToString(","))
+        }
 
     override fun get(
         ownerId: Int?,
@@ -50,60 +50,60 @@ class DocsApi(override val client: VkApiClient)
         offset: Int,
         type: Document.Type?
     ): VkApiRequest<DefaultListResponse<Document>> =
-        Methods.get.httpGet(
-            "owner_id" to ownerId,
-            "count" to count,
-            "offset" to offset,
-            "type" to type?.value
-        ).withSerializer(list(Document.serializer()))
+        Methods.get.httpGet(list(Document.serializer())) {
+            append("owner_id", ownerId)
+            append("count", count)
+            append("offset", offset)
+            append("type", type?.value)
+        }
 
     override fun getById(
         docs: List<Media>
     ): VkApiRequest<List<Document>> =
-        Methods.getById.httpPost(
-            "docs" to prepareDocs(docs)
-        ).withSerializer(Document.serializer().list)
+        Methods.getById.httpPost(Document.serializer().list) {
+            append("docs", prepareDocs(docs))
+        }
 
     override fun getMessagesUploadServer(
         peerId: Int,
         forAudioMessage: Boolean
     ): VkApiRequest<DefaultUploadServerResponse> =
-        Methods.getMessagesUploadServer.httpGet(
-            "peer_id" to peerId,
-            "type" to if (forAudioMessage) "audio_message" else "doc"
-        ).withSerializer(DefaultUploadServerResponse.serializer())
+        Methods.getMessagesUploadServer.httpGet(DefaultUploadServerResponse.serializer()) {
+            append("peer_id", peerId)
+            append("type", if (forAudioMessage) "audio_message" else "doc")
+        }
 
     override fun getTypes(
         ownerId: Int?
     ): VkApiRequest<DefaultListResponse<DocumentType>> =
-        Methods.getTypes.httpGet(
-            "owner_id" to ownerId
-        ).withSerializer(list(DocumentType.serializer()))
+        Methods.getTypes.httpGet(list(DocumentType.serializer())) {
+            append("owner_id", ownerId)
+        }
 
     override fun getUploadServer(
         groupId: Int?
     ): VkApiRequest<DefaultUploadServerResponse> =
-        Methods.getUploadServer.httpGet(
-            "group_id" to groupId
-        ).withSerializer(DefaultUploadServerResponse.serializer())
+        Methods.getUploadServer.httpGet(DefaultUploadServerResponse.serializer()) {
+            append("group_id", groupId)
+        }
 
     override fun getWallUploadServer(
         groupId: Int?
     ): VkApiRequest<DefaultUploadServerResponse> =
-        Methods.getWallUploadServer.httpGet(
-            "group_id" to groupId
-        ).withSerializer(DefaultUploadServerResponse.serializer())
+        Methods.getWallUploadServer.httpGet(DefaultUploadServerResponse.serializer()) {
+            append("group_id", groupId)
+        }
 
     override fun save(
         file: String,
         title: String?,
         tags: List<String>?
     ): VkApiRequest<DocumentSaveResponse> =
-        Methods.save.httpPost(
-            "file" to file,
-            "title" to title,
-            "tags" to tags?.joinToString(",")
-        ).withSerializer(DocumentSaveResponse.serializer())
+        Methods.save.httpPost(DocumentSaveResponse.serializer()) {
+            append("file", file)
+            append("title", title)
+            append("tags", tags?.joinToString(","))
+        }
 
     override fun search(
         query: String,
@@ -111,12 +111,12 @@ class DocsApi(override val client: VkApiClient)
         count: Int,
         offset: Int
     ): VkApiRequest<DefaultListResponse<Document>> =
-        Methods.search.httpGet(
-            "q" to query,
-            "search_own" to withOwn.asInt(),
-            "count" to count,
-            "offset" to offset
-        ).withSerializer(list(Document.serializer()))
+        Methods.search.httpGet(list(Document.serializer())) {
+            append("q", query)
+            append("search_own", withOwn.asInt())
+            append("count", count)
+            append("offset", offset)
+        }
 
     private companion object {
 
