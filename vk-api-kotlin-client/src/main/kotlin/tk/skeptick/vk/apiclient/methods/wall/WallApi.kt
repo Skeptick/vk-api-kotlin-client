@@ -8,7 +8,7 @@ import tk.skeptick.vk.apiclient.domain.models.WallComment
 import tk.skeptick.vk.apiclient.domain.models.WallPost
 import tk.skeptick.vk.apiclient.methods.*
 
-class WallApi(override val client: VkApiClient)
+class WallApi(override val client: ApiClient)
     : WallApiUser, WallApiCommunity, MethodsContext {
 
     override fun closeComments(

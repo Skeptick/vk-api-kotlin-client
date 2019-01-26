@@ -23,7 +23,7 @@ import tk.skeptick.vk.apiclient.oauth.OAuthResponse
 
 internal interface MethodsContext {
 
-    val client: VkApiClient
+    val client: ApiClient
 
     fun <T : Any> String.httpGet(
         serializer: KSerializer<T>,

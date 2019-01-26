@@ -21,7 +21,7 @@ class UploadableFile(
 )
 
 class VkApiRequest<T : Any>(
-    val client: VkApiClient,
+    val client: ApiClient,
     val httpMethod: HttpMethod,
     val path: String,
     val parameters: Parameters,
@@ -29,7 +29,7 @@ class VkApiRequest<T : Any>(
 )
 
 class UploadFilesRequest<T : Any>(
-    val client: VkApiClient,
+    val client: ApiClient,
     val uploadUrl: String,
     val files: List<UploadableFile>,
     val serializer: KSerializer<T>

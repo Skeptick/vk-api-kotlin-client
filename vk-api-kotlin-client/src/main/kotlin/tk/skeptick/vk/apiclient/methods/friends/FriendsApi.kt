@@ -9,7 +9,7 @@ import tk.skeptick.vk.apiclient.methods.FriendsOrder
 import tk.skeptick.vk.apiclient.methods.NameCase
 import tk.skeptick.vk.apiclient.methods.UserOptionalField
 
-class FriendsApi(override val client: VkApiClient)
+class FriendsApi(override val client: ApiClient)
     : FriendsApiUser, MethodsContext {
 
     override fun add(

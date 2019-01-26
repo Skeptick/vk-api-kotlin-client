@@ -3,7 +3,7 @@ package tk.skeptick.vk.apiclient.methods.gifts
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 
-class GiftsApi(override val client: VkApiClient)
+class GiftsApi(override val client: ApiClient)
     : GiftsApiUser, MethodsContext {
 
     override fun get(

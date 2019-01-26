@@ -5,7 +5,7 @@ import tk.skeptick.vk.apiclient.domain.models.*
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
 
-class FaveApi(override val client: VkApiClient)
+class FaveApi(override val client: ApiClient)
     : FaveApiUser, MethodsContext {
 
     override fun addGroup(

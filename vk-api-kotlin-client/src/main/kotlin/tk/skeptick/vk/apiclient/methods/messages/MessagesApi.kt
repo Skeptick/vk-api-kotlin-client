@@ -14,7 +14,7 @@ import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
 import tk.skeptick.vk.apiclient.methods.ObjectField
 
-class MessagesApi(override val client: VkApiClient)
+class MessagesApi(override val client: ApiClient)
     : MessagesApiUser, MessagesApiCommunity, MethodsContext {
 
     override fun addChatUser(

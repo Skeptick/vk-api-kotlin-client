@@ -7,7 +7,7 @@ import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.LikeType
 import tk.skeptick.vk.apiclient.methods.LikesFilter
 
-class LikesApi(override val client: VkApiClient)
+class LikesApi(override val client: ApiClient)
     : LikesApiUser, MethodsContext {
 
     override fun add(

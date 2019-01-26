@@ -2,7 +2,7 @@ package tk.skeptick.vk.apiclient.methods.uploads
 
 import tk.skeptick.vk.apiclient.*
 
-class UploadsApi(override val client: VkApiClient)
+class UploadsApi(override val client: ApiClient)
     : UploadsApiUser, UploadsApiCommunity, MethodsContext {
 
     override fun document(

@@ -9,7 +9,7 @@ import tk.skeptick.vk.apiclient.methods.CounterFilter
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
 
-class AccountApi(override val client: VkApiClient)
+class AccountApi(override val client: ApiClient)
     : AccountApiUser, MethodsContext {
 
     override fun ban(

@@ -4,10 +4,11 @@ package tk.skeptick.vk.apiclient
 
 import com.github.kittinunf.result.Result
 import io.ktor.client.HttpClient
+import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.request.forms.*
-import io.ktor.client.request.get
 import io.ktor.client.request.post
+import io.ktor.client.request.request
 import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText
 import io.ktor.http.*
@@ -15,9 +16,13 @@ import tk.skeptick.vk.apiclient.domain.Language
 import tk.skeptick.vk.apiclient.oauth.OAuth
 import tk.skeptick.vk.apiclient.oauth.OAuthResponse
 
-class VkApiClient(engine: HttpClientEngine, accessToken: String) {
+class VkApiClient(
+    accessToken: String,
+    engine: HttpClientEngine,
+    config: HttpClientConfig<*>.() -> Unit = {}
+) : ApiClient {
 
-    val httpClient: HttpClient = buildClient(engine)
+    private val httpClient: HttpClient = buildClient(engine, config)
 
     private var baseParams = Parameters.build {
         append("access_token", accessToken)
@@ -34,38 +39,33 @@ class VkApiClient(engine: HttpClientEngine, accessToken: String) {
             }
         }
 
-    suspend fun <T : Any> executeMethod(
+    override suspend fun <T : Any> executeMethod(
         request: VkApiRequest<T>,
-        additionalParameters: Parameters? = null
+        additionalParameters: Parameters?
     ): Result<T, Exception> = try {
-        val response = request.execute(additionalParameters)
-        parseMethodResponse(response.readText(), request.serializer)
+        parseMethodResponse(request(additionalParameters).readText(), request.serializer)
     } catch (exception: Exception) {
         Result.error(exception)
     }
 
-    suspend fun <T : Any> uploadFile(
+    override suspend fun <T : Any> uploadFile(
         request: UploadFilesRequest<T>
     ): Result<T, Exception> = try {
-        val response = request.upload()
-        parseUploadResponse(response.readText(), request.serializer)
+        parseUploadResponse(request().readText(), request.serializer)
     } catch (exception: Exception) {
         Result.error(exception)
     }
 
-    private suspend inline fun <T : Any> VkApiRequest<T>.execute(
+    private suspend inline operator fun <T : Any> VkApiRequest<T>.invoke(
         additionalParameters: Parameters? = null
-    ): HttpResponse = when (httpMethod) {
-        HttpMethod.Post -> httpClient.post(DefaultApiParams.API_URL + path) {
-            body = FormDataContent(baseParams + parameters + additionalParameters)
-        }
-        HttpMethod.Get -> httpClient.get(DefaultApiParams.API_URL + path) {
-            url.parameters.appendAll(baseParams + parameters + additionalParameters)
-        }
-        else -> throw UnsupportedOperationException()
+    ): HttpResponse = httpClient.request(DefaultApiParams.API_URL + path) {
+        method = httpMethod
+        val parameters = baseParams + parameters + additionalParameters
+        if (method == HttpMethod.Post) body = FormDataContent(parameters)
+        else url.parameters.appendAll(parameters)
     }
 
-    private suspend inline fun <T : Any> UploadFilesRequest<T>.upload(): HttpResponse =
+    private suspend inline operator fun <T : Any> UploadFilesRequest<T>.invoke(): HttpResponse =
         httpClient.submitFormWithBinaryData(uploadUrl, formData {
             files.map(UploadableFile::formPart).forEach(::append)
         })
@@ -75,10 +75,11 @@ class VkApiClient(engine: HttpClientEngine, accessToken: String) {
         suspend fun byOAuth(
             engine: HttpClientEngine,
             authData: OAuth,
-            captchaResponse: CaptchaResponse? = null
-        ): VkApiClient = buildClient(engine).use {
+            captchaResponse: CaptchaResponse? = null,
+            config: HttpClientConfig<*>.() -> Unit = {}
+        ): VkApiClient = buildClient(engine, config).use {
             when (val response = it.authorize(authData, captchaResponse)) {
-                is Result.Success -> VkApiClient(engine, response.value.accessToken)
+                is Result.Success -> VkApiClient(response.value.accessToken, engine, config)
                 is Result.Failure -> throw response.error
             }
         }
@@ -86,8 +87,9 @@ class VkApiClient(engine: HttpClientEngine, accessToken: String) {
         suspend fun authorize(
             engine: HttpClientEngine,
             authData: OAuth,
-            captchaResponse: CaptchaResponse? = null
-        ): Result<OAuthResponse, Exception> = buildClient(engine).use {
+            captchaResponse: CaptchaResponse? = null,
+            config: HttpClientConfig<*>.() -> Unit = {}
+        ): Result<OAuthResponse, Exception> = buildClient(engine, config).use {
             it.authorize(authData, captchaResponse)
         }
 
@@ -98,8 +100,13 @@ class VkApiClient(engine: HttpClientEngine, accessToken: String) {
             body = FormDataContent(authData.parameters + captchaResponse?.parameters)
         }.let(::parseOAuthResponse)
 
-        private fun buildClient(engine: HttpClientEngine): HttpClient =
-            HttpClient(engine).config { expectSuccess = false }
+        private fun buildClient(
+            engine: HttpClientEngine,
+            config: HttpClientConfig<*>.() -> Unit
+        ): HttpClient = HttpClient(engine).config {
+            config()
+            expectSuccess = false
+        }
 
     }
 

@@ -6,7 +6,7 @@ import tk.skeptick.vk.apiclient.domain.EntityWrapper
 import tk.skeptick.vk.apiclient.domain.models.User
 import tk.skeptick.vk.apiclient.methods.*
 
-class UsersApi(override val client: VkApiClient)
+class UsersApi(override val client: ApiClient)
     : UsersApiUser, UsersApiCommunity, MethodsContext {
 
     override fun get(

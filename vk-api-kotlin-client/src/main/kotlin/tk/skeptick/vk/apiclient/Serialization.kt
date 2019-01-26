@@ -11,11 +11,11 @@ data class BooleanInt(val value: Boolean) {
     @Serializer(forClass = BooleanInt::class)
     companion object : KSerializer<BooleanInt> {
 
-        override fun serialize(output: Encoder, obj: BooleanInt) =
-            output.encodeInt(if (obj.value) 1 else 0)
+        override fun serialize(encoder: Encoder, obj: BooleanInt) =
+            encoder.encodeInt(if (obj.value) 1 else 0)
 
-        override fun deserialize(input: Decoder): BooleanInt =
-            BooleanInt(input.decodeNullable(IntSerializer) == 1)
+        override fun deserialize(decoder: Decoder): BooleanInt =
+            BooleanInt(decoder.decodeNullable(IntSerializer) == 1)
     }
 }
 
@@ -26,15 +26,15 @@ interface SerializableEnum<out T> {
 abstract class EnumIntSerializer<E>(clazz: KClass<E>)
     : CustomEnumSerializer<E, Int>(clazz) where E : Enum<E>, E : SerializableEnum<Int> {
 
-    override fun serialize(output: Encoder, obj: E) = output.encodeInt(values[members.indexOf(obj)])
-    override fun deserialize(input: Decoder): E = members[values.indexOf(input.decodeInt())]
+    override fun serialize(encoder: Encoder, obj: E) = encoder.encodeInt(values[members.indexOf(obj)])
+    override fun deserialize(decoder: Decoder): E = members[values.indexOf(decoder.decodeInt())]
 }
 
 abstract class EnumStringSerializer<E>(clazz: KClass<E>)
     : CustomEnumSerializer<E, String>(clazz) where E : Enum<E>, E : SerializableEnum<String> {
 
-    override fun serialize(output: Encoder, obj: E) = output.encodeString(values[members.indexOf(obj)])
-    override fun deserialize(input: Decoder): E = members[values.indexOf(input.decodeString())]
+    override fun serialize(encoder: Encoder, obj: E) = encoder.encodeString(values[members.indexOf(obj)])
+    override fun deserialize(decoder: Decoder): E = members[values.indexOf(decoder.decodeString())]
 }
 
 abstract class CustomEnumSerializer<E, T>(clazz: KClass<E>)

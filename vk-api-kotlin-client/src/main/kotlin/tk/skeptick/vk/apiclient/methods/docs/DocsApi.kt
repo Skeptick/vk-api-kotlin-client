@@ -8,7 +8,7 @@ import tk.skeptick.vk.apiclient.domain.Media
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.DefaultUploadServerResponse
 
-class DocsApi(override val client: VkApiClient)
+class DocsApi(override val client: ApiClient)
     : DocsApiUser, DocsApiCommunity, MethodsContext {
 
     override fun add(

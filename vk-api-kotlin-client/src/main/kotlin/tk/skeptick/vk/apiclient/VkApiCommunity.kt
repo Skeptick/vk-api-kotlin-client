@@ -17,7 +17,7 @@ import tk.skeptick.vk.apiclient.methods.utils.UtilsApiCommunity
 import tk.skeptick.vk.apiclient.methods.wall.WallApi
 import tk.skeptick.vk.apiclient.methods.wall.WallApiCommunity
 
-open class VkApiCommunity(val client: VkApiClient) {
+open class VkApiCommunity(val client: ApiClient) {
 
     val docs: DocsApiCommunity = DocsApi(client)
     val execute: ExecuteApiCommunity = ExecuteApi(client)

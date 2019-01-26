@@ -10,7 +10,7 @@ import tk.skeptick.vk.apiclient.domain.models.Community
 import tk.skeptick.vk.apiclient.domain.models.User
 import tk.skeptick.vk.apiclient.methods.*
 
-class GroupsApi(override val client: VkApiClient)
+class GroupsApi(override val client: ApiClient)
     : GroupsApiUser, GroupsApiCommunity, MethodsContext {
 
     override fun addCallbackServer(

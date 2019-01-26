@@ -27,7 +27,7 @@ import tk.skeptick.vk.apiclient.methods.utils.UtilsApiUser
 import tk.skeptick.vk.apiclient.methods.wall.WallApi
 import tk.skeptick.vk.apiclient.methods.wall.WallApiUser
 
-open class VkApiUser(val client: VkApiClient) {
+open class VkApiUser(val client: ApiClient) {
 
     val account: AccountApiUser = AccountApi(client)
     val docs: DocsApiUser = DocsApi(client)

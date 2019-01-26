@@ -1,11 +1,11 @@
 package tk.skeptick.vk.apiclient.methods.execute
 
 import kotlinx.serialization.KSerializer
+import tk.skeptick.vk.apiclient.ApiClient
 import tk.skeptick.vk.apiclient.MethodsContext
-import tk.skeptick.vk.apiclient.VkApiClient
 import tk.skeptick.vk.apiclient.VkApiRequest
 
-class ExecuteApi(override val client: VkApiClient)
+class ExecuteApi(override val client: ApiClient)
     : ExecuteApiUser, ExecuteApiCommunity, MethodsContext {
 
     override fun <T : Any> invoke(

@@ -5,7 +5,7 @@ import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ShortLinkStatsInterval
 
-class UtilsApi(override val client: VkApiClient)
+class UtilsApi(override val client: ApiClient)
     : UtilsApiUser, UtilsApiCommunity, MethodsContext {
 
     override fun checkLink(
