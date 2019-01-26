@@ -11,8 +11,7 @@ import kotlinx.io.core.ByteReadPacket
 import kotlinx.io.core.buildPacket
 import kotlinx.io.core.writeFully
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.json.JSON
-import kotlinx.serialization.json.JsonTreeParser
+import kotlinx.serialization.json.Json
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
@@ -127,7 +126,7 @@ internal inline val MessageAttachment.attachment: String
 
 //--- Parsers ---//
 
-internal val json = JSON.nonstrict
+internal val json = Json.nonstrict
 
 
 internal fun <T : Any> parseMethodResponse(
@@ -150,7 +149,7 @@ internal fun <T : Any> parseUploadResponse(
     responseString: String,
     serializer: KSerializer<T>
 ): Result<T, Exception> =
-    when (JsonTreeParser(responseString).readFully().jsonObject.contains("error")) {
+    when (json.parseJson(responseString).jsonObject.contains("error")) {
         true -> Result.error(json.parse(UploadFileError.serializer(), responseString))
         false -> Result.of(json.parse(serializer, responseString))
     }
@@ -159,7 +158,7 @@ internal fun <T : Any> parseUploadResponse(
 internal fun parseOAuthResponse(
     responseString: String
 ): Result<OAuthResponse, Exception> =
-    when (JsonTreeParser(responseString).readFully().jsonObject.contains("access_token")) {
+    when (json.parseJson(responseString).jsonObject.contains("access_token")) {
         true -> Result.of(json.parse(OAuthResponse.serializer(), responseString))
         false -> Result.error(json.parse(OAuthError.serializer(), responseString))
     }

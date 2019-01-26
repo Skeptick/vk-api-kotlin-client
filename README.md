@@ -57,7 +57,7 @@ ______________________
 #### Подготовка
 Первым делом подключите подходящий вам [HTTP-клиент](https://github.com/ktorio/ktor/tree/master/ktor-client), например CIO:
 ```
-compile "io.ktor:ktor-client-cio:1.1.1"
+compile "io.ktor:ktor-client-cio:1.1.2"
 ```
 
 #### Авторизация и инициализация клиента

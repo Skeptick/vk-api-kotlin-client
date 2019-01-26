@@ -46,5 +46,4 @@ data class Keyboard(
 
 }
 
-internal fun Keyboard.serialize(): String =
-    json.stringify(Keyboard.serializer(), this)
+internal fun Keyboard.serialize(): String = json.stringify(Keyboard.serializer(), this)

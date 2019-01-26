@@ -1,7 +1,7 @@
 package tk.skeptick.vk.apiclient.domain
 
 import kotlinx.serialization.*
-import kotlinx.serialization.json.JSON
+import kotlinx.serialization.json.JsonInput
 import kotlinx.serialization.json.content
 import tk.skeptick.vk.apiclient.domain.models.Community
 import tk.skeptick.vk.apiclient.domain.models.User
@@ -21,17 +21,11 @@ data class EntityWrapper(
     @Serializer(forClass = EntityWrapper::class)
     companion object : KSerializer<EntityWrapper> {
 
-        override fun deserialize(input: Decoder): EntityWrapper {
-            val jsonObject = (input as JSON.JsonInput).readAsTree().jsonObject
+        override fun deserialize(decoder: Decoder): EntityWrapper {
+            val jsonObject = (decoder as JsonInput).decodeJson().jsonObject
             return when (val type = jsonObject["type"].content) {
-                Type.PAGE.value -> EntityWrapper(
-                    type = Type.PAGE,
-                    page = json.parse(Community.serializer(), jsonObject.toString())
-                )
-                Type.PROFILE.value -> EntityWrapper(
-                    type = Type.PROFILE,
-                    profile = json.parse(User.serializer(), jsonObject.toString())
-                )
+                Type.PAGE.value -> EntityWrapper(Type.PAGE, page = json.parse(Community.serializer(), jsonObject.toString()))
+                Type.PROFILE.value -> EntityWrapper(Type.PROFILE, profile = json.parse(User.serializer(), jsonObject.toString()))
                 else -> throw IllegalArgumentException("Type \"$type\" is not defined.")
             }
         }

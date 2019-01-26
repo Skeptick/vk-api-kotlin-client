@@ -26,6 +26,7 @@ open class Bitmask(open var mask: Int = 0) {
 /**
  * @see <a href="https://vk.com/dev/permissions">VK API</a>
  */
+@Serializable(AccessPermissionsUser.Companion::class)
 class AccessPermissionsUser(
     override var mask: Int = 0
 ) : Bitmask(mask) {
@@ -52,17 +53,18 @@ class AccessPermissionsUser(
     @Serializer(forClass = AccessPermissionsUser::class)
     companion object : KSerializer<AccessPermissionsUser> {
 
-        override fun serialize(output: Encoder, obj: AccessPermissionsUser) =
-            output.encodeInt(obj.mask)
+        override fun serialize(encoder: Encoder, obj: AccessPermissionsUser) =
+            encoder.encodeInt(obj.mask)
 
-        override fun deserialize(input: Decoder): AccessPermissionsUser =
-            AccessPermissionsUser(input.decodeInt())
+        override fun deserialize(decoder: Decoder): AccessPermissionsUser =
+            AccessPermissionsUser(decoder.decodeInt())
     }
 }
 
 /**
  * @see <a href="https://vk.com/dev/permissions">VK API</a>
  */
+@Serializable(AccessPermissionsCommunity.Companion::class)
 class AccessPermissionsCommunity(
     override var mask: Int = 0
 ) : Bitmask(mask) {
@@ -76,10 +78,10 @@ class AccessPermissionsCommunity(
     @Serializer(forClass = AccessPermissionsCommunity::class)
     companion object : KSerializer<AccessPermissionsCommunity> {
 
-        override fun serialize(output: Encoder, obj: AccessPermissionsCommunity) =
-            output.encodeInt(obj.mask)
+        override fun serialize(encoder: Encoder, obj: AccessPermissionsCommunity) =
+            encoder.encodeInt(obj.mask)
 
-        override fun deserialize(input: Decoder): AccessPermissionsCommunity =
-            AccessPermissionsCommunity(input.decodeInt())
+        override fun deserialize(decoder: Decoder): AccessPermissionsCommunity =
+            AccessPermissionsCommunity(decoder.decodeInt())
     }
 }

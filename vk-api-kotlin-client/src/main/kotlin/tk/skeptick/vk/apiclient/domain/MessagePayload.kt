@@ -16,11 +16,11 @@ data class MessagePayload(val value: String) {
     @Serializer(forClass = MessagePayload::class)
     companion object : KSerializer<MessagePayload> {
 
-        override fun serialize(output: Encoder, obj: MessagePayload) =
-            output.encodeString(obj.value)
+        override fun serialize(encoder: Encoder, obj: MessagePayload) =
+            encoder.encodeString(obj.value)
 
-        override fun deserialize(input: Decoder): MessagePayload =
-            MessagePayload(input.decodeString())
+        override fun deserialize(decoder: Decoder): MessagePayload =
+            MessagePayload(decoder.decodeString())
 
         fun <T> from(strategy: SerializationStrategy<T>, obj: T): MessagePayload =
             MessagePayload(json.stringify(strategy, obj))

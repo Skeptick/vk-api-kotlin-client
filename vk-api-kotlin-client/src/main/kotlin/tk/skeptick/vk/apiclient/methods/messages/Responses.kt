@@ -100,7 +100,7 @@ data class LastActivityResponse(
 @Serializable
 data class LongPollHistoryResponse(
     @SerialName("history") val history: List<List<Int>>,
-    @SerialName("messages") val messages: ListResponse<Message>,
+    @SerialName("messages") val messages: DefaultListResponse<Message>,
     @SerialName("profiles") val profiles: List<User>,
     @Optional @SerialName("groups") val communities: List<Community>? = null,
     @Optional @SerialName("new_pts") val newPts: Long? = null,
