@@ -18,7 +18,7 @@ data class WallComment(
     @Optional @SerialName("owner_id") val wallOwnerId: Int? = null,
     @Optional @SerialName("reply_to_user") val replyToUserId: Int? = null,
     @Optional @SerialName("reply_to_comment") val replyToCommentId: Int? = null,
-    @Optional @SerialName("attachments") val attachments: WallPost.Attachments? = null,
+    @Optional @SerialName("attachments") val attachments: List<WallPost.Attachment>? = null,
     @Optional @SerialName("parents_stack") val parentsStack: List<Int>? = null,
     @Optional @SerialName("likes") val likes: Likes? = null,
     @Optional @SerialName("thread") val thread: Thread? = null

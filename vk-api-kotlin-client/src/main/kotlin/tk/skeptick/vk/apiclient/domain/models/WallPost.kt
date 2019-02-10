@@ -23,7 +23,7 @@ data class WallPost(
     @Optional @SerialName("comments") val comments: Comments? = null,
     @Optional @SerialName("views") val views: Views? = null,
     @Optional @SerialName("post_source") val postSource: Source? = null,
-    @Optional @SerialName("attachments") val attachments: Attachments? = null,
+    @Optional @SerialName("attachments") val attachments: List<Attachment>? = null,
     @Optional @SerialName("geo") val geo: Geo? = null,
     @Optional @SerialName("signer_id") val signerUserId: Int? = null,
     @Optional @SerialName("copy_history") val copyHistory: List<WallPost>? = null,
@@ -118,7 +118,7 @@ data class WallPost(
     }
 
     @Serializable
-    data class Attachments(
+    data class Attachment(
         @SerialName("type") val type: AttachmentType,
         @Optional @SerialName("photo") val photo: Photo? = null,
         @Optional @SerialName("video") val video: Video? = null,
