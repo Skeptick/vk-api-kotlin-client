@@ -9,10 +9,10 @@ import kotlin.reflect.KClass
 data class BooleanInt(val value: Boolean) {
 
     @Serializer(forClass = BooleanInt::class)
-    companion object : KSerializer<BooleanInt> {
+    companion object : KSerializer<BooleanInt?> {
 
-        override fun serialize(encoder: Encoder, obj: BooleanInt) =
-            encoder.encodeInt(if (obj.value) 1 else 0)
+        override fun serialize(encoder: Encoder, obj: BooleanInt?) =
+            encoder.encodeInt(if (obj?.value == true) 1 else 0)
 
         override fun deserialize(decoder: Decoder): BooleanInt =
             BooleanInt(decoder.decodeNullable(IntSerializer) == 1)
