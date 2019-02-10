@@ -322,13 +322,13 @@ enum class UserReportComplaintType(internal val value: String) {
 
 enum class PostReportComplaintType(internal val value: Int) {
     SPAM(0),
-    CHILD_PORN(1),
+    CHILD_PORNOGRAPHY(1),
     EXTREMISM(2),
     VIOLENCE(3),
-    DRUG_PROPAGANDA(4),
-    MATERIAL_FOR_ADULTS(5),
+    DRUG_ADVOCACY(4),
+    ADULT_CONTENT(5),
     INSULT(6),
-    CALLS_FOR_SUICIDE(8)
+    ENCOURAGING_SUICIDE(8)
 }
 
 enum class UsersListType(internal val value: String) {
