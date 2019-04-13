@@ -13,63 +13,63 @@ data class Community(
     @SerialName("screen_name") val screenName: String,
     @SerialName("is_closed") val closeType: CloseType,
     @SerialName("type") val type: Type,
-    @Optional @SerialName("deactivated") val deactivationType: DeactivationType? = null,
-    @Optional @SerialName("is_admin") val isAdmin: BooleanInt? = null,
-    @Optional @SerialName("admin_level") val adminLevel: AdminLevel? = null,
-    @Optional @SerialName("is_member") val isMember: BooleanInt? = null,
-    @Optional @SerialName("is_advertiser") val isAdvertiser: BooleanInt? = null,
-    @Optional @SerialName("invited_by") val invitedBy: Int? = null,
-    @Optional @SerialName("photo_50") val photo50: String? = null,
-    @Optional @SerialName("photo_100") val photo100: String? = null,
-    @Optional @SerialName("photo_200") val photo200: String? = null,
-    @Optional @SerialName("activity") val activity: String? = null,
-    @Optional @SerialName("age_limits") val ageLimits: AgeLimits? = null,
-    @Optional @SerialName("ban_info") val banInfo: BanInfo? = null,
-    @Optional @SerialName("can_create_topic") val canCreateTopic: BooleanInt? = null,
-    @Optional @SerialName("can_message") val canMessage: BooleanInt? = null,
-    @Optional @SerialName("can_post") val canPost: BooleanInt? = null,
-    @Optional @SerialName("can_see_all_posts") val canSeeAllPosts: BooleanInt? = null,
-    @Optional @SerialName("can_upload_doc") val canUploadDoc: BooleanInt? = null,
-    @Optional @SerialName("can_upload_video") val canUploadVideo: BooleanInt? = null,
-    @Optional @SerialName("city") val city: City? = null,
-    @Optional @SerialName("contacts") val contacts: List<Contact>? = null,
-    @Optional @SerialName("counters") val counters: Counters? = null,
-    @Optional @SerialName("country") val country: Country? = null,
-    @Optional @SerialName("cover") val cover: Cover? = null,
-    @Optional @SerialName("crop_photo") val cropPhoto: CropPhoto? = null,
-    @Optional @SerialName("description") val description: String? = null,
-    @Optional @SerialName("fixed_post") val fixedPostId: Int? = null,
-    @Optional @SerialName("has_photo") val hasPhoto: BooleanInt? = null,
-    @Optional @SerialName("is_favorite") val isFavorite: BooleanInt? = null,
-    @Optional @SerialName("is_hidden_from_feed") val isHiddenFromFeed: BooleanInt? = null,
-    @Optional @SerialName("is_messages_blocked") val isMessagesBlocked: BooleanInt? = null,
-    @Optional @SerialName("links") val links: List<Link>? = null,
-    @Optional @SerialName("main_album_id") val mainAlbumId: Int? = null,
-    @Optional @SerialName("main_section") val mainSection: MainSectionType? = null,
-    @Optional @SerialName("market") val market: Market? = null,
-    @Optional @SerialName("member_status") val memberStatus: MemberStatus? = null,
-    @Optional @SerialName("place") val place: Geo.Place? = null,
-    @Optional @SerialName("public_date_label") val publicDateLabel: String? = null,
-    @Optional @SerialName("site") val site: String? = null,
-    @Optional @SerialName("start_date") private val startDate: String? = null,
-    @Optional @SerialName("finish_date") val eventFinishDate: Int? = null,
-    @Optional @SerialName("status") val status: String? = null,
-    @Optional @SerialName("trending") val isTrending: BooleanInt? = null,
-    @Optional @SerialName("verified") val isVerified: BooleanInt? = null,
-    @Optional @SerialName("wall") val wallCloseType: WallCloseType? = null,
-    @Optional @SerialName("wiki_page") val wikiPage: String? = null) {
+    @SerialName("deactivated") val deactivationType: DeactivationType? = null,
+    @SerialName("is_admin") val isAdmin: BooleanInt? = null,
+    @SerialName("admin_level") val adminLevel: AdminLevel? = null,
+    @SerialName("is_member") val isMember: BooleanInt? = null,
+    @SerialName("is_advertiser") val isAdvertiser: BooleanInt? = null,
+    @SerialName("invited_by") val invitedBy: Int? = null,
+    @SerialName("photo_50") val photo50: String? = null,
+    @SerialName("photo_100") val photo100: String? = null,
+    @SerialName("photo_200") val photo200: String? = null,
+    @SerialName("activity") val activity: String? = null,
+    @SerialName("age_limits") val ageLimits: AgeLimits? = null,
+    @SerialName("ban_info") val banInfo: BanInfo? = null,
+    @SerialName("can_create_topic") val canCreateTopic: BooleanInt? = null,
+    @SerialName("can_message") val canMessage: BooleanInt? = null,
+    @SerialName("can_post") val canPost: BooleanInt? = null,
+    @SerialName("can_see_all_posts") val canSeeAllPosts: BooleanInt? = null,
+    @SerialName("can_upload_doc") val canUploadDoc: BooleanInt? = null,
+    @SerialName("can_upload_video") val canUploadVideo: BooleanInt? = null,
+    @SerialName("city") val city: City? = null,
+    @SerialName("contacts") val contacts: List<Contact>? = null,
+    @SerialName("counters") val counters: Counters? = null,
+    @SerialName("country") val country: Country? = null,
+    @SerialName("cover") val cover: Cover? = null,
+    @SerialName("crop_photo") val cropPhoto: CropPhoto? = null,
+    @SerialName("description") val description: String? = null,
+    @SerialName("fixed_post") val fixedPostId: Int? = null,
+    @SerialName("has_photo") val hasPhoto: BooleanInt? = null,
+    @SerialName("is_favorite") val isFavorite: BooleanInt? = null,
+    @SerialName("is_hidden_from_feed") val isHiddenFromFeed: BooleanInt? = null,
+    @SerialName("is_messages_blocked") val isMessagesBlocked: BooleanInt? = null,
+    @SerialName("links") val links: List<Link>? = null,
+    @SerialName("main_album_id") val mainAlbumId: Int? = null,
+    @SerialName("main_section") val mainSection: MainSectionType? = null,
+    @SerialName("market") val market: Market? = null,
+    @SerialName("member_status") val memberStatus: MemberStatus? = null,
+    @SerialName("place") val place: Geo.Place? = null,
+    @SerialName("public_date_label") val publicDateLabel: String? = null,
+    @SerialName("site") val site: String? = null,
+    @SerialName("start_date") private val startDate: String? = null,
+    @SerialName("finish_date") val eventFinishDate: Int? = null,
+    @SerialName("status") val status: String? = null,
+    @SerialName("trending") val isTrending: BooleanInt? = null,
+    @SerialName("verified") val isVerified: BooleanInt? = null,
+    @SerialName("wall") val wallCloseType: WallCloseType? = null,
+    @SerialName("wiki_page") val wikiPage: String? = null) {
 
-    @Transient val isOpened: Boolean get() = closeType == CloseType.OPEN
-    @Transient val isClosed: Boolean get() = closeType == CloseType.CLOSED
-    @Transient val isPrivate: Boolean get() = closeType == CloseType.PRIVATE
-    @Transient val isDeactivated: Boolean get() = deactivationType != null
-    @Transient val maxPhoto: String? get() = photo200 ?: photo100 ?: photo50
+    val isOpened: Boolean get() = closeType == CloseType.OPEN
+    val isClosed: Boolean get() = closeType == CloseType.CLOSED
+    val isPrivate: Boolean get() = closeType == CloseType.PRIVATE
+    val isDeactivated: Boolean get() = deactivationType != null
+    val maxPhoto: String? get() = photo200 ?: photo100 ?: photo50
 
-    @Transient val eventStartDate: Int? get() =
+    val eventStartDate: Int? get() =
         if (type == Type.EVENT) startDate?.let(String::toInt)
         else null
 
-    @Transient val foundationDate: String? get() =
+    val foundationDate: String? get() =
         if (type == Type.PAGE) startDate
         else null
 
@@ -154,9 +154,9 @@ data class Community(
     @Serializable
     data class BanInfo(
         @SerialName("end_date") val endDate: Int,
-        @Optional @SerialName("comment") val comment: String? = null) {
+        @SerialName("comment") val comment: String? = null) {
 
-        @Transient val isPermanently: Boolean get() = endDate == 0
+        val isPermanently: Boolean get() = endDate == 0
 
     }
 
@@ -172,24 +172,24 @@ data class Community(
 
     @Serializable
     data class Contact(
-        @Optional @SerialName("user_id") val userId: Int? = null,
-        @Optional @SerialName("desc") val description: String? = null,
-        @Optional @SerialName("phone") val phone: String? = null,
-        @Optional @SerialName("email") val email: String? = null)
+        @SerialName("user_id") val userId: Int? = null,
+        @SerialName("desc") val description: String? = null,
+        @SerialName("phone") val phone: String? = null,
+        @SerialName("email") val email: String? = null)
 
     @Serializable
     data class Counters(
-        @Optional @SerialName("photos") val photos: Int? = null,
-        @Optional @SerialName("albums") val albums: Int? = null,
-        @Optional @SerialName("videos") val videos: Int? = null,
-        @Optional @SerialName("audios") val audios: Int? = null,
-        @Optional @SerialName("topics") val topics: Int? = null,
-        @Optional @SerialName("docs") val docs: Int? = null)
+        @SerialName("photos") val photos: Int? = null,
+        @SerialName("albums") val albums: Int? = null,
+        @SerialName("videos") val videos: Int? = null,
+        @SerialName("audios") val audios: Int? = null,
+        @SerialName("topics") val topics: Int? = null,
+        @SerialName("docs") val docs: Int? = null)
 
     @Serializable
     data class Cover(
         @SerialName("enabled") val isEnabled: BooleanInt,
-        @Optional @SerialName("images") val images: List<Image>? = null) {
+        @SerialName("images") val images: List<Image>? = null) {
 
         @Serializable
         data class Image(
@@ -205,20 +205,20 @@ data class Community(
         @SerialName("url") val url: String,
         @SerialName("name") val name: String,
         @SerialName("desc") val description: String,
-        @Optional @SerialName("photo_50") val photo50: String? = null,
-        @Optional @SerialName("photo_100") val photo100: String? = null)
+        @SerialName("photo_50") val photo50: String? = null,
+        @SerialName("photo_100") val photo100: String? = null)
 
     @Serializable
     data class Market(
         @SerialName("enabled") val enabled: BooleanInt,
-        @Optional @SerialName("price_min") val priceMin: Int? = null,
-        @Optional @SerialName("price_max") val priceMax: Int? = null,
-        @Optional @SerialName("main_album_id") val mainAlbumId: Int? = null,
-        @Optional @SerialName("contact_id") val contactId: Int? = null,
-        @Optional @SerialName("currency") val currency: Currency? = null,
-        @Optional @SerialName("currency_text") val currencyText: String? = null) {
+        @SerialName("price_min") val priceMin: Int? = null,
+        @SerialName("price_max") val priceMax: Int? = null,
+        @SerialName("main_album_id") val mainAlbumId: Int? = null,
+        @SerialName("contact_id") val contactId: Int? = null,
+        @SerialName("currency") val currency: Currency? = null,
+        @SerialName("currency_text") val currencyText: String? = null) {
 
-        @Transient val isCommunityMessagesForContact: Boolean?
+        val isCommunityMessagesForContact: Boolean?
             get() = contactId?.let { it <= 0 }
 
         @Serializable

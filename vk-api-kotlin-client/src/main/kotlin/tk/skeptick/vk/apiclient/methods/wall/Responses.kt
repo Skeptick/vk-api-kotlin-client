@@ -1,6 +1,5 @@
 package tk.skeptick.vk.apiclient.methods.wall
 
-import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.BooleanInt
@@ -21,9 +20,9 @@ data class CommentsListResponse(
     @SerialName("current_level_count") val currentLevelCount: Int,
     @SerialName("can_post") val canPost: Boolean,
     @SerialName("show_reply_button") val showReplyButton: Boolean,
-    @Optional @SerialName("groups_can_post") val groupsCanPost: Boolean = false,
-    @Optional @SerialName("profiles") val profiles: List<User>? = null,
-    @Optional @SerialName("groups") val groups: List<Community>? = null
+    @SerialName("groups_can_post") val groupsCanPost: Boolean = false,
+    @SerialName("profiles") val profiles: List<User>? = null,
+    @SerialName("groups") val groups: List<Community>? = null
 ) : ListResponse<WallComment>
 
 @Serializable

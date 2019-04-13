@@ -1,9 +1,7 @@
 package tk.skeptick.vk.apiclient.domain.models
 
-import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 import tk.skeptick.vk.apiclient.domain.AttachmentType
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
 
@@ -15,9 +13,9 @@ data class AudioMessage(
     @SerialName("waveform") val waveform: List<Int>,
     @SerialName("link_ogg") val linkOgg: String,
     @SerialName("link_mp3") val linkMp3: String,
-    @Optional @SerialName("access_key") override val accessKey: String? = null
+    @SerialName("access_key") override val accessKey: String? = null
 ) : MessageAttachment {
 
-    @Transient override val typeAttachment get() = AttachmentType.AUDIO_MESSAGE.value
+    override val typeAttachment get() = AttachmentType.AUDIO_MESSAGE.value
 
 }

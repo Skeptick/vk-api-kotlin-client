@@ -3,6 +3,7 @@ package tk.skeptick.vk.apiclient
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.EnumDescriptor
 import kotlinx.serialization.internal.IntSerializer
+import kotlinx.serialization.internal.makeNullable
 import kotlin.reflect.KClass
 
 @Serializable
@@ -15,7 +16,7 @@ data class BooleanInt(val value: Boolean) {
             encoder.encodeInt(if (obj?.value == true) 1 else 0)
 
         override fun deserialize(decoder: Decoder): BooleanInt =
-            BooleanInt(decoder.decodeNullable(IntSerializer) == 1)
+            BooleanInt(decoder.decodeNullableSerializableValue(makeNullable(IntSerializer)) == 1)
     }
 }
 

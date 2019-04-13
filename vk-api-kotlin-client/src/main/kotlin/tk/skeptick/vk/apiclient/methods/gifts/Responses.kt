@@ -1,9 +1,7 @@
 package tk.skeptick.vk.apiclient.methods.gifts
 
-import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 import tk.skeptick.vk.apiclient.EnumIntSerializer
 import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.domain.models.Gift
@@ -15,9 +13,9 @@ data class UserGift(
     @SerialName("message") val message: String,
     @SerialName("date") val date: Int,
     @SerialName("gift") val gift: Gift,
-    @Optional @SerialName("privacy") val privacy: PrivacyType? = null) {
+    @SerialName("privacy") val privacy: PrivacyType? = null) {
 
-    @Transient val isAnonymous: Boolean get() = fromId == 0
+    val isAnonymous: Boolean get() = fromId == 0
 
     @Serializable(with = PrivacyType.Companion::class)
     enum class PrivacyType(override val value: Int) : SerializableEnum<Int> {

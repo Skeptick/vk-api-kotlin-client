@@ -1,6 +1,5 @@
 package tk.skeptick.vk.apiclient.methods.docs
 
-import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.EnumStringSerializer
@@ -18,9 +17,9 @@ data class DocumentType(
 @Serializable
 data class DocumentSaveResponse(
     @SerialName("type") val type: Type,
-    @Optional @SerialName("graffiti") val graffiti: Graffiti? = null,
-    @Optional @SerialName("audio_message") val audioMessage: AudioMessage? = null,
-    @Optional @SerialName("doc") val document: Document? = null) {
+    @SerialName("graffiti") val graffiti: Graffiti? = null,
+    @SerialName("audio_message") val audioMessage: AudioMessage? = null,
+    @SerialName("doc") val document: Document? = null) {
 
     @Serializable(with = Type.Companion::class)
     enum class Type(override val value: String) : SerializableEnum<String> {

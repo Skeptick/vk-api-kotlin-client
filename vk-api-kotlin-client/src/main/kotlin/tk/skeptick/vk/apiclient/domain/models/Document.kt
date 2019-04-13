@@ -16,11 +16,11 @@ data class Document(
     @SerialName("size") val size: Int, // byte
     @SerialName("ext") val extension: String,
     @SerialName("url") val url: String,
-    @Optional @SerialName("preview") val preview: Preview? = null,
-    @Optional @SerialName("access_key") override val accessKey: String? = null
+    @SerialName("preview") val preview: Preview? = null,
+    @SerialName("access_key") override val accessKey: String? = null
 ) : MessageAttachment {
 
-    @Transient override val typeAttachment get() = AttachmentType.DOC.value
+    override val typeAttachment get() = AttachmentType.DOC.value
 
     @Serializable(with = Type.Companion::class)
     enum class Type(override val value: Int) : SerializableEnum<Int> {
@@ -38,9 +38,9 @@ data class Document(
 
     @Serializable
     data class Preview(
-        @Optional @SerialName("photo") val photo: Photo? = null,
-        @Optional @SerialName("graffiti") val graffiti: Graffiti? = null,
-        @Optional @SerialName("audio_msg") val audioMessage: AudioMessage? = null) {
+        @SerialName("photo") val photo: Photo? = null,
+        @SerialName("graffiti") val graffiti: Graffiti? = null,
+        @SerialName("audio_msg") val audioMessage: AudioMessage? = null) {
 
         @Serializable
         data class Photo(

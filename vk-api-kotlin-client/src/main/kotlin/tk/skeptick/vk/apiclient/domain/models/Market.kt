@@ -18,14 +18,14 @@ data class Market(
     @SerialName("price") val price: Price,
     @SerialName("category") val category: Category,
     @SerialName("thumb_photo") val thumbPhoto: String,
-    @Optional @SerialName("photos") val photos: List<Photo>? = null,
-    @Optional @SerialName("can_comment") val canComment: BooleanInt? = null,
-    @Optional @SerialName("can_repost") val canRepost: BooleanInt? = null,
-    @Optional @SerialName("likes") val likes: Likes? = null,
-    @Optional @SerialName("is_favorite") val isFavorite: Boolean? = null
+    @SerialName("photos") val photos: List<Photo>? = null,
+    @SerialName("can_comment") val canComment: BooleanInt? = null,
+    @SerialName("can_repost") val canRepost: BooleanInt? = null,
+    @SerialName("likes") val likes: Likes? = null,
+    @SerialName("is_favorite") val isFavorite: Boolean? = null
 ) : MessageAttachment {
 
-    @Transient override val typeAttachment: String get() = AttachmentType.MARKET.value
+    override val typeAttachment: String get() = AttachmentType.MARKET.value
 
     @Serializable(with = AvailabilityType.Companion::class)
     enum class AvailabilityType(override val value: Int) : SerializableEnum<Int> {
@@ -62,7 +62,7 @@ data class Market(
     data class Category(
         @SerialName("id") val id: Int,
         @SerialName("name") val name: String,
-        @Optional @SerialName("section") val section: Section? = null) {
+        @SerialName("section") val section: Section? = null) {
 
         @Serializable
         data class Section(

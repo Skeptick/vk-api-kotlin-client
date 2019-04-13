@@ -1,6 +1,5 @@
 package tk.skeptick.vk.apiclient.methods.friends
 
-import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.BooleanInt
@@ -21,17 +20,17 @@ enum class AddFriendResponse(override val value: Int) : SerializableEnum<Int> {
 data class AreFriendResponse(
     @SerialName("user_id") val userId: Int,
     @SerialName("friend_status") val status: User.FriendStatus,
-    @Optional @SerialName("request_message") val requestMessage: String? = null,
-    @Optional @SerialName("read_state") val isRead: BooleanInt? = null,
-    @Optional @SerialName("sign") val sign: String? = null)
+    @SerialName("request_message") val requestMessage: String? = null,
+    @SerialName("read_state") val isRead: BooleanInt? = null,
+    @SerialName("sign") val sign: String? = null)
 
 @Serializable
 data class DeleteFriendResponse(
     @SerialName("success") val isSuccess: BooleanInt,
-    @Optional @SerialName("friend_deleted") val isFriendDeleted: BooleanInt? = null,
-    @Optional @SerialName("out_request_deleted") val isOutRequestDeleted: BooleanInt? = null,
-    @Optional @SerialName("in_request_deleted") val isInRequestDeleted: BooleanInt? = null,
-    @Optional @SerialName("suggestion_deleted") val isSuggestionDeleted: BooleanInt? = null)
+    @SerialName("friend_deleted") val isFriendDeleted: BooleanInt? = null,
+    @SerialName("out_request_deleted") val isOutRequestDeleted: BooleanInt? = null,
+    @SerialName("in_request_deleted") val isInRequestDeleted: BooleanInt? = null,
+    @SerialName("suggestion_deleted") val isSuggestionDeleted: BooleanInt? = null)
 
 @Serializable
 data class FriendsList(
@@ -52,9 +51,9 @@ data class OnlineFriendsResponse(
 @Serializable
 data class FriendRequest(
     @SerialName("user_id") val userId: Int,
-    @Optional @SerialName("from") val from: Int? = null,
-    @Optional @SerialName("message") val message: String? = null,
-    @Optional @SerialName("mutual") val mutual: Mutual? = null) {
+    @SerialName("from") val from: Int? = null,
+    @SerialName("message") val message: String? = null,
+    @SerialName("mutual") val mutual: Mutual? = null) {
 
     @Serializable
     data class Mutual(

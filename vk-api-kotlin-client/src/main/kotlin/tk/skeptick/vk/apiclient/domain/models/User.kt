@@ -12,90 +12,90 @@ data class User(
     @SerialName("id") val id: Int,
     @SerialName("first_name") val firstName: String,
     @SerialName("last_name") val lastName: String,
-    @Optional @SerialName("is_closed") val isClosed: Boolean? = null,
-    @Optional @SerialName("can_access_closed") val canAccessClosed: Boolean? = null,
-    @Optional @SerialName("first_name_nom") val firstNameNom: String? = null,
-    @Optional @SerialName("first_name_gen") val firstNameGen: String? = null,
-    @Optional @SerialName("first_name_dat") val firstNameDat: String? = null,
-    @Optional @SerialName("first_name_acc") val firstNameAcc: String? = null,
-    @Optional @SerialName("first_name_ins") val firstNameIns: String? = null,
-    @Optional @SerialName("first_name_abl") val firstNameAbl: String? = null,
-    @Optional @SerialName("last_name_nom") val lastNameNom: String? = null,
-    @Optional @SerialName("last_name_gen") val lastNameGen: String? = null,
-    @Optional @SerialName("last_name_dat") val lastNameDat: String? = null,
-    @Optional @SerialName("last_name_acc") val lastNameAcc: String? = null,
-    @Optional @SerialName("last_name_ins") val lastNameIns: String? = null,
-    @Optional @SerialName("last_name_abl") val lastNameAbl: String? = null,
-    @Optional @SerialName("maiden_name") val maidenName: String? = null,
-    @Optional @SerialName("nickname") val nickname: String? = null,
-    @Optional @SerialName("screen_name") val screenName: String? = null,
-    @Optional @SerialName("sex") val sex: Sex? = null,
-    @Optional @SerialName("domain") val domain: String? = null,
-    @Optional @SerialName("site") val site: String? = null,
-    @Optional @SerialName("status") val status: String? = null,
-    @Optional @SerialName("status_audio") val statusAudio: Audio? = null,
-    @Optional @SerialName("about") val about: String? = null,
-    @Optional @SerialName("activities") val activities: String? = null,
-    @Optional @SerialName("books") val books: String? = null,
-    @Optional @SerialName("games") val games: String? = null,
-    @Optional @SerialName("interests") val interests: String? = null,
-    @Optional @SerialName("music") val music: String? = null,
-    @Optional @SerialName("quotes") val quotes: String? = null,
-    @Optional @SerialName("tv") val tv: String? = null,
-    @Optional @SerialName("personal") val personal: Personal? = null,
-    @Optional @SerialName("relation") val relationStatus: RelationStatus? = null,
-    @Optional @SerialName("relatives") val relatives: List<Relatives>? = null,
-    @Optional @SerialName("occupation") val occupation: Occupation? = null,
-    @Optional @SerialName("schools") val schools: List<School>? = null,
-    @Optional @SerialName("universities") val universities: List<University>? = null,
-    @Optional @SerialName("career") val career: List<Career>? = null,
-    @Optional @SerialName("military") val military: List<Military>? = null,
-    @Optional @SerialName("city") val city: City? = null,
-    @Optional @SerialName("home_town") val homeTown: String? = null,
-    @Optional @SerialName("country") val country: Country? = null,
-    @Optional @SerialName("bdate") val birthDate: String? = null,
-    @Optional @SerialName("contacts") val contacts: Contacts? = null,
-    @Optional @SerialName("connections") val socialConnections: Map<String, String>? = null,
-    @Optional @SerialName("exports") val socialExports: Map<String, String>? = null,
-    @Optional @SerialName("counters") val counters: Counters? = null,
-    @Optional @SerialName("common_count") val commonFriendsCount: Int? = null,
-    @Optional @SerialName("followers_count") val followersCount: Int? = null,
-    @Optional @SerialName("crop_photo") val cropPhoto: CropPhoto? = null,
-    @Optional @SerialName("last_seen") val lastSeenInfo: LastSeenInfo? = null,
-    @Optional @SerialName("online_app") val onlineFromAppId: String? = null,
-    @Optional @SerialName("relation_partner") val relationPartner: RelationPartner? = null,
-    @Optional @SerialName("lists") val lists: List<Int>? = null,
-    @Optional @SerialName("online") val isOnline: BooleanInt? = null,
-    @Optional @SerialName("online_mobile") val isOnlineFromMobile: BooleanInt? = null,
-    @Optional @SerialName("has_mobile") val hasMobile: BooleanInt? = null,
-    @Optional @SerialName("has_photo") val hasPhoto: BooleanInt? = null,
-    @Optional @SerialName("is_favorite") val isFavorite: BooleanInt? = null,
-    @Optional @SerialName("is_friend") val isFriend: BooleanInt? = null,
-    @Optional @SerialName("friend_status") val friendStatus: FriendStatus? = null,
-    @Optional @SerialName("is_hidden_from_feed") val isHiddenFromFeed: BooleanInt? = null,
-    @Optional @SerialName("can_post") val canPost: BooleanInt? = null,
-    @Optional @SerialName("can_see_all_posts") val canSeeAllPosts: BooleanInt? = null,
-    @Optional @SerialName("can_see_audio") val canSeeAudio: BooleanInt? = null,
-    @Optional @SerialName("can_send_friend_request") val canSendFriendRequest: BooleanInt? = null,
-    @Optional @SerialName("can_write_private_message") val canWriteMessage: BooleanInt? = null,
-    @Optional @SerialName("blacklisted") val isBlacklisted: BooleanInt? = null,
-    @Optional @SerialName("blacklisted_by_me") val isBlacklistedByMe: BooleanInt? = null,
-    @Optional @SerialName("trending") val isTrending: BooleanInt? = null,
-    @Optional @SerialName("verified") val isVerified: BooleanInt? = null,
-    @Optional @SerialName("hidden") val isHidden: BooleanInt = BooleanInt(false),
-    @Optional @SerialName("photo_id") val photo50: String? = null,
-    @Optional @SerialName("photo_100") val photo100: String? = null,
-    @Optional @SerialName("photo_200") val photo200: String? = null,
-    @Optional @SerialName("photo_max") val photoMax: String? = null,
-    @Optional @SerialName("photo_200_orig") val photo200Orig: String? = null,
-    @Optional @SerialName("photo_400_orig") val photo400Orig: String? = null,
-    @Optional @SerialName("photo_max_orig") val photoMaxOrig: String? = null,
-    @Optional @SerialName("timezone") val timezone: Int? = null,
-    @Optional @SerialName("deactivated") val deactivationType: DeactivationType? = null,
-    @Optional @SerialName("invited_by") val invitedBy: Int? = null,
-    @Optional @SerialName("role") val role: CommunityManager.Role? = null) {
+    @SerialName("is_closed") val isClosed: Boolean? = null,
+    @SerialName("can_access_closed") val canAccessClosed: Boolean? = null,
+    @SerialName("first_name_nom") val firstNameNom: String? = null,
+    @SerialName("first_name_gen") val firstNameGen: String? = null,
+    @SerialName("first_name_dat") val firstNameDat: String? = null,
+    @SerialName("first_name_acc") val firstNameAcc: String? = null,
+    @SerialName("first_name_ins") val firstNameIns: String? = null,
+    @SerialName("first_name_abl") val firstNameAbl: String? = null,
+    @SerialName("last_name_nom") val lastNameNom: String? = null,
+    @SerialName("last_name_gen") val lastNameGen: String? = null,
+    @SerialName("last_name_dat") val lastNameDat: String? = null,
+    @SerialName("last_name_acc") val lastNameAcc: String? = null,
+    @SerialName("last_name_ins") val lastNameIns: String? = null,
+    @SerialName("last_name_abl") val lastNameAbl: String? = null,
+    @SerialName("maiden_name") val maidenName: String? = null,
+    @SerialName("nickname") val nickname: String? = null,
+    @SerialName("screen_name") val screenName: String? = null,
+    @SerialName("sex") val sex: Sex? = null,
+    @SerialName("domain") val domain: String? = null,
+    @SerialName("site") val site: String? = null,
+    @SerialName("status") val status: String? = null,
+    @SerialName("status_audio") val statusAudio: Audio? = null,
+    @SerialName("about") val about: String? = null,
+    @SerialName("activities") val activities: String? = null,
+    @SerialName("books") val books: String? = null,
+    @SerialName("games") val games: String? = null,
+    @SerialName("interests") val interests: String? = null,
+    @SerialName("music") val music: String? = null,
+    @SerialName("quotes") val quotes: String? = null,
+    @SerialName("tv") val tv: String? = null,
+    @SerialName("personal") val personal: Personal? = null,
+    @SerialName("relation") val relationStatus: RelationStatus? = null,
+    @SerialName("relatives") val relatives: List<Relatives>? = null,
+    @SerialName("occupation") val occupation: Occupation? = null,
+    @SerialName("schools") val schools: List<School>? = null,
+    @SerialName("universities") val universities: List<University>? = null,
+    @SerialName("career") val career: List<Career>? = null,
+    @SerialName("military") val military: List<Military>? = null,
+    @SerialName("city") val city: City? = null,
+    @SerialName("home_town") val homeTown: String? = null,
+    @SerialName("country") val country: Country? = null,
+    @SerialName("bdate") val birthDate: String? = null,
+    @SerialName("contacts") val contacts: Contacts? = null,
+    @SerialName("connections") val socialConnections: Map<String, String>? = null,
+    @SerialName("exports") val socialExports: Map<String, String>? = null,
+    @SerialName("counters") val counters: Counters? = null,
+    @SerialName("common_count") val commonFriendsCount: Int? = null,
+    @SerialName("followers_count") val followersCount: Int? = null,
+    @SerialName("crop_photo") val cropPhoto: CropPhoto? = null,
+    @SerialName("last_seen") val lastSeenInfo: LastSeenInfo? = null,
+    @SerialName("online_app") val onlineFromAppId: String? = null,
+    @SerialName("relation_partner") val relationPartner: RelationPartner? = null,
+    @SerialName("lists") val lists: List<Int>? = null,
+    @SerialName("online") val isOnline: BooleanInt? = null,
+    @SerialName("online_mobile") val isOnlineFromMobile: BooleanInt? = null,
+    @SerialName("has_mobile") val hasMobile: BooleanInt? = null,
+    @SerialName("has_photo") val hasPhoto: BooleanInt? = null,
+    @SerialName("is_favorite") val isFavorite: BooleanInt? = null,
+    @SerialName("is_friend") val isFriend: BooleanInt? = null,
+    @SerialName("friend_status") val friendStatus: FriendStatus? = null,
+    @SerialName("is_hidden_from_feed") val isHiddenFromFeed: BooleanInt? = null,
+    @SerialName("can_post") val canPost: BooleanInt? = null,
+    @SerialName("can_see_all_posts") val canSeeAllPosts: BooleanInt? = null,
+    @SerialName("can_see_audio") val canSeeAudio: BooleanInt? = null,
+    @SerialName("can_send_friend_request") val canSendFriendRequest: BooleanInt? = null,
+    @SerialName("can_write_private_message") val canWriteMessage: BooleanInt? = null,
+    @SerialName("blacklisted") val isBlacklisted: BooleanInt? = null,
+    @SerialName("blacklisted_by_me") val isBlacklistedByMe: BooleanInt? = null,
+    @SerialName("trending") val isTrending: BooleanInt? = null,
+    @SerialName("verified") val isVerified: BooleanInt? = null,
+    @SerialName("hidden") val isHidden: BooleanInt = BooleanInt(false),
+    @SerialName("photo_id") val photo50: String? = null,
+    @SerialName("photo_100") val photo100: String? = null,
+    @SerialName("photo_200") val photo200: String? = null,
+    @SerialName("photo_max") val photoMax: String? = null,
+    @SerialName("photo_200_orig") val photo200Orig: String? = null,
+    @SerialName("photo_400_orig") val photo400Orig: String? = null,
+    @SerialName("photo_max_orig") val photoMaxOrig: String? = null,
+    @SerialName("timezone") val timezone: Int? = null,
+    @SerialName("deactivated") val deactivationType: DeactivationType? = null,
+    @SerialName("invited_by") val invitedBy: Int? = null,
+    @SerialName("role") val role: CommunityManager.Role? = null) {
 
-    @Transient val isDeactivated: Boolean get() = deactivationType != null
+    val isDeactivated: Boolean get() = deactivationType != null
 
     @Serializable(with = Sex.Companion::class)
     enum class Sex(override val value: Int) : SerializableEnum<Int> {
@@ -141,14 +141,14 @@ data class User(
 
     @Serializable
     data class Personal(
-        @Optional @SerialName("political") val politicalView: PoliticalView? = null,
-        @Optional @SerialName("langs") val languages: List<String>? = null,
-        @Optional @SerialName("religion") val religion: String? = null,
-        @Optional @SerialName("inspired_by") val inspiredBy: String? = null,
-        @Optional @SerialName("people_main") val importantInOthersPeople: ImportantInOthers? = null,
-        @Optional @SerialName("life_main") val personalPriority: PersonalPriority? = null,
-        @Optional @SerialName("smoking") val viewOnSmoking: ViewOnBadHabit? = null,
-        @Optional @SerialName("alcohol") val viewOnAlcohol: ViewOnBadHabit? = null) {
+        @SerialName("political") val politicalView: PoliticalView? = null,
+        @SerialName("langs") val languages: List<String>? = null,
+        @SerialName("religion") val religion: String? = null,
+        @SerialName("inspired_by") val inspiredBy: String? = null,
+        @SerialName("people_main") val importantInOthersPeople: ImportantInOthers? = null,
+        @SerialName("life_main") val personalPriority: PersonalPriority? = null,
+        @SerialName("smoking") val viewOnSmoking: ViewOnBadHabit? = null,
+        @SerialName("alcohol") val viewOnAlcohol: ViewOnBadHabit? = null) {
 
         @Serializable(with = PoliticalView.Companion::class)
         enum class PoliticalView(override val value: Int) : SerializableEnum<Int> {
@@ -207,8 +207,8 @@ data class User(
     @Serializable
     data class Relatives(
         @SerialName("type") val type: Type,
-        @Optional @SerialName("id") val userId: Int? = null,
-        @Optional @SerialName("name") val name: Int? = null) {
+        @SerialName("id") val userId: Int? = null,
+        @SerialName("name") val name: Int? = null) {
 
         @Serializable(with = Type.Companion::class)
         enum class Type(override val value: String) : SerializableEnum<String> {
@@ -225,9 +225,9 @@ data class User(
 
     @Serializable
     data class Occupation(
-        @Optional @SerialName("id") val id: Int? = null,
-        @Optional @SerialName("name") val name: String? = null,
-        @Optional @SerialName("type") private val type: Type? = null) {
+        @SerialName("id") val id: Int? = null,
+        @SerialName("name") val name: String? = null,
+        @SerialName("type") private val type: Type? = null) {
 
         @Serializable(with = Type.Companion::class)
         enum class Type(override val value: String) : SerializableEnum<String> {
@@ -242,17 +242,17 @@ data class User(
 
     @Serializable
     data class School(
-        @Optional @SerialName("id") val id: Int? = null,
-        @Optional @SerialName("country") val countryId: Int? = null,
-        @Optional @SerialName("city") val cityId: Int? = null,
-        @Optional @SerialName("name") val name: String? = null,
-        @Optional @SerialName("year_from") val yearFrom: Int? = null,
-        @Optional @SerialName("year_to") val yearTo: Int? = null,
-        @Optional @SerialName("year_graduated") val yearGraduated: Int? = null,
-        @Optional @SerialName("class") val classLetter: String? = null,
-        @Optional @SerialName("speciality") val speciality: String? = null,
-        @Optional @SerialName("type") val type: Type? = null,
-        @Optional @SerialName("type_str") val typeName: String? = null) {
+        @SerialName("id") val id: Int? = null,
+        @SerialName("country") val countryId: Int? = null,
+        @SerialName("city") val cityId: Int? = null,
+        @SerialName("name") val name: String? = null,
+        @SerialName("year_from") val yearFrom: Int? = null,
+        @SerialName("year_to") val yearTo: Int? = null,
+        @SerialName("year_graduated") val yearGraduated: Int? = null,
+        @SerialName("class") val classLetter: String? = null,
+        @SerialName("speciality") val speciality: String? = null,
+        @SerialName("type") val type: Type? = null,
+        @SerialName("type_str") val typeName: String? = null) {
 
         @Serializable(with = Type.Companion::class)
         enum class Type(override val value: Int) : SerializableEnum<Int> {
@@ -278,36 +278,36 @@ data class User(
 
     @Serializable
     data class University(
-        @Optional @SerialName("id") val id: Int? = null,
-        @Optional @SerialName("country") val countryId: Int? = null,
-        @Optional @SerialName("city") val cityId: Int? = null,
-        @Optional @SerialName("name") val name: String? = null,
-        @Optional @SerialName("faculty") val facultyId: Int? = null,
-        @Optional @SerialName("faculty_name") val facultyName: String? = null,
-        @Optional @SerialName("chair") val chairId: Int? = null,
-        @Optional @SerialName("chair_name") val chairName: String? = null,
-        @Optional @SerialName("graduation") val yearGraduation: Int? = null,
-        @Optional @SerialName("education_form") val educationForm: String? = null,
-        @Optional @SerialName("education_status") val educationStatus: String? = null)
+        @SerialName("id") val id: Int? = null,
+        @SerialName("country") val countryId: Int? = null,
+        @SerialName("city") val cityId: Int? = null,
+        @SerialName("name") val name: String? = null,
+        @SerialName("faculty") val facultyId: Int? = null,
+        @SerialName("faculty_name") val facultyName: String? = null,
+        @SerialName("chair") val chairId: Int? = null,
+        @SerialName("chair_name") val chairName: String? = null,
+        @SerialName("graduation") val yearGraduation: Int? = null,
+        @SerialName("education_form") val educationForm: String? = null,
+        @SerialName("education_status") val educationStatus: String? = null)
 
     @Serializable
     data class Career(
-        @Optional @SerialName("group_id") val groupId: Int? = null,
-        @Optional @SerialName("company") val company: String? = null,
-        @Optional @SerialName("country_id") val countryId: Int? = null,
-        @Optional @SerialName("city_id") val cityId: Int? = null,
-        @Optional @SerialName("city_name") val cityName: String? = null,
-        @Optional @SerialName("from") val yearFrom: Int? = null,
-        @Optional @SerialName("until") val yearUntil: Int? = null,
-        @Optional @SerialName("position") val position: String? = null)
+        @SerialName("group_id") val groupId: Int? = null,
+        @SerialName("company") val company: String? = null,
+        @SerialName("country_id") val countryId: Int? = null,
+        @SerialName("city_id") val cityId: Int? = null,
+        @SerialName("city_name") val cityName: String? = null,
+        @SerialName("from") val yearFrom: Int? = null,
+        @SerialName("until") val yearUntil: Int? = null,
+        @SerialName("position") val position: String? = null)
 
     @Serializable
     data class Military(
-        @Optional @SerialName("unit") val unit: String? = null,
-        @Optional @SerialName("unit_id") val unitId: Int? = null,
-        @Optional @SerialName("country_id") val countryId: Int? = null,
-        @Optional @SerialName("from") val yearFrom: Int? = null,
-        @Optional @SerialName("until") val yearUntil: Int? = null)
+        @SerialName("unit") val unit: String? = null,
+        @SerialName("unit_id") val unitId: Int? = null,
+        @SerialName("country_id") val countryId: Int? = null,
+        @SerialName("from") val yearFrom: Int? = null,
+        @SerialName("until") val yearUntil: Int? = null)
 
     @Serializable
     data class City(
@@ -321,28 +321,28 @@ data class User(
 
     @Serializable
     data class Contacts(
-        @Optional @SerialName("mobile_phone") val mobilePhone: String? = null,
-        @Optional @SerialName("home_phone") val homePhone: String? = null)
+        @SerialName("mobile_phone") val mobilePhone: String? = null,
+        @SerialName("home_phone") val homePhone: String? = null)
 
     @Serializable
     data class Counters(
-        @Optional @SerialName("albums") val albums: Int? = null,
-        @Optional @SerialName("videos") val videos: Int? = null,
-        @Optional @SerialName("audios") val audios: Int? = null,
-        @Optional @SerialName("photos") val photos: Int? = null,
-        @Optional @SerialName("notes") val notes: Int? = null,
-        @Optional @SerialName("friends") val friends: Int? = null,
-        @Optional @SerialName("groups") val groups: Int? = null,
-        @Optional @SerialName("online_friends") val onlineFriends: Int? = null,
-        @Optional @SerialName("mutual_friends") val mutualFriends: Int? = null,
-        @Optional @SerialName("user_videos") val userVideos: Int? = null,
-        @Optional @SerialName("followers") val followers: Int? = null,
-        @Optional @SerialName("pages") val pages: Int? = null)
+        @SerialName("albums") val albums: Int? = null,
+        @SerialName("videos") val videos: Int? = null,
+        @SerialName("audios") val audios: Int? = null,
+        @SerialName("photos") val photos: Int? = null,
+        @SerialName("notes") val notes: Int? = null,
+        @SerialName("friends") val friends: Int? = null,
+        @SerialName("groups") val groups: Int? = null,
+        @SerialName("online_friends") val onlineFriends: Int? = null,
+        @SerialName("mutual_friends") val mutualFriends: Int? = null,
+        @SerialName("user_videos") val userVideos: Int? = null,
+        @SerialName("followers") val followers: Int? = null,
+        @SerialName("pages") val pages: Int? = null)
 
     @Serializable
     data class LastSeenInfo(
         @SerialName("time") val time: Int,
-        @Optional @SerialName("platform") val platform: ClientPlatform? = null) {
+        @SerialName("platform") val platform: ClientPlatform? = null) {
 
         @Serializable(with = ClientPlatform.Companion::class)
         enum class ClientPlatform(override val value: Int) : SerializableEnum<Int> {

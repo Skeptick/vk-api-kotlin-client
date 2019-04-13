@@ -1,9 +1,7 @@
 package tk.skeptick.vk.apiclient.methods.groups
 
-import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.EnumIntSerializer
 import tk.skeptick.vk.apiclient.EnumStringSerializer
@@ -58,8 +56,8 @@ data class EditPlaceResponse(
 data class CommunityBan(
     @SerialName("ban_info") val banInfo: Info,
     @SerialName("type") val type: Type,
-    @Optional @SerialName("group") val group: Community? = null,
-    @Optional @SerialName("profile") val profile: User? = null) {
+    @SerialName("group") val group: Community? = null,
+    @SerialName("profile") val profile: User? = null) {
 
     @Serializable(with = Type.Companion::class)
     enum class Type(override val value: String) : SerializableEnum<String> {
@@ -77,7 +75,7 @@ data class CommunityBan(
         @SerialName("end_date") val endDate: Int,
         @SerialName("reason") val reason: Reason) {
 
-        @Transient val isPermanently: Boolean get() = endDate == 0
+        val isPermanently: Boolean get() = endDate == 0
         
     }
 
@@ -117,7 +115,7 @@ data class CommunityCallbackServer(
 
 @Serializable
 data class ServerSettings(
-    @Optional @SerialName("is_enabled") val isEnabled: Boolean? = null,
+    @SerialName("is_enabled") val isEnabled: Boolean? = null,
     @SerialName("api_version") val apiVersion: String,
     @SerialName("events") val events: Events) {
 
@@ -162,22 +160,22 @@ data class ServerSettings(
         @SerialName("user_unblock") val userUnblock: BooleanInt,
         @SerialName("messages_edit") val messagesEdit: BooleanInt,
         @SerialName("message_typing_state") val messageTypingState: BooleanInt,
-        @Optional @SerialName("lead_forms_new") val leadFormsNew: BooleanInt? = null)
+        @SerialName("lead_forms_new") val leadFormsNew: BooleanInt? = null)
 
 }
 
 @Serializable
 data class CommunitiesCatalog(
     @SerialName("enabled") val isEnabled: BooleanInt,
-    @Optional @SerialName("categories") val categories: List<Category>? = null) {
+    @SerialName("categories") val categories: List<Category>? = null) {
 
     @Serializable
     data class Category(
         @SerialName("id") val id: Int,
         @SerialName("name") val name: String,
-        @Optional @SerialName("page_count") val pageCount: Int? = null,
-        @Optional @SerialName("page_previews") val pagePreviews: List<Community>? = null,
-        @Optional @SerialName("subcategories") val subcategories: List<Category>? = null)
+        @SerialName("page_count") val pageCount: Int? = null,
+        @SerialName("page_previews") val pagePreviews: List<Community>? = null,
+        @SerialName("subcategories") val subcategories: List<Category>? = null)
 
 }
 
@@ -207,7 +205,7 @@ data class CommunityManager(
 @Serializable
 data class CommunityOnlineStatus(
     @SerialName("status") val status: Status,
-    @Optional @SerialName("minutes") val minutes: Int? = null) {
+    @SerialName("minutes") val minutes: Int? = null) {
 
     @Serializable(with = Status.Companion::class)
     enum class Status(override val value: String) : SerializableEnum<String> {
@@ -244,22 +242,22 @@ data class CommunitySettings(
     @SerialName("market") val market: Community.Market,
     @SerialName("main_section") val mainSection: Community.MainSectionType,
     @SerialName("secondary_section") val secondarySection: Community.MainSectionType,
-    @Optional @SerialName("rss") val rss: String? = null,
-    @Optional @SerialName("public_category") val publicCategory: Int? = null,
-    @Optional @SerialName("public_subcategory") val publicSubcategory: Int? = null,
-    @Optional @SerialName("public_category_list") val publicCategoryList: List<CommunitiesCatalog.Category>? = null,
-    @Optional @SerialName("links") val links: BooleanInt? = null,
-    @Optional @SerialName("events") val events: BooleanInt? = null,
-    @Optional @SerialName("places") val places: BooleanInt? = null,
-    @Optional @SerialName("contacts") val contacts: BooleanInt? = null,
-    @Optional @SerialName("place") val place: Geo.Place? = null,
-    @Optional @SerialName("start_date") val startDate: Int? = null,
-    @Optional @SerialName("finish_date") val finishDate: Int? = null,
-    @Optional @SerialName("email") val email: String? = null,
-    @Optional @SerialName("phone") val phone: String? = null,
-    @Optional @SerialName("public_date") val publicDate: String? = null,
-    @Optional @SerialName("public_date_label") val publicDateLabel: String? = null,
-    @Optional @SerialName("suggested_privacy") val suggestedPrivacy: CommunitySuggestedPrivacyType? = null) {
+    @SerialName("rss") val rss: String? = null,
+    @SerialName("public_category") val publicCategory: Int? = null,
+    @SerialName("public_subcategory") val publicSubcategory: Int? = null,
+    @SerialName("public_category_list") val publicCategoryList: List<CommunitiesCatalog.Category>? = null,
+    @SerialName("links") val links: BooleanInt? = null,
+    @SerialName("events") val events: BooleanInt? = null,
+    @SerialName("places") val places: BooleanInt? = null,
+    @SerialName("contacts") val contacts: BooleanInt? = null,
+    @SerialName("place") val place: Geo.Place? = null,
+    @SerialName("start_date") val startDate: Int? = null,
+    @SerialName("finish_date") val finishDate: Int? = null,
+    @SerialName("email") val email: String? = null,
+    @SerialName("phone") val phone: String? = null,
+    @SerialName("public_date") val publicDate: String? = null,
+    @SerialName("public_date_label") val publicDateLabel: String? = null,
+    @SerialName("suggested_privacy") val suggestedPrivacy: CommunitySuggestedPrivacyType? = null) {
 
     @Serializable(with = CommunitySuggestedPrivacyType.Companion::class)
     enum class CommunitySuggestedPrivacyType(override val value: Int) : SerializableEnum<Int> {
@@ -287,6 +285,6 @@ data class CommunityTokenPermissions(
 @Serializable
 data class CommunityMemberResponse(
     @SerialName("member") val isMember: BooleanInt,
-    @Optional @SerialName("user_id") val userId: Int? = null,
-    @Optional @SerialName("request") val hasRequest: BooleanInt? = null,
-    @Optional @SerialName("invitation") val isInvitation: BooleanInt? = null)
+    @SerialName("user_id") val userId: Int? = null,
+    @SerialName("request") val hasRequest: BooleanInt? = null,
+    @SerialName("invitation") val isInvitation: BooleanInt? = null)

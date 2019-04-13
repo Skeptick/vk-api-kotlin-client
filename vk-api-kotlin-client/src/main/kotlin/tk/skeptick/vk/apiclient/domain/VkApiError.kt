@@ -1,6 +1,5 @@
 package tk.skeptick.vk.apiclient.domain
 
-import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -8,11 +7,11 @@ import kotlinx.serialization.Serializable
 data class VkApiError(
     @SerialName("error_code") val errorCode: Int,
     @SerialName("error_msg") val errorMessage: String,
-    @Optional @SerialName("captcha_sid") val captchaSid: String? = null,
-    @Optional @SerialName("captcha_img") val captchaImg: String? = null,
-    @Optional @SerialName("redirect_uri") val redirectUri: String? = null,
-    @Optional @SerialName("confirmation_text") val confirmationText: String? = null,
-    @Optional @SerialName("request_params") val requestParams: List<RequestParameter> = emptyList()
+    @SerialName("captcha_sid") val captchaSid: String? = null,
+    @SerialName("captcha_img") val captchaImg: String? = null,
+    @SerialName("redirect_uri") val redirectUri: String? = null,
+    @SerialName("confirmation_text") val confirmationText: String? = null,
+    @SerialName("request_params") val requestParams: List<RequestParameter> = emptyList()
 ) : Exception() {
 
     @Serializable

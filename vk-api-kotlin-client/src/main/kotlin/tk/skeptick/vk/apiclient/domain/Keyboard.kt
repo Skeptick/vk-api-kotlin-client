@@ -1,6 +1,5 @@
 package tk.skeptick.vk.apiclient.domain
 
-import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.EnumStringSerializer
@@ -21,7 +20,7 @@ data class Keyboard(
         data class Action(
             @SerialName("type") val type: Type = Type.TEXT,
             @SerialName("label") val label: String,
-            @Optional @SerialName("payload") val payload: MessagePayload? = null) {
+            @SerialName("payload") val payload: MessagePayload? = null) {
 
             @Serializable(with = Type.Companion::class)
             enum class Type(override val value: String) : SerializableEnum<String> {

@@ -1,6 +1,5 @@
 package tk.skeptick.vk.apiclient.domain.models
 
-import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.EnumStringSerializer
@@ -14,14 +13,14 @@ data class Conversation(
     @SerialName("out_read") val outReadMessageId: Int,
     @SerialName("can_write") val canWrite: CanWrite,
     @SerialName("last_message_id") val lastMessageId: Int,
-    @Optional @SerialName("can_send_money") val canSendMoney: Boolean? = null,
-    @Optional @SerialName("can_receive_money") val canReceiveMoney: Boolean? = null,
-    @Optional @SerialName("unread_count") val unreadCount: Int = 0,
-    @Optional @SerialName("important") val isImportant: Boolean? = null,
-    @Optional @SerialName("unanswered") val isUnanswered: Boolean? = null,
-    @Optional @SerialName("current_keyboard") val currentKeyboard: Keyboard? = null,
-    @Optional @SerialName("chat_settings") val chatSettings: ChatSettings? = null,
-    @Optional @SerialName("push_settings") val pushSettings: PushSettings? = null) {
+    @SerialName("can_send_money") val canSendMoney: Boolean? = null,
+    @SerialName("can_receive_money") val canReceiveMoney: Boolean? = null,
+    @SerialName("unread_count") val unreadCount: Int = 0,
+    @SerialName("important") val isImportant: Boolean? = null,
+    @SerialName("unanswered") val isUnanswered: Boolean? = null,
+    @SerialName("current_keyboard") val currentKeyboard: Keyboard? = null,
+    @SerialName("chat_settings") val chatSettings: ChatSettings? = null,
+    @SerialName("push_settings") val pushSettings: PushSettings? = null) {
 
     @Serializable
     data class Peer(
@@ -44,7 +43,7 @@ data class Conversation(
     @Serializable
     data class CanWrite(
         @SerialName("allowed") val isAllowed: Boolean,
-        @Optional @SerialName("reason") val reasonErrorCode: Int? = null)
+        @SerialName("reason") val reasonErrorCode: Int? = null)
 
     @Serializable
     data class ChatSettings(
@@ -55,8 +54,8 @@ data class Conversation(
         @SerialName("acl") val acl: AccessControlList,
         @SerialName("is_group_channel") val isGroupChannel: Boolean,
         @SerialName("owner_id") val ownerId: Int,
-        @Optional @SerialName("pinned_message") val pinnedMessage: Message.Pinned? = null,
-        @Optional @SerialName("photo") val photo: SimplePhoto? = null) {
+        @SerialName("pinned_message") val pinnedMessage: Message.Pinned? = null,
+        @SerialName("photo") val photo: SimplePhoto? = null) {
 
         @Serializable(with = State.Companion::class)
         enum class State(override val value: String) : SerializableEnum<String> {

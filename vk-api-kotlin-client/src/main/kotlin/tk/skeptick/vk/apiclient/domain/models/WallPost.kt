@@ -9,36 +9,36 @@ import tk.skeptick.vk.apiclient.domain.*
 @Serializable
 data class WallPost(
     @SerialName("id") override val id: Int,
-    @Optional @SerialName("owner_id") private val _ownerId: Int? = null,
-    @Optional @SerialName("to_id") private val toId: Int? = null,
+    @SerialName("owner_id") private val _ownerId: Int? = null,
+    @SerialName("to_id") private val toId: Int? = null,
     @SerialName("from_id") val fromId: Int,
     @SerialName("date") val date: Int,
     @SerialName("text") val text: String,
     @SerialName("post_type") val type: Type,
-    @Optional @SerialName("created_by") val createdByUserId: Int? = null,
-    @Optional @SerialName("reply_owner_id") val replyOwnerId: Int? = null,
-    @Optional @SerialName("reply_post_id") val replyPostId: Int? = null,
-    @Optional @SerialName("likes") val likes: Likes? = null,
-    @Optional @SerialName("reposts") val reposts: Reposts? = null,
-    @Optional @SerialName("comments") val comments: Comments? = null,
-    @Optional @SerialName("views") val views: Views? = null,
-    @Optional @SerialName("post_source") val postSource: Source? = null,
-    @Optional @SerialName("attachments") val attachments: List<Attachment>? = null,
-    @Optional @SerialName("geo") val geo: Geo? = null,
-    @Optional @SerialName("signer_id") val signerUserId: Int? = null,
-    @Optional @SerialName("copy_history") val copyHistory: List<WallPost>? = null,
-    @Optional @SerialName("friends_only") val isFriendsOnly: BooleanInt? = null,
-    @Optional @SerialName("is_pinned") val isPinned: BooleanInt = BooleanInt(false),
-    @Optional @SerialName("marked_as_ads") val isMarkedAsAds: BooleanInt = BooleanInt(false),
-    @Optional @SerialName("can_pin") val canPin: BooleanInt? = null,
-    @Optional @SerialName("can_delete") val canDelete: BooleanInt? = null,
-    @Optional @SerialName("can_edit") val canEdit: BooleanInt? = null,
-    @Optional @SerialName("is_favorite") val isFavorite: Boolean = false,
-    @Optional @SerialName("access_key") override val accessKey: String? = null
+    @SerialName("created_by") val createdByUserId: Int? = null,
+    @SerialName("reply_owner_id") val replyOwnerId: Int? = null,
+    @SerialName("reply_post_id") val replyPostId: Int? = null,
+    @SerialName("likes") val likes: Likes? = null,
+    @SerialName("reposts") val reposts: Reposts? = null,
+    @SerialName("comments") val comments: Comments? = null,
+    @SerialName("views") val views: Views? = null,
+    @SerialName("post_source") val postSource: Source? = null,
+    @SerialName("attachments") val attachments: List<Attachment>? = null,
+    @SerialName("geo") val geo: Geo? = null,
+    @SerialName("signer_id") val signerUserId: Int? = null,
+    @SerialName("copy_history") val copyHistory: List<WallPost>? = null,
+    @SerialName("friends_only") val isFriendsOnly: BooleanInt? = null,
+    @SerialName("is_pinned") val isPinned: BooleanInt = BooleanInt(false),
+    @SerialName("marked_as_ads") val isMarkedAsAds: BooleanInt = BooleanInt(false),
+    @SerialName("can_pin") val canPin: BooleanInt? = null,
+    @SerialName("can_delete") val canDelete: BooleanInt? = null,
+    @SerialName("can_edit") val canEdit: BooleanInt? = null,
+    @SerialName("is_favorite") val isFavorite: Boolean = false,
+    @SerialName("access_key") override val accessKey: String? = null
 ) : MessageAttachment {
 
-    @Transient override val typeAttachment: String get() = AttachmentType.WALL.value
-    @Transient override val ownerId: Int = _ownerId ?: toId!!
+    override val typeAttachment: String get() = AttachmentType.WALL.value
+    override val ownerId: Int = _ownerId ?: toId!!
 
     @Serializable(with = Type.Companion::class)
     enum class Type(override val value: String) : SerializableEnum<String> {
@@ -55,23 +55,23 @@ data class WallPost(
     @Serializable
     data class Comments(
         @SerialName("count") val count: Int,
-        @Optional @SerialName("list") val list: List<WallComment>? = null,
-        @Optional @SerialName("groups_can_post") val isGroupsCanComment: Boolean = false,
-        @Optional @SerialName("can_post") val canPost: BooleanInt? = null,
-        @Optional @SerialName("can_close") val canClose: BooleanInt? = null,
-        @Optional @SerialName("can_open") val canOpen: BooleanInt? = null)
+        @SerialName("list") val list: List<WallComment>? = null,
+        @SerialName("groups_can_post") val isGroupsCanComment: Boolean = false,
+        @SerialName("can_post") val canPost: BooleanInt? = null,
+        @SerialName("can_close") val canClose: BooleanInt? = null,
+        @SerialName("can_open") val canOpen: BooleanInt? = null)
 
     @Serializable
     data class Likes(
         @SerialName("count") val count: Int,
-        @Optional @SerialName("user_likes") val isUserLikes: BooleanInt? = null,
-        @Optional @SerialName("can_like") val canLike: BooleanInt? = null,
-        @Optional @SerialName("can_publish") val canPublish: BooleanInt? = null)
+        @SerialName("user_likes") val isUserLikes: BooleanInt? = null,
+        @SerialName("can_like") val canLike: BooleanInt? = null,
+        @SerialName("can_publish") val canPublish: BooleanInt? = null)
 
     @Serializable
     data class Reposts(
         @SerialName("count") val count: Int,
-        @Optional @SerialName("user_reposted") val isUserReposted: BooleanInt? = null)
+        @SerialName("user_reposted") val isUserReposted: BooleanInt? = null)
 
     @Serializable
     data class Views(
@@ -80,9 +80,9 @@ data class WallPost(
     @Serializable
     data class Source(
         @SerialName("type") val type: Type,
-        @Optional @SerialName("link") val link: Link? = null,
-        @Optional @SerialName("platform") val platform: Platform? = null,
-        @Optional @SerialName("data") val data: DataType? = null) {
+        @SerialName("link") val link: Link? = null,
+        @SerialName("platform") val platform: Platform? = null,
+        @SerialName("data") val data: DataType? = null) {
 
         @Serializable(with = Type.Companion::class)
         enum class Type(override val value: String) : SerializableEnum<String> {
@@ -120,19 +120,19 @@ data class WallPost(
     @Serializable
     data class Attachment(
         @SerialName("type") val type: AttachmentType,
-        @Optional @SerialName("photo") val photo: Photo? = null,
-        @Optional @SerialName("video") val video: Video? = null,
-        @Optional @SerialName("audio") val audio: Audio? = null,
-        @Optional @SerialName("doc") val document: Document? = null,
-        @Optional @SerialName("link") val link: Link? = null,
-        @Optional @SerialName("note") val note: Note? = null,
-        @Optional @SerialName("poll") val poll: Poll? = null,
-        @Optional @SerialName("page") val page: Page? = null,
-        @Optional @SerialName("album") val album: Photo.Album? = null,
-        @Optional @SerialName("photos_list") val photosList: List<Int>? = null,
-        @Optional @SerialName("market") val market: Market? = null,
-        @Optional @SerialName("market_album") val marketAlbum: Market.Album? = null,
-        @Optional @SerialName("sticker") val sticker: Sticker? = null)
+        @SerialName("photo") val photo: Photo? = null,
+        @SerialName("video") val video: Video? = null,
+        @SerialName("audio") val audio: Audio? = null,
+        @SerialName("doc") val document: Document? = null,
+        @SerialName("link") val link: Link? = null,
+        @SerialName("note") val note: Note? = null,
+        @SerialName("poll") val poll: Poll? = null,
+        @SerialName("page") val page: Page? = null,
+        @SerialName("album") val album: Photo.Album? = null,
+        @SerialName("photos_list") val photosList: List<Int>? = null,
+        @SerialName("market") val market: Market? = null,
+        @SerialName("market_album") val marketAlbum: Market.Album? = null,
+        @SerialName("sticker") val sticker: Sticker? = null)
 
 }
 

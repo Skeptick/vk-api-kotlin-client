@@ -1,6 +1,5 @@
 package tk.skeptick.vk.apiclient.methods.utils
 
-import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.EnumStringSerializer
@@ -27,9 +26,9 @@ data class ShortLink(
     @SerialName("short_url") val shortUrl: String,
     @SerialName("url") val url: String,
     @SerialName("key") val key: String,
-    @Optional @SerialName("access_key") val accessKey: String? = null,
-    @Optional @SerialName("timestamp") val timestamp: Int? = null,
-    @Optional @SerialName("views") val views: Int? = null)
+    @SerialName("access_key") val accessKey: String? = null,
+    @SerialName("timestamp") val timestamp: Int? = null,
+    @SerialName("views") val views: Int? = null)
 
 @Serializable
 data class ShortLinkStats(
@@ -40,9 +39,9 @@ data class ShortLinkStats(
     data class Stats(
         @SerialName("timestamp") val timestamp: Int,
         @SerialName("views") val views: Int,
-        @Optional @SerialName("sex_age") val sexAge: List<SexAge>? = null,
-        @Optional @SerialName("countries") val countries: List<Country>? = null,
-        @Optional @SerialName("cities") val cities: List<City>? = null) {
+        @SerialName("sex_age") val sexAge: List<SexAge>? = null,
+        @SerialName("countries") val countries: List<Country>? = null,
+        @SerialName("cities") val cities: List<City>? = null) {
 
         @Serializable
         data class SexAge(

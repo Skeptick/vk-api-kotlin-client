@@ -8,14 +8,14 @@ import tk.skeptick.vk.apiclient.SerializableEnum
 data class Link(
     @SerialName("url") val url: String,
     @SerialName("title") val title: String,
-    @Optional @SerialName("caption") val caption: String? = null,
-    @Optional @SerialName("description") val description: String? = null,
-    @Optional @SerialName("photo") val photo: Photo? = null,
-    @Optional @SerialName("product") val product: Product? = null,
-    @Optional @SerialName("button") val button: Button? = null,
-    @Optional @SerialName("preview_page") val previewPage: String? = null,
-    @Optional @SerialName("preview_url") val previewUrl: String? = null,
-    @Optional @SerialName("is_favorite") val isFavorite: Boolean? = null) {
+    @SerialName("caption") val caption: String? = null,
+    @SerialName("description") val description: String? = null,
+    @SerialName("photo") val photo: Photo? = null,
+    @SerialName("product") val product: Product? = null,
+    @SerialName("button") val button: Button? = null,
+    @SerialName("preview_page") val previewPage: String? = null,
+    @SerialName("preview_url") val previewUrl: String? = null,
+    @SerialName("is_favorite") val isFavorite: Boolean? = null) {
 
     @Serializable
     data class Product(

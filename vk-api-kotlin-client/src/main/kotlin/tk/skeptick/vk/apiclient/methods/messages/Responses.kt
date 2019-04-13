@@ -14,17 +14,17 @@ data class ChatChangePhotoResponse(
 @Serializable
 data class ChatPreview(
     @SerialName("preview") val preview: Preview,
-    @Optional @SerialName("profiles") val profiles: List<User>? = null,
-    @Optional @SerialName("groups") val groups: List<Community>? = null,
-    @Optional @SerialName("emails") val emails: List<Email>? = null) {
+    @SerialName("profiles") val profiles: List<User>? = null,
+    @SerialName("groups") val groups: List<Community>? = null,
+    @SerialName("emails") val emails: List<Email>? = null) {
 
     @Serializable
     data class Preview(
         @SerialName("admin_id") val adminId: Int,
         @SerialName("members") val members: List<Int>,
         @SerialName("title") val title: String,
-        @Optional @SerialName("photo") val photo: SimplePhoto? = null,
-        @Optional @SerialName("local_id") val localChatId: Int? = null)
+        @SerialName("photo") val photo: SimplePhoto? = null,
+        @SerialName("local_id") val localChatId: Int? = null)
 
     @Serializable
     data class Email(
@@ -38,16 +38,16 @@ data class ConversationMember(
     @SerialName("member_id") val memberId: Int,
     @SerialName("invited_by") val invitedBy: Int,
     @SerialName("join_date") val joinDate: Int,
-    @Optional @SerialName("is_admin") val isAdmin: Boolean = false,
-    @Optional @SerialName("can_kick") val canKick: Boolean = false)
+    @SerialName("is_admin") val isAdmin: Boolean = false,
+    @SerialName("can_kick") val canKick: Boolean = false)
 
 @Serializable
 data class ConversationsListResponse(
     @SerialName("count") override val count: Int,
     @SerialName("items") override val items: List<Item>,
-    @Optional @SerialName("unread_count") val unreadCount: Int = 0,
-    @Optional @SerialName("profiles") val profiles: List<User>? = null,
-    @Optional @SerialName("groups") val groups: List<Community>? = null
+    @SerialName("unread_count") val unreadCount: Int = 0,
+    @SerialName("profiles") val profiles: List<User>? = null,
+    @SerialName("groups") val groups: List<Community>? = null
 ) : ListResponse<ConversationsListResponse.Item> {
 
     @Serializable
@@ -61,18 +61,18 @@ data class ConversationsListResponse(
 data class HistoryMessagesListResponse(
     @SerialName("count") override val count: Int,
     @SerialName("items") override val items: List<Message>,
-    @Optional @SerialName("in_read") val inReadMessageId: Int? = null,
-    @Optional @SerialName("out_read") val outReadMessageId: Int? = null,
-    @Optional @SerialName("unread") val unreadCount: Int = 0,
-    @Optional @SerialName("skipped") val skippedCount: Int = 0,
-    @Optional @SerialName("profiles") val profiles: List<User>? = null,
-    @Optional @SerialName("groups") val groups: List<Community>? = null
+    @SerialName("in_read") val inReadMessageId: Int? = null,
+    @SerialName("out_read") val outReadMessageId: Int? = null,
+    @SerialName("unread") val unreadCount: Int = 0,
+    @SerialName("skipped") val skippedCount: Int = 0,
+    @SerialName("profiles") val profiles: List<User>? = null,
+    @SerialName("groups") val groups: List<Community>? = null
 ) : ListResponse<Message>
 
 @Serializable
 data class HistoryAttachmentsResponse(
     @SerialName("items") val items: List<Item>,
-    @Optional @SerialName("next_from") val nextFrom: String? = null) {
+    @SerialName("next_from") val nextFrom: String? = null) {
 
     @Serializable
     data class Item(
@@ -84,9 +84,9 @@ data class HistoryAttachmentsResponse(
 @Serializable
 data class ImportantMessagesResponse(
     @SerialName("messages") val messages: DefaultListResponse<Message>,
-    @Optional @SerialName("profiles") val profiles: List<User>? = null,
-    @Optional @SerialName("groups") val groups: List<Community>? = null,
-    @Optional @SerialName("conversations") val conversations: List<Conversation>? = null)
+    @SerialName("profiles") val profiles: List<User>? = null,
+    @SerialName("groups") val groups: List<Community>? = null,
+    @SerialName("conversations") val conversations: List<Conversation>? = null)
 
 @Serializable
 data class ChatInviteLink(
@@ -102,16 +102,16 @@ data class LongPollHistoryResponse(
     @SerialName("history") val history: List<List<Int>>,
     @SerialName("messages") val messages: DefaultListResponse<Message>,
     @SerialName("profiles") val profiles: List<User>,
-    @Optional @SerialName("groups") val communities: List<Community>? = null,
-    @Optional @SerialName("new_pts") val newPts: Long? = null,
-    @Optional @SerialName("more") val hasMore: BooleanInt = BooleanInt(false))
+    @SerialName("groups") val communities: List<Community>? = null,
+    @SerialName("new_pts") val newPts: Long? = null,
+    @SerialName("more") val hasMore: BooleanInt = BooleanInt(false))
 
 @Serializable
 data class LongPollServerResponse(
     @SerialName("key") val key: String,
     @SerialName("server") val server: String,
     @SerialName("ts") val ts: Long,
-    @Optional @SerialName("pts") val pts: Long? = null)
+    @SerialName("pts") val pts: Long? = null)
 
 @Serializable
 data class MessagesFromGroupAllowedResponse(
@@ -124,5 +124,5 @@ data class JoinChatByLinkResponse(
 @Serializable
 data class SendBulkMessageResponse(
     @SerialName("peer_id") val peerId: Int,
-    @Optional @SerialName("message_id") val messageId: Int? = null,
-    @Optional @SerialName("error") val error: String? = null) // TODO check
+    @SerialName("message_id") val messageId: Int? = null,
+    @SerialName("error") val error: String? = null) // TODO check

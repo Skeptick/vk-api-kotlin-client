@@ -16,24 +16,24 @@ data class Message(
     @SerialName("date") val date: Int,
     @SerialName("text") val text: String,
     @SerialName("conversation_message_id") val conversationMessageId: Int,
-    @Optional @SerialName("out") val isOutbox: BooleanInt? = null,
-    @Optional @SerialName("important") val isImportant: Boolean? = null,
-    @Optional @SerialName("is_hidden") val isHidden: Boolean? = null,
-    @Optional @SerialName("update_time") val updateTime: Int? = null,
-    @Optional @SerialName("attachments") val attachments: List<Attachment>? = null,
-    @Optional @SerialName("geo") val geo: Geo? = null,
-    @Optional @SerialName("payload") val payload: MessagePayload? = null,
-    @Optional @SerialName("fwd_messages") val forwardedMessages: List<Forward>? = null,
-    @Optional @SerialName("reply_message") val replyMessage: Forward? = null,
-    @Optional @SerialName("action") val serviceAction: ServiceAction? = null,
-    @Optional @SerialName("random_id") val randomId: Int? = null,
-    @Optional @SerialName("ref") val ref: String? = null,
-    @Optional @SerialName("ref_source") val refSource: String? = null,
-    @Optional @SerialName("chat_id") val chatId: Int? = null,
-    @Optional @SerialName("admin_author_id") val adminAuthorId: Int? = null) {
+    @SerialName("out") val isOutbox: BooleanInt? = null,
+    @SerialName("important") val isImportant: Boolean? = null,
+    @SerialName("is_hidden") val isHidden: Boolean? = null,
+    @SerialName("update_time") val updateTime: Int? = null,
+    @SerialName("attachments") val attachments: List<Attachment>? = null,
+    @SerialName("geo") val geo: Geo? = null,
+    @SerialName("payload") val payload: MessagePayload? = null,
+    @SerialName("fwd_messages") val forwardedMessages: List<Forward>? = null,
+    @SerialName("reply_message") val replyMessage: Forward? = null,
+    @SerialName("action") val serviceAction: ServiceAction? = null,
+    @SerialName("random_id") val randomId: Int? = null,
+    @SerialName("ref") val ref: String? = null,
+    @SerialName("ref_source") val refSource: String? = null,
+    @SerialName("chat_id") val chatId: Int? = null,
+    @SerialName("admin_author_id") val adminAuthorId: Int? = null) {
 
-    @Transient val isFromChat: Boolean get() = peerId.isChatPeerId
-    @Transient val isServiceAction: Boolean get() = serviceAction != null
+    val isFromChat: Boolean get() = peerId.isChatPeerId
+    val isServiceAction: Boolean get() = serviceAction != null
 
     @Serializable
     data class Forward(
@@ -44,9 +44,9 @@ data class Message(
         @SerialName("date") val date: Int,
         @SerialName("text") val body: String,
         @SerialName("update_time") val updateTime: Int,
-        @Optional @SerialName("geo") val geo: Geo? = null,
-        @Optional @SerialName("attachments") val attachments: List<Attachment>? = null,
-        @Optional @SerialName("fwd_messages") val forwardedMessages: List<Forward>? = null)
+        @SerialName("geo") val geo: Geo? = null,
+        @SerialName("attachments") val attachments: List<Attachment>? = null,
+        @SerialName("fwd_messages") val forwardedMessages: List<Forward>? = null)
 
     @Serializable
     data class Pinned(
@@ -54,37 +54,37 @@ data class Message(
         @SerialName("from_id") val userId: Int,
         @SerialName("date") val date: Int,
         @SerialName("text") val body: String,
-        @Optional @SerialName("conversation_message_id") val conversationMessageId: Int? = null,
-        @Optional @SerialName("geo") val geo: Geo? = null,
-        @Optional @SerialName("attachments") val attachments: List<Attachment>? = null,
-        @Optional @SerialName("fwd_messages") val forwardedMessages: List<Forward>? = null)
+        @SerialName("conversation_message_id") val conversationMessageId: Int? = null,
+        @SerialName("geo") val geo: Geo? = null,
+        @SerialName("attachments") val attachments: List<Attachment>? = null,
+        @SerialName("fwd_messages") val forwardedMessages: List<Forward>? = null)
 
     @Serializable
     data class Attachment(
         @SerialName("type") val type: AttachmentType,
-        @Optional @SerialName("photo") val photo: Photo? = null,
-        @Optional @SerialName("video") val video: Video? = null,
-        @Optional @SerialName("audio") val audio: Audio? = null,
-        @Optional @SerialName("doc") val document: Document? = null,
-        @Optional @SerialName("link") val link: Link? = null,
-        @Optional @SerialName("market") val market: Market? = null,
-        @Optional @SerialName("market_album") val marketAlbum: Market.Album? = null,
-        @Optional @SerialName("wall") val wallPost: WallPost? = null,
-        @Optional @SerialName("wall_reply") val wallReply: WallComment? = null,
-        @Optional @SerialName("sticker") val sticker: Sticker? = null,
-        @Optional @SerialName("gift") val gift: Gift? = null,
-        @Optional @SerialName("graffiti") val graffiti: Graffiti? = null,
-        @Optional @SerialName("audio_message") val audioMessage: AudioMessage? = null)
+        @SerialName("photo") val photo: Photo? = null,
+        @SerialName("video") val video: Video? = null,
+        @SerialName("audio") val audio: Audio? = null,
+        @SerialName("doc") val document: Document? = null,
+        @SerialName("link") val link: Link? = null,
+        @SerialName("market") val market: Market? = null,
+        @SerialName("market_album") val marketAlbum: Market.Album? = null,
+        @SerialName("wall") val wallPost: WallPost? = null,
+        @SerialName("wall_reply") val wallReply: WallComment? = null,
+        @SerialName("sticker") val sticker: Sticker? = null,
+        @SerialName("gift") val gift: Gift? = null,
+        @SerialName("graffiti") val graffiti: Graffiti? = null,
+        @SerialName("audio_message") val audioMessage: AudioMessage? = null)
 
     @Serializable
     data class ServiceAction(
         @SerialName("type") val type: Type,
-        @Optional @SerialName("member_id") val memberId: Int? = null,
-        @Optional @SerialName("text") val conversationTitle: String? = null,
-        @Optional @SerialName("email") val email: String? = null,
-        @Optional @SerialName("photo") val photo: SimplePhoto? = null) {
+        @SerialName("member_id") val memberId: Int? = null,
+        @SerialName("text") val conversationTitle: String? = null,
+        @SerialName("email") val email: String? = null,
+        @SerialName("photo") val photo: SimplePhoto? = null) {
 
-        @Transient val isActionFromEmail: Boolean get() = memberId?.let { it < 0 } ?: false
+        val isActionFromEmail: Boolean get() = memberId?.let { it < 0 } ?: false
 
         @Serializable(with = Type.Companion::class)
         enum class Type(override val value: String) : SerializableEnum<String> {

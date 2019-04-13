@@ -12,6 +12,7 @@ import kotlinx.io.core.buildPacket
 import kotlinx.io.core.writeFully
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
@@ -126,8 +127,10 @@ internal inline val MessageAttachment.attachment: String
 
 //--- Parsers ---//
 
-internal val json = Json.nonstrict
-
+internal val json = Json(configuration = JsonConfiguration.Stable.copy(
+    strictMode = false,
+    encodeDefaults = false
+))
 
 internal fun <T : Any> parseMethodResponse(
     responseString: String,

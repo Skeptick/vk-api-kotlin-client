@@ -12,24 +12,22 @@ data class Photo(
     @SerialName("sizes") val sizes: List<Size>,
     @SerialName("text") val description: String,
     @SerialName("date") val date: Int,
-    @Optional @SerialName("user_id") val userId: Int? = null,
-    @Optional @SerialName("height") val height: Int? = null,
-    @Optional @SerialName("width") val width: Int? = null,
-    @Optional @SerialName("access_key") override val accessKey: String? = null,
-
-    // Only for wall post
-    @Optional @SerialName("post_id") val wallPostId: Int? = null
+    @SerialName("user_id") val userId: Int? = null,
+    @SerialName("height") val height: Int? = null,
+    @SerialName("width") val width: Int? = null,
+    @SerialName("access_key") override val accessKey: String? = null,
+    @SerialName("post_id") val wallPostId: Int? = null
 ) : MessageAttachment {
 
-    @Transient override val typeAttachment get() = AttachmentType.PHOTO.value
-    @Transient val isInCommunity get() = userId == 100
+    override val typeAttachment get() = AttachmentType.PHOTO.value
+    val isInCommunity get() = userId == 100
 
     @Serializable
     data class Size(
         @SerialName("url") val src: String,
         @SerialName("width") val width: Int,
         @SerialName("height") val height: Int,
-        @Optional @SerialName("type") val type: String? = null)
+        @SerialName("type") val type: String? = null)
 
     @Serializable
     data class Album(
@@ -39,8 +37,8 @@ data class Photo(
         @SerialName("created") val createdDate: Int,
         @SerialName("updated") val updatedDate: Int,
         @SerialName("size") val size: Int,
-        @Optional @SerialName("description") val description: String? = null,
-        @Optional @SerialName("thumb") val thumb: Photo? = null)
+        @SerialName("description") val description: String? = null,
+        @SerialName("thumb") val thumb: Photo? = null)
 
 }
 
