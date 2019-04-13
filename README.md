@@ -1,7 +1,7 @@
 VK API Kotlin Client
 ======================
 Библиотека для работы с API vk.com на языке Kotlin
-#### [Версия VK API](https://vk.com/dev/versions): 5.92
+#### [Версия VK API](https://vk.com/dev/versions): 5.95
 ______________________
 #### Использует:
   - [kotlinx.coroutines]
@@ -57,13 +57,13 @@ ______________________
 #### Подготовка
 Первым делом подключите подходящий вам [HTTP-клиент](https://github.com/ktorio/ktor/tree/master/ktor-client), например CIO:
 ```
-compile "io.ktor:ktor-client-cio:1.1.2"
+compile "io.ktor:ktor-client-cio:1.1.3"
 ```
 
 #### Авторизация и инициализация клиента
 ```kotlin
 val apiClient = VkApiClient.byOAuth(
-    engine = CIO.create(),
+    httpClient = HttpClient(CIO),
     authData = OAuth.User.CodeFlow(
         clientId = 123456,
         clientSecret = "######",
@@ -72,7 +72,7 @@ val apiClient = VkApiClient.byOAuth(
 )
 
 val api = VkApiUser(apiClient) // for user token
-val api = VkApiCommunity(apiClient) // for community token
+// val api = VkApiCommunity(apiClient) // for community token
 ```
 #### Использование методов
 ```kotlin

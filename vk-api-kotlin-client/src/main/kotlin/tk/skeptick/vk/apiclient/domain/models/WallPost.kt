@@ -34,6 +34,7 @@ data class WallPost(
     @SerialName("can_delete") val canDelete: BooleanInt? = null,
     @SerialName("can_edit") val canEdit: BooleanInt? = null,
     @SerialName("is_favorite") val isFavorite: Boolean = false,
+    @SerialName("is_promoted_post_stealth") val isPromotedPostStealth: Boolean = false,
     @SerialName("access_key") override val accessKey: String? = null
 ) : MessageAttachment {
 
@@ -47,7 +48,8 @@ data class WallPost(
         REPLY("reply"),
         POSTPONE("postpone"),
         SUGGEST("suggest"),
-        PHOTO("photo");
+        PHOTO("photo"),
+        POST_ADS("post_ads");
 
         companion object : EnumStringSerializer<Type>(Type::class)
     }
@@ -124,6 +126,7 @@ data class WallPost(
         @SerialName("video") val video: Video? = null,
         @SerialName("audio") val audio: Audio? = null,
         @SerialName("doc") val document: Document? = null,
+        @SerialName("graffiti") val graffiti: Graffiti? = null,
         @SerialName("link") val link: Link? = null,
         @SerialName("note") val note: Note? = null,
         @SerialName("poll") val poll: Poll? = null,
@@ -132,7 +135,8 @@ data class WallPost(
         @SerialName("photos_list") val photosList: List<Int>? = null,
         @SerialName("market") val market: Market? = null,
         @SerialName("market_album") val marketAlbum: Market.Album? = null,
-        @SerialName("sticker") val sticker: Sticker? = null)
+        @SerialName("sticker") val sticker: Sticker? = null,
+        @SerialName("pretty_cards") val prettyCards: PrettyCards? = null)
 
 }
 

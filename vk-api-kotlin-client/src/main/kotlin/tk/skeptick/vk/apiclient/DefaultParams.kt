@@ -7,7 +7,7 @@ object DefaultApiParams {
     const val OAUTH_URL = "https://oauth.vk.com/access_token"
     const val REDIRECT_URL = "https://oauth.vk.com/blank.html"
     const val API_URL = "https://api.vk.com/method/"
-    const val API_VERSION = "5.92"
+    const val API_VERSION = "5.95"
     const val LONG_POLL_VERSION = 3
 }
 

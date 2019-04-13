@@ -22,6 +22,8 @@ data class Market(
     @SerialName("can_comment") val canComment: BooleanInt? = null,
     @SerialName("can_repost") val canRepost: BooleanInt? = null,
     @SerialName("likes") val likes: Likes? = null,
+    @SerialName("url") val url: String? = null,
+    @SerialName("button_title") val buttonTitle: String? = null,
     @SerialName("is_favorite") val isFavorite: Boolean? = null
 ) : MessageAttachment {
 

@@ -29,7 +29,9 @@ data class Link(
         @Serializable
         data class Action(
             @SerialName("url") val url: String,
-            @SerialName("type") val type: Type) {
+            @SerialName("type") val type: Type,
+            @SerialName("target") val target: String? = null,
+            @SerialName("group_id") val groupId: Int? = null) {
 
             @Serializable(with = Type.Companion::class)
             enum class Type(override val value: String) : SerializableEnum<String> {
