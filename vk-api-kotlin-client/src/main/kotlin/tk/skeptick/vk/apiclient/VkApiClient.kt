@@ -4,8 +4,6 @@ package tk.skeptick.vk.apiclient
 
 import com.github.kittinunf.result.Result
 import io.ktor.client.HttpClient
-import io.ktor.client.HttpClientConfig
-import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.request.forms.*
 import io.ktor.client.request.post
 import io.ktor.client.request.request
@@ -18,11 +16,10 @@ import tk.skeptick.vk.apiclient.oauth.OAuthResponse
 
 class VkApiClient(
     accessToken: String,
-    engine: HttpClientEngine,
-    config: HttpClientConfig<*>.() -> Unit = {}
+    val httpClient: HttpClient
 ) : ApiClient {
 
-    private val httpClient: HttpClient = buildClient(engine, config)
+    init { httpClient.configure() }
 
     private var baseParams = Parameters.build {
         append("access_token", accessToken)
@@ -73,38 +70,23 @@ class VkApiClient(
     companion object {
 
         suspend fun byOAuth(
-            engine: HttpClientEngine,
+            httpClient: HttpClient,
             authData: OAuth,
-            captchaResponse: CaptchaResponse? = null,
-            config: HttpClientConfig<*>.() -> Unit = {}
-        ): VkApiClient = buildClient(engine, config).use {
-            when (val response = it.authorize(authData, captchaResponse)) {
-                is Result.Success -> VkApiClient(response.value.accessToken, engine, config)
-                is Result.Failure -> throw response.error
-            }
+            captchaResponse: CaptchaResponse? = null
+        ): VkApiClient = when (val response = authorize(httpClient, authData, captchaResponse)) {
+            is Result.Success -> VkApiClient(response.value.accessToken, httpClient)
+            is Result.Failure -> throw response.error
         }
 
         suspend fun authorize(
-            engine: HttpClientEngine,
-            authData: OAuth,
-            captchaResponse: CaptchaResponse? = null,
-            config: HttpClientConfig<*>.() -> Unit = {}
-        ): Result<OAuthResponse, Exception> = buildClient(engine, config).use {
-            it.authorize(authData, captchaResponse)
-        }
-
-        private suspend inline fun HttpClient.authorize(
+            httpClient: HttpClient,
             authData: OAuth,
             captchaResponse: CaptchaResponse? = null
-        ): Result<OAuthResponse, Exception> = post<String>(DefaultApiParams.OAUTH_URL) {
+        ): Result<OAuthResponse, Exception> = httpClient.configure().post<String>(DefaultApiParams.OAUTH_URL) {
             body = FormDataContent(authData.parameters + captchaResponse?.parameters)
         }.let(::parseOAuthResponse)
 
-        private fun buildClient(
-            engine: HttpClientEngine,
-            config: HttpClientConfig<*>.() -> Unit
-        ): HttpClient = HttpClient(engine).config {
-            config()
+        private fun HttpClient.configure(): HttpClient = config {
             expectSuccess = false
         }
 
