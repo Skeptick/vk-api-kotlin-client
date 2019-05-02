@@ -253,6 +253,17 @@ interface MessagesApiUser : MessagesApiCommon {
     ): VkApiRequest<LongPollServerResponse>
 
     /**
+     * @param[count] maximum value 500
+     * @see <a href="https://vk.com/dev/messages.getRecentCalls">VK API</a>
+     */
+    fun getRecentCalls(
+        count: Int = 40,
+        startMessageId: Int? = null,
+        fields: List<ObjectField> = DefaultMethodsParams.userFields,
+        extended: Boolean = false
+    ): VkApiRequest<ExtendedListResponse<RecentCall>>
+
+    /**
      * @see <a href="https://vk.com/dev/messages.joinChatByInviteLink">VK API</a>
      */
     fun joinChatByInviteLink(
@@ -375,6 +386,7 @@ interface MessagesApiUser : MessagesApiCommon {
         forwardedMessages: List<Int>? = null,
         stickerId: Int? = null,
         dontParseLink: Boolean = false,
+        disableMentions: Boolean = false,
         groupId: Int? = null
     ): VkApiRequest<Int>
 

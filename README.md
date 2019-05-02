@@ -23,11 +23,11 @@ ______________________
 | [Fave]          |    12 из 12    | :heavy_check_mark:       |
 | [Friends]       |    18 из 18    | :heavy_check_mark:       |
 | [Gifts]         |     1 из 1     | :heavy_check_mark:       |
-| [Groups]        |    42 из 42    | :heavy_check_mark:       |
+| [Groups]        |    45 из 45    | :heavy_check_mark:       |
 | [LeadForms]     |     0 из 7     | :heavy_multiplication_x: |
 | [Likes]         |     4 из 4     | :heavy_check_mark:       |
 | [Market]        |     0 из 24    | :heavy_multiplication_x: |
-| [Messages]      |    38 из 38    | :heavy_check_mark:       |
+| [Messages]      |    39 из 39    | :heavy_check_mark:       |
 | [Newsfeed]      |     0 из 16    | :heavy_multiplication_x: |
 | [Notes]         |     0 из 10    | :heavy_multiplication_x: |
 | [Notifications] |     0 из 3     | :heavy_multiplication_x: |

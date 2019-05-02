@@ -39,7 +39,8 @@ interface MessagesApiCommunity : MessagesApiCommon {
         stickerId: Int? = null,
         keyboard: Keyboard? = null,
         payload: MessagePayload? = null,
-        dontParseLink: Boolean = false
+        dontParseLink: Boolean = false,
+        disableMentions: Boolean = false
     ): VkApiRequest<Int>
 
     /**

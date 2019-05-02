@@ -3,11 +3,31 @@ package tk.skeptick.vk.apiclient.methods.groups
 import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.DefaultMethodsParams
 import tk.skeptick.vk.apiclient.VkApiRequest
+import tk.skeptick.vk.apiclient.domain.models.Address
 import tk.skeptick.vk.apiclient.domain.models.Community
 import tk.skeptick.vk.apiclient.domain.models.User
 import tk.skeptick.vk.apiclient.methods.*
 
 interface GroupsApiCommon {
+
+    /**
+     * @see <a href="https://vk.com/dev/groups.addAddress">VK API</a>
+     */
+    fun addAddress(
+        groupId: Int,
+        title: String,
+        address: String,
+        countryId: Int,
+        cityId: Int,
+        latitude: Double,
+        longitude: Double,
+        additionalAddress: String? = null,
+        metroId: Int? = null,
+        phone: String? = null,
+        workInfoStatus: Address.WorkInfoStatus? = null,
+        timetable: Address.Timetable? = null,
+        isMainAddress: Boolean? = null
+    ): VkApiRequest<Address>
 
     /**
      * @return server ID
@@ -19,6 +39,14 @@ interface GroupsApiCommon {
         title: String,
         secretKey: String? = null
     ): VkApiRequest<Int>
+
+    /**
+     * @see <a href="https://vk.com/dev/groups.deleteAddress">VK API</a>
+     */
+    fun deleteAddress(
+        groupId: Int,
+        addressId: Int
+    ): VkApiRequest<BooleanInt>
 
     /**
      * @see <a href="https://vk.com/dev/groups.deleteCallbackServer">VK API</a>
@@ -34,6 +62,26 @@ interface GroupsApiCommon {
     fun disableOnline(
         groupId: Int
     ): VkApiRequest<BooleanInt>
+
+    /**
+     * @see <a href="https://vk.com/dev/groups.editAddress">VK API</a>
+     */
+    fun editAddress(
+        groupId: Int,
+        addressId: Int,
+        title: String? = null,
+        address: String? = null,
+        additionalAddress: String? = null,
+        countryId: Int? = null,
+        cityId: Int? = null,
+        metroId: Int? = null,
+        latitude: Double? = null,
+        longitude: Double? = null,
+        phone: String? = null,
+        workInfoStatus: Address.WorkInfoStatus? = null,
+        timetable: Address.Timetable? = null,
+        isMainAddress: Boolean? = null
+    ): VkApiRequest<Address>
 
     /**
      * @see <a href="https://vk.com/dev/groups.editCallbackServer">VK API</a>

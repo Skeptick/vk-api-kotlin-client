@@ -222,7 +222,6 @@ data class CommunityOnlineStatus(
 data class CommunitySettings(
     @SerialName("title") val title: String,
     @SerialName("description") val description: String,
-    @SerialName("access") val access: Community.CloseType,
     @SerialName("address") val address: String,
     @SerialName("age_limits") val ageLimits: Community.AgeLimits,
     @SerialName("country_id") val countryId: Int,
@@ -235,13 +234,16 @@ data class CommunitySettings(
     @SerialName("topics") val topics: GroupUnitAccessType,
     @SerialName("wiki") val wiki: GroupUnitAccessType,
     @SerialName("messages") val messages: BooleanInt,
+    @SerialName("articles") val articles: BooleanInt,
     @SerialName("obscene_filter") val obsceneFilter: BooleanInt,
     @SerialName("obscene_stopwords") val obsceneStopwords: BooleanInt,
     @SerialName("obscene_words") val obsceneWords: List<String>,
     @SerialName("website") val website: String,
     @SerialName("market") val market: Community.Market,
+    @SerialName("sections_list") val sectionList: List<Map<Int, String>>,
     @SerialName("main_section") val mainSection: Community.MainSectionType,
     @SerialName("secondary_section") val secondarySection: Community.MainSectionType,
+    @SerialName("access") val access: Community.CloseType? = null,
     @SerialName("rss") val rss: String? = null,
     @SerialName("public_category") val publicCategory: Int? = null,
     @SerialName("public_subcategory") val publicSubcategory: Int? = null,
@@ -250,6 +252,7 @@ data class CommunitySettings(
     @SerialName("events") val events: BooleanInt? = null,
     @SerialName("places") val places: BooleanInt? = null,
     @SerialName("contacts") val contacts: BooleanInt? = null,
+    @SerialName("addresses") val addresses: BooleanInt? = null,
     @SerialName("place") val place: Geo.Place? = null,
     @SerialName("start_date") val startDate: Int? = null,
     @SerialName("finish_date") val finishDate: Int? = null,
@@ -257,7 +260,9 @@ data class CommunitySettings(
     @SerialName("phone") val phone: String? = null,
     @SerialName("public_date") val publicDate: String? = null,
     @SerialName("public_date_label") val publicDateLabel: String? = null,
-    @SerialName("suggested_privacy") val suggestedPrivacy: CommunitySuggestedPrivacyType? = null) {
+    @SerialName("suggested_privacy") val suggestedPrivacy: CommunitySuggestedPrivacyType? = null,
+    @SerialName("action_button") val actionButton: Community.ActionButton? = null,
+    @SerialName("live_covers") val liveCovers: Community.LiveCovers? = null) {
 
     @Serializable(with = CommunitySuggestedPrivacyType.Companion::class)
     enum class CommunitySuggestedPrivacyType(override val value: Int) : SerializableEnum<Int> {

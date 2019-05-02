@@ -8,16 +8,17 @@ import tk.skeptick.vk.apiclient.SerializableEnum
 @Serializable
 data class Address(
     @SerialName("id") val id: Int,
-    @SerialName("title") val title: String? = null,
-    @SerialName("address") val address: String? = null,
+    @SerialName("title") val title: String,
+    @SerialName("address") val address: String,
+    @SerialName("country_id") val countryId: Int,
+    @SerialName("city_id") val cityId: Int,
+    @SerialName("latitude") val latitude: Double,
+    @SerialName("longitude") val longitude: Double,
     @SerialName("additional_address") val additionalAddress: String? = null,
-    @SerialName("country_id") val countryId: Int? = null,
-    @SerialName("city_id") val cityId: Int? = null,
-    @SerialName("latitude") val latitude: Double? = null,
-    @SerialName("longitude") val longitude: Double? = null,
+    @SerialName("metro_station_id") val metroStationId: Int? = null,
+    @SerialName("phone") val phone: String? = null,
     @SerialName("work_info_status") val workInfoStatus: WorkInfoStatus? = null,
     @SerialName("timetable") val timetable: Timetable? = null,
-    @SerialName("phone") val phone: String? = null,
     @SerialName("time_offset") val timeOffset: Int? = null) {
 
     @Serializable(with = WorkInfoStatus.Companion::class)

@@ -13,6 +13,37 @@ import tk.skeptick.vk.apiclient.methods.*
 class GroupsApi(override val client: ApiClient)
     : GroupsApiUser, GroupsApiCommunity, MethodsContext {
 
+    override fun addAddress(
+        groupId: Int,
+        title: String,
+        address: String,
+        countryId: Int,
+        cityId: Int,
+        latitude: Double,
+        longitude: Double,
+        additionalAddress: String?,
+        metroId: Int?,
+        phone: String?,
+        workInfoStatus: Address.WorkInfoStatus?,
+        timetable: Address.Timetable?,
+        isMainAddress: Boolean?
+    ): VkApiRequest<Address> =
+        Methods.addAddress.httpPost(Address.serializer()) {
+            append("group_id", groupId)
+            append("title", title)
+            append("address", address)
+            append("country_id", countryId)
+            append("city_id", cityId)
+            append("latitude", latitude)
+            append("longitude", longitude)
+            append("additional_address", additionalAddress)
+            append("metro_id", metroId)
+            append("phone", phone)
+            append("work_info_status", workInfoStatus?.value)
+            append("timetable", timetable?.serialize())
+            append("is_main_address", isMainAddress?.asInt())
+        }
+
     override fun addCallbackServer(
         groupId: Int,
         url: String,
@@ -110,6 +141,15 @@ class GroupsApi(override val client: ApiClient)
             subtype = subtype
         )
 
+    override fun deleteAddress(
+        groupId: Int,
+        addressId: Int
+    ): VkApiRequest<BooleanInt> =
+        Methods.deleteAddress.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("address_id", addressId)
+        }
+
     override fun deleteCallbackServer(
         groupId: Int,
         serverId: Int
@@ -141,6 +181,8 @@ class GroupsApi(override val client: ApiClient)
         description: String? = null,
         screenName: String? = null,
         access: Community.CloseType? = null,
+        countryId: Int? = null,
+        cityId: Int? = null,
         website: String? = null,
         subject: GroupSubject? = null,
         email: String? = null,
@@ -164,6 +206,8 @@ class GroupsApi(override val client: ApiClient)
         places: Boolean? = null,
         contacts: Boolean? = null,
         messages: Boolean? = null,
+        articles: Boolean? = null,
+        addresses: Boolean? = null,
         market: Boolean? = null,
         marketComments: Boolean? = null,
         marketCountries: List<Int>? = null,
@@ -184,6 +228,8 @@ class GroupsApi(override val client: ApiClient)
             append("description", description)
             append("screen_name", screenName)
             append("access", access?.value)
+            append("country", countryId)
+            append("city", cityId)
             append("website", website)
             append("subject", subject?.value)
             append("email", email)
@@ -207,6 +253,8 @@ class GroupsApi(override val client: ApiClient)
             append("places", places?.asInt())
             append("contacts", contacts?.asInt())
             append("messages", messages?.asInt())
+            append("articles", articles?.asInt())
+            append("addresses", addresses?.asInt())
             append("age_limits", ageLimits?.value)
             append("market", market?.asInt())
             append("market_comments", marketComments?.asInt())
@@ -222,12 +270,47 @@ class GroupsApi(override val client: ApiClient)
             append("secondary_section", secondarySection?.value)
         }
 
+    override fun editAddress(
+        groupId: Int,
+        addressId: Int,
+        title: String?,
+        address: String?,
+        additionalAddress: String?,
+        countryId: Int?,
+        cityId: Int?,
+        metroId: Int?,
+        latitude: Double?,
+        longitude: Double?,
+        phone: String?,
+        workInfoStatus: Address.WorkInfoStatus?,
+        timetable: Address.Timetable?,
+        isMainAddress: Boolean?
+    ): VkApiRequest<Address> =
+        Methods.editAddress.httpPost(Address.serializer()) {
+            append("group_id", groupId)
+            append("address_id", addressId)
+            append("title", title)
+            append("address", address)
+            append("additional_address", additionalAddress)
+            append("country_id", countryId)
+            append("city_id", cityId)
+            append("metro_id", metroId)
+            append("latitude", latitude)
+            append("longitude", longitude)
+            append("phone", phone)
+            append("work_info_status", workInfoStatus?.value)
+            append("timetable", timetable?.serialize())
+            append("is_main_address", isMainAddress?.asInt())
+        }
+
     override fun editPublic(
         groupId: Int,
         title: String?,
         description: String?,
         screenName: String?,
         access: Community.CloseType?,
+        countryId: Int?,
+        cityId: Int?,
         website: String?,
         subject: GroupSubject?,
         rss: String?,
@@ -246,6 +329,8 @@ class GroupsApi(override val client: ApiClient)
         places: Boolean?,
         contacts: Boolean?,
         messages: Boolean?,
+        articles: Boolean?,
+        addresses: Boolean?,
         market: Boolean?,
         marketComments: Boolean?,
         marketCountries: List<Int>?,
@@ -266,6 +351,8 @@ class GroupsApi(override val client: ApiClient)
             description = description,
             screenName = screenName,
             access = access,
+            countryId = countryId,
+            cityId = cityId,
             website = website,
             subject = subject,
             rss = rss,
@@ -284,6 +371,8 @@ class GroupsApi(override val client: ApiClient)
             places = places,
             contacts = contacts,
             messages = messages,
+            articles = articles,
+            addresses = addresses,
             market = market,
             marketComments = marketComments,
             marketCountries = marketCountries,
@@ -305,6 +394,8 @@ class GroupsApi(override val client: ApiClient)
         description: String?,
         screenName: String?,
         access: Community.CloseType?,
+        countryId: Int?,
+        cityId: Int?,
         website: String?,
         subject: GroupSubject?,
         email: String?,
@@ -321,6 +412,8 @@ class GroupsApi(override val client: ApiClient)
         docs: GroupUnitAccessType?,
         wiki: GroupUnitAccessType?,
         messages: Boolean?,
+        articles: Boolean?,
+        addresses: Boolean?,
         market: Boolean?,
         marketComments: Boolean?,
         marketCountries: List<Int>?,
@@ -341,6 +434,8 @@ class GroupsApi(override val client: ApiClient)
             description = description,
             screenName = screenName,
             access = access,
+            countryId = countryId,
+            cityId = cityId,
             website = website,
             subject = subject,
             email = email,
@@ -357,6 +452,8 @@ class GroupsApi(override val client: ApiClient)
             docs = docs?.value,
             wiki = wiki?.value,
             messages = messages,
+            articles = articles,
+            addresses = addresses,
             market = market,
             marketComments = marketComments,
             marketCountries = marketCountries,
@@ -378,6 +475,8 @@ class GroupsApi(override val client: ApiClient)
         description: String?,
         screenName: String?,
         access: Community.CloseType?,
+        countryId: Int?,
+        cityId: Int?,
         website: String?,
         subject: GroupSubject?,
         rss: String?,
@@ -389,6 +488,8 @@ class GroupsApi(override val client: ApiClient)
         docs: GroupUnitAccessType?,
         wiki: GroupUnitAccessType?,
         messages: Boolean?,
+        articles: Boolean?,
+        addresses: Boolean?,
         market: Boolean?,
         marketComments: Boolean?,
         marketCountries: List<Int>?,
@@ -409,6 +510,8 @@ class GroupsApi(override val client: ApiClient)
             description = description,
             screenName = screenName,
             access = access,
+            countryId = countryId,
+            cityId = cityId,
             website = website,
             subject = subject,
             rss = rss,
@@ -420,6 +523,8 @@ class GroupsApi(override val client: ApiClient)
             docs = docs?.value,
             wiki = wiki?.value,
             messages = messages,
+            articles = articles,
+            addresses = addresses,
             market = market,
             marketComments = marketComments,
             marketCountries = marketCountries,
@@ -1051,15 +1156,18 @@ class GroupsApi(override val client: ApiClient)
 
     private object Methods {
         private const val it = "groups."
+        const val addAddress = it + "addAddress"
         const val addCallbackServer = it + "addCallbackServer"
         const val addLink = it + "addLink"
         const val approveRequest = it + "approveRequest"
         const val ban = it + "ban"
         const val create = it + "create"
+        const val deleteAddress = it + "deleteAddress"
         const val deleteCallbackServer = it + "deleteCallbackServer"
         const val deleteLink = it + "deleteLink"
         const val disableOnline = it + "disableOnline"
         const val edit = it + "edit"
+        const val editAddress = it + "editAddress"
         const val editCallbackServer = it + "editCallbackServer"
         const val editLink = it + "editLink"
         const val editManager = it + "editManager"

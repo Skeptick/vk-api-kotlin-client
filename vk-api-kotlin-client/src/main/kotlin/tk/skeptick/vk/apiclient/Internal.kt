@@ -13,7 +13,9 @@ import kotlinx.io.core.writeFully
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
+import tk.skeptick.vk.apiclient.domain.Keyboard
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
+import tk.skeptick.vk.apiclient.domain.models.Address
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
 import tk.skeptick.vk.apiclient.methods.VkApiResponse
@@ -165,3 +167,8 @@ internal fun parseOAuthResponse(
         true -> Result.of(json.parse(OAuthResponse.serializer(), responseString))
         false -> Result.error(json.parse(OAuthError.serializer(), responseString))
     }
+
+//--- Serializers ---//
+
+internal fun Keyboard.serialize(): String = json.stringify(Keyboard.serializer(), this)
+internal fun Address.Timetable.serialize(): String = json.stringify(Address.Timetable.serializer(), this)

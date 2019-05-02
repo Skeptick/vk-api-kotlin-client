@@ -52,8 +52,8 @@ data class Conversation(
         @SerialName("state") val state: State,
         @SerialName("active_ids") val activeUserIds: List<Int>,
         @SerialName("acl") val acl: AccessControlList,
-        @SerialName("is_group_channel") val isGroupChannel: Boolean,
         @SerialName("owner_id") val ownerId: Int,
+        @SerialName("is_group_channel") val isGroupChannel: Boolean? = null,
         @SerialName("pinned_message") val pinnedMessage: Message.Pinned? = null,
         @SerialName("photo") val photo: SimplePhoto? = null) {
 

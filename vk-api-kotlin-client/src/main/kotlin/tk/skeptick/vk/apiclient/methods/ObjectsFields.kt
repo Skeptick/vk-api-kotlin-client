@@ -83,6 +83,7 @@ enum class UserOptionalField(override val value: String) : ObjectField {
 }
 
 enum class CommunityOptionalField(override val value: String) : ObjectField {
+    ACTION_BUTTON("action_button"), // кнопка действия
     ACTIVITY("activity"), // состояние публичной страницы (откр./закр., дата начала для событий)
     AGE_LIMITS("age_limits"), // возрастное ограничение
     BAN_INFO("ban_info"), // информация о занесении в черный список сообщества
@@ -105,6 +106,7 @@ enum class CommunityOptionalField(override val value: String) : ObjectField {
     IS_HIDDEN_FROM_FEED("is_hidden_from_feed"), // скрыто ли сообщество из ленты новостей текущего пользователя
     IS_MESSAGES_BLOCKED("is_messages_blocked"), // заблокированы ли сообщения от этого сообщества у текущего пользователя
     LINKS("links"), // информация из блока ссылок сообщества
+    LIVE_COVERS("live_covers"), // живая обложка
     MAIN_ALBUM_ID("main_album_id"), // идентификатор основного фотоальбома
     MAIN_SECTION("main_section"), // информация о главной секции
     MARKET("market"), // информация о магазине

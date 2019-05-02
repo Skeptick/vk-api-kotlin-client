@@ -554,6 +554,19 @@ class MessagesApi(override val client: ApiClient)
             groupId = null
         )
 
+    override fun getRecentCalls(
+        count: Int,
+        startMessageId: Int?,
+        fields: List<ObjectField>,
+        extended: Boolean
+    ): VkApiRequest<ExtendedListResponse<RecentCall>> =
+        Methods.getLongPollServer.httpPost(extendedList(RecentCall.serializer())) {
+            append("count", count)
+            append("start_message_id", startMessageId)
+            append("fields", fields.joinToString(",") { it.value })
+            append("extended", extended.asInt())
+        }
+
     override fun isMessagesFromGroupAllowed(
         groupId: Int,
         userId: Int
@@ -819,7 +832,8 @@ class MessagesApi(override val client: ApiClient)
         stickerId: Int?,
         keyboard: Keyboard?,
         payload: MessagePayload?,
-        dontParseLink: Boolean
+        dontParseLink: Boolean,
+        disableMentions: Boolean
     ): VkApiRequest<Int> =
         Methods.send.httpPost(IntSerializer) {
             append("peer_id", peerId)
@@ -834,6 +848,7 @@ class MessagesApi(override val client: ApiClient)
             append("keyboard", keyboard?.serialize())
             append("payload", payload?.value)
             append("dont_parse_links", dontParseLink.asInt())
+            append("disable_mentions", disableMentions.asInt())
         }
 
     override fun send(
@@ -847,6 +862,7 @@ class MessagesApi(override val client: ApiClient)
         forwardedMessages: List<Int>?,
         stickerId: Int?,
         dontParseLink: Boolean,
+        disableMentions: Boolean,
         groupId: Int?
     ): VkApiRequest<Int> =
         Methods.send.httpPost(IntSerializer) {
@@ -860,6 +876,7 @@ class MessagesApi(override val client: ApiClient)
             append("forward_messages", forwardedMessages?.joinToString(","))
             append("sticker_id", stickerId)
             append("dont_parse_links", dontParseLink.asInt())
+            append("disable_mentions", disableMentions.asInt())
             append("group_id", groupId)
         }
 
@@ -979,6 +996,7 @@ class MessagesApi(override val client: ApiClient)
         const val getLastActivity = it + "getLastActivity"
         const val getLongPollHistory = it + "getLongPollHistory"
         const val getLongPollServer = it + "getLongPollServer"
+        const val getRecentCalls = it + "getRecentCalls"
         const val isMessagesFromGroupAllowed = it + "isMessagesFromGroupAllowed"
         const val joinChatByInviteLink = it + "joinChatByInviteLink"
         const val markAsAnsweredConversation = it + "markAsAnsweredConversation"

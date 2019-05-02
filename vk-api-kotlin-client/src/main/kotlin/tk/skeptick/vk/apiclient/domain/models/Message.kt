@@ -43,8 +43,8 @@ data class Message(
         @SerialName("from_id") val userId: Int,
         @SerialName("date") val date: Int,
         @SerialName("text") val body: String,
-        @SerialName("update_time") val updateTime: Int,
         @SerialName("geo") val geo: Geo? = null,
+        @SerialName("update_time") val updateTime: Int? = null,
         @SerialName("attachments") val attachments: List<Attachment>? = null,
         @SerialName("fwd_messages") val forwardedMessages: List<Forward>? = null)
 

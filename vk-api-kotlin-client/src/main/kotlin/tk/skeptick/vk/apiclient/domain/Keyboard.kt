@@ -4,7 +4,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.EnumStringSerializer
 import tk.skeptick.vk.apiclient.SerializableEnum
-import tk.skeptick.vk.apiclient.json
 
 @Serializable
 data class Keyboard(
@@ -44,5 +43,3 @@ data class Keyboard(
     }
 
 }
-
-internal fun Keyboard.serialize(): String = json.stringify(Keyboard.serializer(), this)

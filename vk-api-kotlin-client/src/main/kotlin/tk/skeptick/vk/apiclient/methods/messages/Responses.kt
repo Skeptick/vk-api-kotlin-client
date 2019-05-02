@@ -2,6 +2,8 @@ package tk.skeptick.vk.apiclient.methods.messages
 
 import kotlinx.serialization.*
 import tk.skeptick.vk.apiclient.BooleanInt
+import tk.skeptick.vk.apiclient.EnumStringSerializer
+import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.domain.models.*
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ListResponse
@@ -126,3 +128,28 @@ data class SendBulkMessageResponse(
     @SerialName("peer_id") val peerId: Int,
     @SerialName("message_id") val messageId: Int? = null,
     @SerialName("error") val error: String? = null) // TODO check
+
+@Serializable
+data class RecentCall(
+    @SerialName("call") val call: Call,
+    @SerialName("message_id") val messageId: Int) {
+
+    @Serializable
+    data class Call(
+        @SerialName("initiator_id") val initiatorId: Int,
+        @SerialName("receiver_id") val receiverId: Int,
+        @SerialName("state") val state: State,
+        @SerialName("duration") val duration: Int) {
+
+        @Serializable(with = State.Companion::class)
+        enum class State(override val value: String) : SerializableEnum<String> {
+            CANCELED_BY_INITIATOR("canceled_by_initiator"),
+            CANCELED_BY_RECEIVER("canceled_by_receiver"),
+            REACHED("reached");
+
+            companion object : EnumStringSerializer<State>(State::class)
+        }
+
+    }
+
+}

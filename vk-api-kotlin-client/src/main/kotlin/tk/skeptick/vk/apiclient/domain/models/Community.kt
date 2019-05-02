@@ -57,7 +57,9 @@ data class Community(
     @SerialName("trending") val isTrending: BooleanInt? = null,
     @SerialName("verified") val isVerified: BooleanInt? = null,
     @SerialName("wall") val wallCloseType: WallCloseType? = null,
-    @SerialName("wiki_page") val wikiPage: String? = null) {
+    @SerialName("wiki_page") val wikiPage: String? = null,
+    @SerialName("action_button") val actionButton: ActionButton? = null,
+    @SerialName("live_covers") val liveCovers: LiveCovers? = null) {
 
     val isOpened: Boolean get() = closeType == CloseType.OPEN
     val isClosed: Boolean get() = closeType == CloseType.CLOSED
@@ -218,8 +220,7 @@ data class Community(
         @SerialName("currency") val currency: Currency? = null,
         @SerialName("currency_text") val currencyText: String? = null) {
 
-        val isCommunityMessagesForContact: Boolean?
-            get() = contactId?.let { it <= 0 }
+        val isCommunityMessagesForContact: Boolean? get() = contactId?.let { it <= 0 }
 
         @Serializable
         data class Currency(
@@ -227,5 +228,44 @@ data class Community(
             @SerialName("name") val name: String)
 
     }
+
+    @Serializable
+    data class ActionButton(
+        @SerialName("is_enabled") val isEnabled: Boolean? = null,
+        @SerialName("action_type") val actionType: ActionType,
+        @SerialName("target") val target: Target,
+        @SerialName("title") val title: String) {
+
+        @Serializable(with = ActionType.Companion::class)
+        enum class ActionType(override val value: String) : SerializableEnum<String> {
+            NONE(""),
+            SEND_EMAIL("send_email"),
+            CALL_PHONE("call_phone"),
+            CALL_VK("call_vk"),
+            OPEN_URL("open_url"),
+            OPEN_APP("open_app"),
+            OPEN_GROUP_APP("open_group_app");
+
+            companion object : EnumStringSerializer<ActionType>(ActionType::class)
+        }
+
+        @Serializable
+        data class Target(
+            @SerialName("email") val email: String? = null,
+            @SerialName("phone") val phone: String? = null,
+            @SerialName("user_id") val userId: Int? = null,
+            @SerialName("url") val url: String? = null,
+            @SerialName("is_internal") val isInternal: Boolean? = null,
+            @SerialName("google_store_url") val googleStoreUrl: String? = null,
+            @SerialName("itunes_url") val itunesUrl: String? = null,
+            @SerialName("app_id") val appId: Int? = null)
+
+    }
+
+    @Serializable
+    data class LiveCovers(
+        @SerialName("is_enabled") val isEnabled: Boolean,
+        @SerialName("is_scalable") val isScalable: Boolean? = null,
+        @SerialName("story_ids") val storyIds: List<String>? = null)
 
 }
