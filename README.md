@@ -60,75 +60,56 @@ dependencies {
 ```
 
 #### Зачем и чтобы что
-Библиотека пишется руками (:see_no_evil:), так как документация у VK не редко серьезно хромает. Преследуется цель сделать использование библиотеки максимально комфортной в плоскости одной из главных фич языка - nullable-типов.
+Библиотека пишется руками (:see_no_evil:), так как документация у VK не редко серьезно хромает. Преследуется цель сделать использование библиотеки максимально комфортной в плоскости одной из главных фич языка - nullable-типов, а также задействовать другие его особенности: корутины, мультиплатформенный HTTP-клиент (ktor) и мультиплатформенную сериализацию, опциональные именованные параметры функций заместо билдеров и т.д.
 
 В продакшне используйте на свой страх и риск. Лично я использую (в основном для ботов), и имеющиеся методы польностью покрывают мои нужды. Если вам нужен какой-то иной раздел API, не реализованный в библиотеке, можете реквестировать.
 
-В библиотеке отсутствуют какие-либо платформенные зависимости, так что в теории, её можно использовать и с __Kotlin JS__ и с __Kotlin Native__ (ни то, ни другое не тестировалось).
+В библиотеке отсутствуют какие-либо платформенные зависимости, так что в теории, её можно использовать и с __Kotlin JS__ и с __Kotlin Native__ (ни то, ни другое не тестировалось), и само собой нет завязки на Java 8+, т.е. можно использовать и с Android.
 
 Примеры использования
 --------------------
 #### Подготовка
 Первым делом подключите подходящий вам [HTTP-клиент](https://github.com/ktorio/ktor/tree/master/ktor-client), например CIO:
 ```
-compile "io.ktor:ktor-client-cio:1.1.3"
+implementation "io.ktor:ktor-client-cio:1.1.4"
 ```
+Для Android используейте `ktor-client-okhttp` или `ktor-client-android`, для server-side рекомендую `ktor-client-apache`. Подробнее см. в документации и в репозиториях к ktor.
 
 #### Авторизация и инициализация клиента
 ```kotlin
-val apiClient = VkApiClient.byOAuth(
-    httpClient = HttpClient(CIO),
-    authData = OAuth.User.CodeFlow(
-        clientId = 123456,
-        clientSecret = "######",
-        code = "######"
-    )
-)
-
-val api = VkApiUser(apiClient) // for user token
-// val api = VkApiCommunity(apiClient) // for community token
+val apiClient = VkApiClient("your_token", HttpClient(CIO))
+val api = VkApiUser(apiClient) // для токена пользователя
+val api = VkApiCommunity(apiClient) // для токена сообщества
 ```
 #### Использование методов
 ```kotlin
-// Sending a message
-val sendResult = api.messages.send(
-    peerId = 1000000,
-    message = "Hello!"
-).execute()
+// отправка сообщения
+val sendResult = api.messages.send(peerId = 1000000, message = "Hello!").execute()
 
-// Getting a list of friends
-val friendsResult = api.friends.get(
-    order = FriendsOrder.NAME,
-    count = 10
-).execute()
+// получение первых десяти друзей в алфавитном порядке
+val friendsResult = api.friends.get(order = FriendsOrder.NAME, count = 10).execute()
 ```
 #### Обработка результата
 В качестве результата любого запроса возвращается ~~монада~~ объект Result. Подробнее о нём можно почитать в [ReadMe самой библиотеки](https://github.com/kittinunf/Result).
 #### Загрузка файлов (на примере документа)
 ```kotlin
 val file = File("file.txt")
-
-// Note that get() can throw an exception!
-val server = api.docs.getUploadServer().execute().get()
-
-val uploadResponse = api.upload.document(
-    uploadUrl = server.uploadUrl,
-    file = FileContent(file.name, file.readBytes())
-).execute().get()
-
-val documents = api.docs.save(
-    file = uploadResponse.file,
-    title = "Some name.txt"
-).execute().get()
+val fileContent = FileContent(file.name, file.readBytes())
+val documents = api.docs.getUploadServer().execute()
+    .flatMap { api.upload.document(it.uploadUrl, fileContent).execute() }
+    .flatMap { api.docs.save(it.file, "Title.txt").execute() }
 ```
 #### Использование метода `execute`
+Опишите модель ответа (или используйте имеющиеся):
 ```kotlin
 @Serializable
 data class ExampleResponse(
     @SerialName("id") val id: Int,
     @SerialName("value") val value: String
 )
-
+```
+Код для выполнения на сервере:
+```kotlin
 val exampleCode = """
     var response = [];
     var i = 0;
@@ -144,7 +125,9 @@ val exampleCode = """
 
     return response;
 """.trimIndent()
-
+```
+Вызовите метод:
+```kotlin
 val executeResult = api.execute(
     code = exampleCode,
     serializer = ExampleResponse.serializer().list
