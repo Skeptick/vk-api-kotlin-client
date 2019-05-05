@@ -2,8 +2,8 @@
 
 package tk.skeptick.vk.apiclient
 
-import com.github.kittinunf.result.Result
-import com.github.kittinunf.result.flatMap
+import com.github.kittinunf.result.coroutines.SuspendableResult
+import com.github.kittinunf.result.coroutines.flatMap
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import io.ktor.util.date.GMTDate
@@ -134,38 +134,40 @@ internal val json = Json(configuration = JsonConfiguration.Stable.copy(
     encodeDefaults = false
 ))
 
-internal fun <T : Any> parseMethodResponse(
+internal suspend fun <T : Any> parseMethodResponse(
     responseString: String,
     serializer: KSerializer<T>
-): Result<T, Exception> =
-    Result.of<VkApiResponse<T>, Exception> {
+): SuspendableResult<T, Exception> =
+    SuspendableResult.of<VkApiResponse<T>, Exception> {
         json.parse(VkApiResponse.serializer(serializer), responseString)
-    }.flatMap(VkApiResponse<T>::asResult)
+    }.flatMap { vkApiResponse ->
+        vkApiResponse.asSuspendableResult()
+    }
 
-private inline fun <T : Any> VkApiResponse<T>.asResult(): Result<T, Exception> =
+private inline fun <T : Any> VkApiResponse<T>.asSuspendableResult(): SuspendableResult<T, Exception> =
     when {
-        error != null -> Result.error(error)
-        response != null -> Result.of(response)
-        else -> Result.error(IllegalStateException("Response is null"))
+        error != null -> SuspendableResult.error(error)
+        response != null -> SuspendableResult.of(response)
+        else -> SuspendableResult.error(IllegalStateException("Response is null"))
     }
 
 
 internal fun <T : Any> parseUploadResponse(
     responseString: String,
     serializer: KSerializer<T>
-): Result<T, Exception> =
+): SuspendableResult<T, Exception> =
     when (json.parseJson(responseString).jsonObject.contains("error")) {
-        true -> Result.error(json.parse(UploadFileError.serializer(), responseString))
-        false -> Result.of(json.parse(serializer, responseString))
+        true -> SuspendableResult.error(json.parse(UploadFileError.serializer(), responseString))
+        false -> SuspendableResult.of(json.parse(serializer, responseString))
     }
 
 
 internal fun parseOAuthResponse(
     responseString: String
-): Result<OAuthResponse, Exception> =
+): SuspendableResult<OAuthResponse, Exception> =
     when (json.parseJson(responseString).jsonObject.contains("access_token")) {
-        true -> Result.of(json.parse(OAuthResponse.serializer(), responseString))
-        false -> Result.error(json.parse(OAuthError.serializer(), responseString))
+        true -> SuspendableResult.of(json.parse(OAuthResponse.serializer(), responseString))
+        false -> SuspendableResult.error(json.parse(OAuthError.serializer(), responseString))
     }
 
 //--- Serializers ---//

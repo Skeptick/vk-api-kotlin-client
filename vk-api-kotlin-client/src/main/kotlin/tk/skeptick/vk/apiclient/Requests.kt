@@ -1,6 +1,6 @@
 package tk.skeptick.vk.apiclient
 
-import com.github.kittinunf.result.Result
+import com.github.kittinunf.result.coroutines.SuspendableResult
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
 import kotlinx.serialization.KSerializer
@@ -35,10 +35,10 @@ class UploadFilesRequest<T : Any>(
     val serializer: KSerializer<T>
 )
 
-suspend fun <T : Any> VkApiRequest<T>.execute(captchaResponse: CaptchaResponse? = null): Result<T, Exception> {
+suspend fun <T : Any> VkApiRequest<T>.execute(captchaResponse: CaptchaResponse? = null): SuspendableResult<T, Exception> {
     return client.executeMethod(this, captchaResponse?.parameters)
 }
 
-suspend fun <T : Any> UploadFilesRequest<T>.execute(): Result<T, Exception> {
+suspend fun <T : Any> UploadFilesRequest<T>.execute(): SuspendableResult<T, Exception> {
     return client.uploadFile(this)
 }

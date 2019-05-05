@@ -13,5 +13,5 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializationVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     api("io.ktor:ktor-client:$ktorVersion")
-    api("com.github.kittinunf.result:result:$resultVersion")
+    api("com.github.kittinunf.result:result-coroutines:$resultVersion")
 }

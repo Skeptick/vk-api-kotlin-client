@@ -2,7 +2,7 @@
 
 package tk.skeptick.vk.apiclient
 
-import com.github.kittinunf.result.Result
+import com.github.kittinunf.result.coroutines.SuspendableResult
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.*
 import io.ktor.client.request.post
@@ -39,18 +39,18 @@ class VkApiClient(
     override suspend fun <T : Any> executeMethod(
         request: VkApiRequest<T>,
         additionalParameters: Parameters?
-    ): Result<T, Exception> = try {
+    ): SuspendableResult<T, Exception> = try {
         parseMethodResponse(request(additionalParameters).readText(), request.serializer)
     } catch (exception: Exception) {
-        Result.error(exception)
+        SuspendableResult.error(exception)
     }
 
     override suspend fun <T : Any> uploadFile(
         request: UploadFilesRequest<T>
-    ): Result<T, Exception> = try {
+    ): SuspendableResult<T, Exception> = try {
         parseUploadResponse(request().readText(), request.serializer)
     } catch (exception: Exception) {
-        Result.error(exception)
+        SuspendableResult.error(exception)
     }
 
     private suspend inline operator fun <T : Any> VkApiRequest<T>.invoke(
@@ -74,15 +74,15 @@ class VkApiClient(
             authData: OAuth,
             captchaResponse: CaptchaResponse? = null
         ): VkApiClient = when (val response = authorize(httpClient, authData, captchaResponse)) {
-            is Result.Success -> VkApiClient(response.value.accessToken, httpClient)
-            is Result.Failure -> throw response.error
+            is SuspendableResult.Success -> VkApiClient(response.value.accessToken, httpClient)
+            is SuspendableResult.Failure -> throw response.error
         }
 
         suspend fun authorize(
             httpClient: HttpClient,
             authData: OAuth,
             captchaResponse: CaptchaResponse? = null
-        ): Result<OAuthResponse, Exception> = httpClient.configure().post<String>(DefaultApiParams.OAUTH_URL) {
+        ): SuspendableResult<OAuthResponse, Exception> = httpClient.configure().post<String>(DefaultApiParams.OAUTH_URL) {
             body = FormDataContent(authData.parameters + captchaResponse?.parameters)
         }.let(::parseOAuthResponse)
 
