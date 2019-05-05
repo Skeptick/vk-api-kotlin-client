@@ -48,11 +48,11 @@ data class Conversation(
     @Serializable
     data class ChatSettings(
         @SerialName("title") val title: String,
-        @SerialName("members_count") val membersCount: Int,
         @SerialName("state") val state: State,
         @SerialName("active_ids") val activeUserIds: List<Int>,
         @SerialName("acl") val acl: AccessControlList,
         @SerialName("owner_id") val ownerId: Int,
+        @SerialName("members_count") val membersCount: Int? = null,
         @SerialName("is_group_channel") val isGroupChannel: Boolean? = null,
         @SerialName("pinned_message") val pinnedMessage: Message.Pinned? = null,
         @SerialName("photo") val photo: SimplePhoto? = null) {
@@ -73,7 +73,8 @@ data class Conversation(
             @SerialName("can_change_pin") val canChangePin: Boolean,
             @SerialName("can_promote_users") val canPromoteUsers: Boolean,
             @SerialName("can_see_invite_link") val canSeeInviteLink: Boolean,
-            @SerialName("can_change_invite_link") val canChangeInviteLink: Boolean)
+            @SerialName("can_change_invite_link") val canChangeInviteLink: Boolean,
+            @SerialName("can_moderate") val canModerate: Boolean)
 
     }
 

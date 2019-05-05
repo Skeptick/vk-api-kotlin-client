@@ -52,6 +52,7 @@ data class Message(
     data class Pinned(
         @SerialName("id") val id: Int,
         @SerialName("from_id") val userId: Int,
+        @SerialName("peer_id") val peerId: Int,
         @SerialName("date") val date: Int,
         @SerialName("text") val body: String,
         @SerialName("conversation_message_id") val conversationMessageId: Int? = null,
