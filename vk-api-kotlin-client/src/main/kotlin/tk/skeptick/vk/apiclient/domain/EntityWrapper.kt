@@ -24,8 +24,8 @@ data class EntityWrapper(
         override fun deserialize(decoder: Decoder): EntityWrapper {
             val jsonObject = (decoder as JsonInput).decodeJson().jsonObject
             return when (val type = jsonObject["type"]?.content) {
-                Type.PAGE.value -> EntityWrapper(Type.PAGE, page = json.parse(Community.serializer(), jsonObject.toString()))
-                Type.PROFILE.value -> EntityWrapper(Type.PROFILE, profile = json.parse(User.serializer(), jsonObject.toString()))
+                Type.PAGE.value -> EntityWrapper(Type.PAGE, page = json.fromJson(Community.serializer(), jsonObject))
+                Type.PROFILE.value -> EntityWrapper(Type.PROFILE, profile = json.fromJson(User.serializer(), jsonObject))
                 else -> throw IllegalArgumentException("Type \"$type\" is not defined.")
             }
         }

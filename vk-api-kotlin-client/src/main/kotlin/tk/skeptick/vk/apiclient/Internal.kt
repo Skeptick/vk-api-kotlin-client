@@ -155,20 +155,24 @@ private inline fun <T : Any> VkApiResponse<T>.asSuspendableResult(): Suspendable
 internal fun <T : Any> parseUploadResponse(
     responseString: String,
     serializer: KSerializer<T>
-): SuspendableResult<T, Exception> =
-    when (json.parseJson(responseString).jsonObject.contains("error")) {
-        true -> SuspendableResult.error(json.parse(UploadFileError.serializer(), responseString))
-        false -> SuspendableResult.of(json.parse(serializer, responseString))
+): SuspendableResult<T, Exception> {
+    val jsonObject = json.parseJson(responseString).jsonObject
+    return when (jsonObject.contains("error")) {
+        true -> SuspendableResult.error(json.fromJson(UploadFileError.serializer(), jsonObject))
+        false -> SuspendableResult.of(json.fromJson(serializer, jsonObject))
     }
-
+}
 
 internal fun parseOAuthResponse(
     responseString: String
-): SuspendableResult<OAuthResponse, Exception> =
-    when (json.parseJson(responseString).jsonObject.contains("access_token")) {
-        true -> SuspendableResult.of(json.parse(OAuthResponse.serializer(), responseString))
-        false -> SuspendableResult.error(json.parse(OAuthError.serializer(), responseString))
+): SuspendableResult<OAuthResponse, Exception> {
+    val jsonObject = json.parseJson(responseString).jsonObject
+    return when (jsonObject.contains("access_token")) {
+        true -> SuspendableResult.of(json.fromJson(OAuthResponse.serializer(), jsonObject))
+        false -> SuspendableResult.error(json.fromJson(OAuthError.serializer(), jsonObject))
     }
+}
+
 
 //--- Serializers ---//
 
