@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    implementation "tk.skeptick:vk-api-kotlin-client:0.1.5"
+    implementation "tk.skeptick:vk-api-kotlin-client:0.1.6"
 }
 ```
 
@@ -70,7 +70,7 @@ dependencies {
 #### Подготовка
 Первым делом подключите подходящий вам [HTTP-клиент](https://github.com/ktorio/ktor/tree/master/ktor-client), например CIO:
 ```
-implementation "io.ktor:ktor-client-cio:1.2.0"
+implementation "io.ktor:ktor-client-cio:1.2.2"
 ```
 Для Android используейте `ktor-client-okhttp` или `ktor-client-android`, для server-side рекомендую `ktor-client-apache`. Подробнее см. в [документации](https://ktor.io/clients/http-client/engines.html) и в [репозиториях](https://github.com/ktorio/ktor/tree/master/ktor-client) ktor.
 
