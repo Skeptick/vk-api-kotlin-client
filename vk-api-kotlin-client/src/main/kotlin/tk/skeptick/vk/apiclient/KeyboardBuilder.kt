@@ -17,63 +17,97 @@ class KeyboardBuilder {
         rows.add(RowBuilder().apply(block).buttons)
     }
 
+    fun locationButton(payload: MessagePayload? = null, block: LocationButtonBuilder.() -> Unit = { }) {
+        rows += listOf(LocationButtonBuilder().apply { this.payload = payload }.apply(block).build())
+    }
+
+    fun vkPayButton(hash: String, payload: MessagePayload? = null, block: VkPayButton.() -> Unit = { }) {
+        rows += listOf(VkPayButton(hash).apply { this.payload = payload }.apply(block).build())
+    }
+
+    fun vkAppButton(
+        label: String,
+        appId: Int,
+        ownerId: Int? = null,
+        hash: String? = null,
+        payload: MessagePayload? = null,
+        block: VkAppButton.() -> Unit = { }
+    ) {
+        rows += listOf(VkAppButton(label, appId).apply {
+            this.ownerId = ownerId
+            this.hash = hash
+            this.payload = payload
+            this.block()
+        }.build())
+    }
+
     @KeyboardDsl
     class RowBuilder {
 
         internal val buttons: MutableList<Keyboard.Button> = mutableListOf()
 
-        fun primaryButton(
-            label: String,
-            payload: MessagePayload? = null,
-            block: ButtonBuilder.() -> Unit = { }
-        ) = addButton(label, payload, block, Keyboard.Button.ButtonColor.PRIMARY)
-
-        fun defaultButton(
-            label: String,
-            payload: MessagePayload? = null,
-            block: ButtonBuilder.() -> Unit = { }
-        ) = addButton(label, payload, block, Keyboard.Button.ButtonColor.DEFAULT)
-
-        fun negativeButton(
-            label: String,
-            payload: MessagePayload? = null,
-            block: ButtonBuilder.() -> Unit = { }
-        ) = addButton(label, payload, block, Keyboard.Button.ButtonColor.NEGATIVE)
-
-        fun positiveButton(
-            label: String,
-            payload: MessagePayload? = null,
-            block: ButtonBuilder.() -> Unit = { }
-        ) = addButton(label, payload, block, Keyboard.Button.ButtonColor.POSITIVE)
-
-        private fun addButton(
-            label: String,
-            payload: MessagePayload?,
-            block: ButtonBuilder.() -> Unit,
-            color: Keyboard.Button.ButtonColor
-        ) = ButtonBuilder().apply {
-            this.color = color
-            this.label = label
-            this.payload = payload
-            this.block()
-        }.also { buttons.add(it.build()) }
-
-        @KeyboardDsl
-        class ButtonBuilder {
-
-            internal var color = Keyboard.Button.ButtonColor.DEFAULT
-
-            var label = "Label"
-            var type = Keyboard.Button.Action.Type.TEXT
-            var payload: MessagePayload? = null
-
-            internal fun build(): Keyboard.Button = Keyboard.Button(
-                action = Keyboard.Button.Action(type, label, payload),
-                color = color
-            )
-
+        fun primaryButton(label: String, payload: MessagePayload? = null, block: TextButtonBuilder.() -> Unit = { }) {
+            addButton(label, payload, block, Keyboard.Button.ButtonColor.PRIMARY)
         }
 
+        fun defaultButton(label: String, payload: MessagePayload? = null, block: TextButtonBuilder.() -> Unit = { }) {
+            addButton(label, payload, block, Keyboard.Button.ButtonColor.DEFAULT)
+        }
+
+        fun negativeButton(label: String, payload: MessagePayload? = null, block: TextButtonBuilder.() -> Unit = { }) {
+            addButton(label, payload, block, Keyboard.Button.ButtonColor.NEGATIVE)
+        }
+
+        fun positiveButton(label: String, payload: MessagePayload? = null, block: TextButtonBuilder.() -> Unit = { }) {
+            addButton(label, payload, block, Keyboard.Button.ButtonColor.POSITIVE)
+        }
+
+        private fun addButton(label: String, payload: MessagePayload?, block: TextButtonBuilder.() -> Unit, color: Keyboard.Button.ButtonColor) {
+            buttons += TextButtonBuilder(label, color).apply { this.payload = payload }.apply(block).build()
+        }
+
+        @KeyboardDsl
+        class TextButtonBuilder(val label: String, val color: Keyboard.Button.ButtonColor) {
+            var payload: MessagePayload? = null
+            internal fun build(): Keyboard.Button = Keyboard.Button(
+                action = Keyboard.Button.Action(Keyboard.Button.Action.Type.TEXT, label = label, payload = payload),
+                color = color
+            )
+        }
+
+    }
+
+    @KeyboardDsl
+    class LocationButtonBuilder {
+        var payload: MessagePayload? = null
+        internal fun build(): Keyboard.Button = Keyboard.Button(
+            action = Keyboard.Button.Action(Keyboard.Button.Action.Type.LOCATION, payload = payload)
+        )
+    }
+
+    @KeyboardDsl
+    class VkPayButton(val hash: String) {
+        var payload: MessagePayload? = null
+        internal fun build(): Keyboard.Button = Keyboard.Button(
+            action = Keyboard.Button.Action(Keyboard.Button.Action.Type.VK_PAY, payload = payload, hash = hash)
+        )
+    }
+
+    @KeyboardDsl
+    class VkAppButton(val label: String, val appId: Int) {
+        var ownerId: Int? = null
+        var hash: String? = null
+        var payload: MessagePayload? = null
+        internal fun build(): Keyboard.Button = Keyboard.Button(
+            action = Keyboard.Button.Action(
+                type = Keyboard.Button.Action.Type.VK_APP,
+                label = label,
+                appId = appId,
+                ownerId = ownerId,
+                payload = payload,
+                hash = hash
+            )
+        )
     }
 
 }
