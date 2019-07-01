@@ -88,26 +88,18 @@ class MessagesApi(override val client: ApiClient)
 
     override fun deleteConversation(
         peerId: Int,
-        offset: Int,
-        count: Int,
         groupId: Int?
-    ): VkApiRequest<BooleanInt> =
-        Methods.deleteConversation.httpGet(BooleanInt.serializer()) {
+    ): VkApiRequest<DeleteConversationResponse> =
+        Methods.deleteConversation.httpGet(DeleteConversationResponse.serializer()) {
             append("peer_id", peerId)
-            append("offset", offset)
-            append("count", count)
             append("group_id", groupId)
         }
 
     override fun deleteConversation(
-        peerId: Int,
-        offset: Int,
-        count: Int
-    ): VkApiRequest<BooleanInt> =
+        peerId: Int
+    ): VkApiRequest<DeleteConversationResponse> =
         deleteConversation(
             peerId = peerId,
-            offset = offset,
-            count = count,
             groupId = null
         )
 

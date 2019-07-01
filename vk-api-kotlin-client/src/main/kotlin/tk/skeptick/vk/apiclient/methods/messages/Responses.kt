@@ -60,6 +60,10 @@ data class ConversationsListResponse(
 }
 
 @Serializable
+data class DeleteConversationResponse(
+    @SerialName("last_deleted_id") val lastDeletedId: Int)
+
+@Serializable
 data class HistoryMessagesListResponse(
     @SerialName("count") override val count: Int,
     @SerialName("items") override val items: List<Message>,

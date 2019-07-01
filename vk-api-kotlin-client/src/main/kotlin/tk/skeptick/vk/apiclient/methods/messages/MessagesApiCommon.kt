@@ -31,14 +31,11 @@ interface MessagesApiCommon {
     ): VkApiRequest<ChatChangePhotoResponse>
 
     /**
-     * @param[count] maximum value 10000
      * @see <a href="https://vk.com/dev/messages.deleteConversation">VK API</a>
      */
     fun deleteConversation(
-        peerId: Int,
-        offset: Int = 0,
-        count: Int = 10000
-    ): VkApiRequest<BooleanInt>
+        peerId: Int
+    ): VkApiRequest<DeleteConversationResponse>
 
     /**
      * @see <a href="https://vk.com/dev/messages.edit">VK API</a>

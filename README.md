@@ -1,6 +1,6 @@
 VK API Kotlin Client
 ======================
-#### [Версия VK API](https://vk.com/dev/versions): 5.95
+#### [Версия VK API](https://vk.com/dev/versions): 5.100
 ______________________
 #### Использует:
   - [kotlinx.coroutines]

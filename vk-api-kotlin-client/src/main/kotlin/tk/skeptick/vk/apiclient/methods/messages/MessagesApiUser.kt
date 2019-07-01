@@ -57,15 +57,12 @@ interface MessagesApiUser : MessagesApiCommon {
     ): VkApiRequest<ChatChangePhotoResponse>
 
     /**
-     * @param[count] maximum value 10000
      * @see <a href="https://vk.com/dev/messages.deleteConversation">VK API</a>
      */
     fun deleteConversation(
         peerId: Int,
-        offset: Int = 0,
-        count: Int = 10000,
         groupId: Int? = null
-    ): VkApiRequest<BooleanInt>
+    ): VkApiRequest<DeleteConversationResponse>
 
     /**
      * @see <a href="https://vk.com/dev/messages.denyMessagesFromGroup">VK API</a>
