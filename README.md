@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    implementation "tk.skeptick:vk-api-kotlin-client:0.1.6"
+    implementation "tk.skeptick:vk-api-kotlin-client:0.1.7"
 }
 ```
 
