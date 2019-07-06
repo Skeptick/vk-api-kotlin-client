@@ -387,3 +387,9 @@ enum class ShortLinkStatsInterval(internal val value: String) {
     MONTH("month"),
     FOREVER("forever")
 }
+
+enum class FavePagesType(internal val value: String) {
+    USERS("users"),
+    GROUPS("groups"),
+    HINTS("hints")
+}

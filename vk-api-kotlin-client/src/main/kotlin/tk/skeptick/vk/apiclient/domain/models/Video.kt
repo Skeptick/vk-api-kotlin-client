@@ -17,15 +17,8 @@ data class Video(
     @SerialName("date") val date: Int,
     @SerialName("views") val viewsCount: Int,
     @SerialName("comments") val commentsCount: Int,
-    @SerialName("photo_130") val photo130: String,
-    @SerialName("photo_320") val photo320: String,
-    @SerialName("photo_640") val photo640: String? = null,
-    @SerialName("photo_800") val photo800: String? = null,
-    @SerialName("first_frame_130") val firstFrame130: String? = null,
-    @SerialName("first_frame_160") val firstFrame160: String? = null,
-    @SerialName("first_frame_320") val firstFrame320: String? = null,
-    @SerialName("first_frame_800") val firstFrame800: String? = null,
-    @SerialName("first_frame_1280") val firstFrame1280: String? = null,
+    @SerialName("image") val image: List<VideoImage>,
+    @SerialName("first_frame") val firstFrame: List<VideoImage>,
     @SerialName("width") val width: Int? = null,
     @SerialName("height") val height: Int? = null,
     @SerialName("player") val playerUrl: String? = null,
@@ -52,7 +45,6 @@ data class Video(
 ) : MessageAttachment {
 
     override val typeAttachment get() = AttachmentType.VIDEO.value
-    val photoMax: String get() = photo800 ?: photo640 ?: photo320
 
     @Serializable
     data class Privacy(
@@ -75,6 +67,13 @@ data class Video(
             @SerialName("allowed") val allowed: List<Int>? = null)
 
     }
+
+    @Serializable
+    data class VideoImage(
+        @SerialName("url") val url: String,
+        @SerialName("width") val width: Int,
+        @SerialName("height") val height: Int,
+        @SerialName("with_padding") val withPadding: BooleanInt = BooleanInt(false))
 
     @Serializable
     data class Files(

@@ -33,6 +33,8 @@ data class WallPost(
     @SerialName("can_pin") val canPin: BooleanInt? = null,
     @SerialName("can_delete") val canDelete: BooleanInt? = null,
     @SerialName("can_edit") val canEdit: BooleanInt? = null,
+    @SerialName("can_archive") val canArchive: Boolean? = null,
+    @SerialName("is_archived") val isArchived: Boolean? = null,
     @SerialName("is_favorite") val isFavorite: Boolean = false,
     @SerialName("is_promoted_post_stealth") val isPromotedPostStealth: Boolean = false,
     @SerialName("access_key") override val accessKey: String? = null
@@ -136,7 +138,8 @@ data class WallPost(
         @SerialName("market") val market: Market? = null,
         @SerialName("market_album") val marketAlbum: Market.Album? = null,
         @SerialName("sticker") val sticker: Sticker? = null,
-        @SerialName("pretty_cards") val prettyCards: PrettyCards? = null)
+        @SerialName("pretty_cards") val prettyCards: PrettyCards? = null,
+        @SerialName("event") val event: Event? = null)
 
 }
 

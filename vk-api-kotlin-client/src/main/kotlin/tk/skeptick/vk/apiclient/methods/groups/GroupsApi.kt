@@ -1145,6 +1145,21 @@ class GroupsApi(override val client: ApiClient)
             append("lead_forms_new", leadFormsNew?.asInt())
         }
 
+    override fun setSettings(
+        groupId: Int,
+        messages: Boolean?,
+        botsCapabilities: Boolean?,
+        botsStartButton: Boolean?,
+        botsAddToChat: Boolean?
+    ): VkApiRequest<BooleanInt> =
+        Methods.setSettings.httpGet(BooleanInt.serializer()) {
+            append("group_id", groupId)
+            append("messages", messages?.asInt())
+            append("bots_capabilities", botsCapabilities?.asInt())
+            append("bots_start_button", botsStartButton?.asInt())
+            append("bots_add_to_chat", botsAddToChat?.asInt())
+        }
+
     override fun unban(
         groupId: Int,
         ownerId: Int
@@ -1200,6 +1215,7 @@ class GroupsApi(override val client: ApiClient)
         const val search = it + "search"
         const val setCallbackSettings = it + "setCallbackSettings"
         const val setLongPollSettings = it + "setLongPollSettings"
+        const val setSettings = it + "setSettings"
         const val unban = it + "unban"
     }
 

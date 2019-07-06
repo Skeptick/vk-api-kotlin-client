@@ -40,7 +40,8 @@ enum class AttachmentType(override val value: String) : SerializableEnum<String>
     MONEY("money"),
     GRAFFITI("graffiti"),
     AUDIO_MESSAGE("audio_message"),
-    PRETTY_CARDS("pretty_cards");
+    PRETTY_CARDS("pretty_cards"),
+    EVENT("event");
 
     companion object : EnumStringSerializer<AttachmentType>(AttachmentType::class)
 }

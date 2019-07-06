@@ -1,6 +1,6 @@
 VK API Kotlin Client
 ======================
-#### [Версия VK API](https://vk.com/dev/versions): 5.100
+#### [Версия VK API](https://vk.com/dev/versions): 5.101
 ______________________
 #### Использует:
   - [kotlinx.coroutines]
@@ -19,10 +19,10 @@ ______________________
 | [Board]         |     0 из 13    | :heavy_multiplication_x: |
 | [Database]      |     0 из 10    | :heavy_multiplication_x: |
 | [Docs]          |    11 из 11    | :heavy_check_mark:       |
-| [Fave]          |    12 из 12    | :heavy_check_mark:       |
+| [Fave]          |    23 из 23    | :heavy_check_mark:       |
 | [Friends]       |    18 из 18    | :heavy_check_mark:       |
 | [Gifts]         |     1 из 1     | :heavy_check_mark:       |
-| [Groups]        |    45 из 45    | :heavy_check_mark:       |
+| [Groups]        |    46 из 46    | :heavy_check_mark:       |
 | [LeadForms]     |     0 из 7     | :heavy_multiplication_x: |
 | [Likes]         |     4 из 4     | :heavy_check_mark:       |
 | [Market]        |     0 из 24    | :heavy_multiplication_x: |
@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    implementation "tk.skeptick:vk-api-kotlin-client:0.1.7"
+    implementation "tk.skeptick:vk-api-kotlin-client:0.1.8"
 }
 ```
 

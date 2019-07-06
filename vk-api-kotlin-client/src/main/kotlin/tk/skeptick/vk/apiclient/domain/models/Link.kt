@@ -8,6 +8,7 @@ import tk.skeptick.vk.apiclient.SerializableEnum
 data class Link(
     @SerialName("url") val url: String,
     @SerialName("title") val title: String,
+    @SerialName("id") val id: String? = null,
     @SerialName("caption") val caption: String? = null,
     @SerialName("description") val description: String? = null,
     @SerialName("photo") val photo: Photo? = null,

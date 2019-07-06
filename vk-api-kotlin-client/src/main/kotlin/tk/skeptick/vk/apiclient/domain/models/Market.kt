@@ -18,10 +18,12 @@ data class Market(
     @SerialName("price") val price: Price,
     @SerialName("category") val category: Category,
     @SerialName("thumb_photo") val thumbPhoto: String,
+    @SerialName("albums_ids") val albumsIds: List<Int>,
     @SerialName("photos") val photos: List<Photo>? = null,
     @SerialName("can_comment") val canComment: BooleanInt? = null,
     @SerialName("can_repost") val canRepost: BooleanInt? = null,
     @SerialName("likes") val likes: Likes? = null,
+    @SerialName("views_count") val viewsCount: Int? = null,
     @SerialName("url") val url: String? = null,
     @SerialName("button_title") val buttonTitle: String? = null,
     @SerialName("is_favorite") val isFavorite: Boolean? = null
@@ -49,7 +51,7 @@ data class Market(
 
     @Serializable
     data class Price(
-        @SerialName("amount") val amount: Int, // price * 100
+        @SerialName("amount") val amount: String, // price * 100
         @SerialName("currency") val currency: Currency,
         @SerialName("text") val text: String) {
 

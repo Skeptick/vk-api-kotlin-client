@@ -339,4 +339,15 @@ interface GroupsApiCommon {
         leadFormsNew: Boolean? = null
     ): VkApiRequest<BooleanInt>
 
+    /**
+     * @see <a href="https://vk.com/dev/groups.setSettings">VK API</a>
+     */
+    fun setSettings(
+        groupId: Int,
+        messages: Boolean? = null,
+        botsCapabilities: Boolean? = null,
+        botsStartButton: Boolean? = null,
+        botsAddToChat: Boolean? = null
+    ): VkApiRequest<BooleanInt>
+
 }
