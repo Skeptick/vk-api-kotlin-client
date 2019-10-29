@@ -1,6 +1,6 @@
 VK API Kotlin Client
 ======================
-#### [Версия VK API](https://vk.com/dev/versions): 5.101
+#### [Версия VK API](https://vk.com/dev/versions): 5.103
 ______________________
 #### Использует:
   - [kotlinx.coroutines]
@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    implementation "tk.skeptick:vk-api-kotlin-client:0.1.8"
+    implementation "tk.skeptick:vk-api-kotlin-client:0.1.9"
 }
 ```
 
@@ -70,7 +70,7 @@ dependencies {
 #### Подготовка
 Первым делом подключите подходящий вам [HTTP-клиент](https://github.com/ktorio/ktor/tree/master/ktor-client), например CIO:
 ```
-implementation "io.ktor:ktor-client-cio:1.2.2"
+implementation "io.ktor:ktor-client-cio:1.3.0-beta-1"
 ```
 Для Android используейте `ktor-client-okhttp` или `ktor-client-android`, для server-side рекомендую `ktor-client-apache`. Подробнее см. в [документации](https://ktor.io/clients/http-client/engines.html) и в [репозиториях](https://github.com/ktorio/ktor/tree/master/ktor-client) ktor.
 

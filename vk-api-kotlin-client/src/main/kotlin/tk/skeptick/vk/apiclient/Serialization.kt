@@ -3,20 +3,21 @@ package tk.skeptick.vk.apiclient
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.EnumDescriptor
 import kotlinx.serialization.internal.IntSerializer
-import kotlinx.serialization.internal.makeNullable
+import kotlinx.serialization.internal.nullable
 import kotlin.reflect.KClass
 
 @Serializable
 data class BooleanInt(val value: Boolean) {
 
     @Serializer(forClass = BooleanInt::class)
-    companion object : KSerializer<BooleanInt?> {
+    companion object : KSerializer<BooleanInt> {
 
-        override fun serialize(encoder: Encoder, obj: BooleanInt?) =
-            encoder.encodeInt(if (obj?.value == true) 1 else 0)
+        override fun serialize(encoder: Encoder, obj: BooleanInt) =
+            encoder.encodeInt(if (obj.value) 1 else 0)
 
         override fun deserialize(decoder: Decoder): BooleanInt =
-            BooleanInt(decoder.decodeNullableSerializableValue(makeNullable(IntSerializer)) == 1)
+            BooleanInt(decoder.decodeNullableSerializableValue(IntSerializer.nullable) == 1)
+
     }
 }
 

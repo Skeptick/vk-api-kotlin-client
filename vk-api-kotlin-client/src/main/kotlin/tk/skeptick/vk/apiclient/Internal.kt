@@ -7,9 +7,7 @@ import com.github.kittinunf.result.coroutines.flatMap
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import io.ktor.util.date.GMTDate
-import kotlinx.io.core.ByteReadPacket
-import kotlinx.io.core.buildPacket
-import kotlinx.io.core.writeFully
+import io.ktor.utils.io.core.ByteReadPacket
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
@@ -67,13 +65,10 @@ internal inline operator fun Parameters.plus(other: Parameters?): Parameters =
     }
 
 internal inline val UploadableFile.formPart: FormPart<ByteReadPacket>
-    get() = FormPart(key, content.bytes.packet, content.filename.filenameHeader)
+    get() = FormPart(key, ByteReadPacket(content.bytes), content.filename.filenameHeader)
 
 private inline val String.filenameHeader: Headers
     get() = headersOf(HttpHeaders.ContentDisposition, "filename=$this")
-
-private inline val ByteArray.packet: ByteReadPacket
-    get() = buildPacket { writeFully(this@packet) }
 
 internal inline fun <T : Any> list(nestedSerializer: KSerializer<T>) =
     DefaultListResponse.serializer(nestedSerializer)
