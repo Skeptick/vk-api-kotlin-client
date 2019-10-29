@@ -94,3 +94,10 @@ fun keyboard(
     isOneTime = isOneTime,
     buttons = KeyboardBuilder().apply(builder).rows
 )
+
+fun inlineKeyboard(
+    builder: KeyboardBuilder.() -> Unit
+): Keyboard = Keyboard(
+    isInline = true,
+    buttons = KeyboardBuilder().apply(builder).rows
+)

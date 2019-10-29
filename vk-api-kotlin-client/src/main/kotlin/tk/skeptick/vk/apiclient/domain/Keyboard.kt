@@ -8,6 +8,7 @@ import tk.skeptick.vk.apiclient.SerializableEnum
 @Serializable
 data class Keyboard(
     @SerialName("one_time") val isOneTime: Boolean = false,
+    @SerialName("inline") val isInline: Boolean = false,
     @SerialName("buttons") val buttons: List<List<Button>> = emptyList(),
     @SerialName("author_id") val authorId: Int? = null) {
 
