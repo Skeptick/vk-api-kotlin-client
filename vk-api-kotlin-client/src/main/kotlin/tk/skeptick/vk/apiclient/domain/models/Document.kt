@@ -49,8 +49,8 @@ data class Document(
             @Serializable
             data class Size(
                 @SerialName("src") val src: String,
-                @SerialName("width") val width: Int,
-                @SerialName("height") val height: Int,
+                @SerialName("width") val width: Double,
+                @SerialName("height") val height: Double,
                 @SerialName("type") val type: String)
 
         }

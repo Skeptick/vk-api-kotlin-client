@@ -72,6 +72,7 @@ data class ResolveScreenNameResponse(
     enum class Type(override val value: String) : SerializableEnum<String> {
         USER("user"),
         GROUP("group"),
+        PAGE("page"),
         APPLICATION("application");
 
         companion object : EnumStringSerializer<Type>(Type::class)

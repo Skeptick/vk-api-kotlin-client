@@ -11,22 +11,23 @@ data class Article (
     @SerialName("owner_id") val ownerId: Int,
     @SerialName("owner_name") val ownerName: String,
     @SerialName("owner_photo") val ownerPhoto: String,
-    @SerialName("published_date") val publishedDate: Int,
     @SerialName("state") val state: State,
     @SerialName("can_report") val canReport: Boolean,
-    @SerialName("title") val title: String,
-    @SerialName("subtitle") val subtitle: String,
-    @SerialName("views") val views: Int,
-    @SerialName("shares") val shares: Int,
     @SerialName("is_favorite") val isFavorite: Boolean,
-    @SerialName("url") val url: String,
-    @SerialName("view_url") val viewUrl: String,
+    @SerialName("published_date") val publishedDate: Int? = null,
+    @SerialName("title") val title: String? = null,
+    @SerialName("subtitle") val subtitle: String? = null,
+    @SerialName("views") val views: Int? = null,
+    @SerialName("shares") val shares: Int? = null,
+    @SerialName("url") val url: String? = null,
+    @SerialName("view_url") val viewUrl: String? = null,
     @SerialName("photo") val photo: Photo? = null,
     @SerialName("access_key") val accessKey: String? = null) {
 
     @Serializable(with = State.Companion::class)
     enum class State(override val value: String) : SerializableEnum<String> {
-        AVAILABLE("available");
+        AVAILABLE("available"),
+        PROTECTED("protected");
 
         companion object : EnumStringSerializer<State>(State::class)
     }

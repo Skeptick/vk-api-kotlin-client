@@ -18,7 +18,7 @@ data class Video(
     @SerialName("views") val viewsCount: Int,
     @SerialName("comments") val commentsCount: Int,
     @SerialName("image") val image: List<VideoImage>,
-    @SerialName("first_frame") val firstFrame: List<VideoImage>,
+    @SerialName("first_frame") val firstFrame: List<VideoImage>? = null,
     @SerialName("width") val width: Int? = null,
     @SerialName("height") val height: Int? = null,
     @SerialName("player") val playerUrl: String? = null,

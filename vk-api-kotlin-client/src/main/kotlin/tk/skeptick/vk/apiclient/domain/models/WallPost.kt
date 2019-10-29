@@ -25,6 +25,7 @@ data class WallPost(
     @SerialName("post_source") val postSource: Source? = null,
     @SerialName("attachments") val attachments: List<Attachment>? = null,
     @SerialName("geo") val geo: Geo? = null,
+    @SerialName("activity") val activity: Activity? = null,
     @SerialName("signer_id") val signerUserId: Int? = null,
     @SerialName("copy_history") val copyHistory: List<WallPost>? = null,
     @SerialName("friends_only") val isFriendsOnly: BooleanInt? = null,
@@ -139,7 +140,23 @@ data class WallPost(
         @SerialName("market_album") val marketAlbum: Market.Album? = null,
         @SerialName("sticker") val sticker: Sticker? = null,
         @SerialName("pretty_cards") val prettyCards: PrettyCards? = null,
-        @SerialName("event") val event: Event? = null)
+        @SerialName("event") val event: Event? = null,
+        @SerialName("article") val article: Article? = null,
+        @SerialName("audio_playlist") val audioPlaylist: Playlist? = null)
+
+    @Serializable
+    data class Activity(
+        @SerialName("type") val type: Type,
+        @SerialName("comments") val comments: List<WallComment>? = null) {
+
+        @Serializable(with = Type.Companion::class)
+        enum class Type(override val value: String) : SerializableEnum<String> {
+            COMMENTS("comments");
+
+            companion object : EnumStringSerializer<Type>(Type::class)
+        }
+
+    }
 
 }
 

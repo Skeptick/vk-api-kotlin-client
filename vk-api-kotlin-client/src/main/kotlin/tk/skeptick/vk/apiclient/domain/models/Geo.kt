@@ -6,8 +6,14 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Geo(
     @SerialName("type") val type: String,
-    @SerialName("coordinates") val coordinates: String,
+    @SerialName("coordinates") val coordinates: Coordinates,
     @SerialName("place") val place: Place? = null) {
+
+    @Serializable
+    data class Coordinates(
+        @SerialName("latitude") val latitude: Double,
+        @SerialName("longitude") val longitude: Double
+    )
 
     @Serializable
     data class Place(
@@ -24,6 +30,6 @@ data class Geo(
         @SerialName("group_photo") val groupPhoto: String? = null,
         @SerialName("checkins") val checkinsCount: Int? = null,
         @SerialName("updated") val updatedTime: Int? = null,
-        @SerialName("address") val address: Int? = null)
+        @SerialName("address") val address: String? = null)
 
 }

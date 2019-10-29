@@ -18,7 +18,7 @@ data class Market(
     @SerialName("price") val price: Price,
     @SerialName("category") val category: Category,
     @SerialName("thumb_photo") val thumbPhoto: String,
-    @SerialName("albums_ids") val albumsIds: List<Int>,
+    @SerialName("albums_ids") val albumsIds: List<Int>? = null,
     @SerialName("photos") val photos: List<Photo>? = null,
     @SerialName("can_comment") val canComment: BooleanInt? = null,
     @SerialName("can_repost") val canRepost: BooleanInt? = null,

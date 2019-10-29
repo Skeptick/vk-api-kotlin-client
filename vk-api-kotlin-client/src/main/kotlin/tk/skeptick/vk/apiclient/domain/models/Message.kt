@@ -40,7 +40,7 @@ data class Message(
         @SerialName("id") val id: Int? = null,
         @SerialName("conversation_message_id") val conversationMessageId: Int? = null,
         @SerialName("peer_id") val peerId: Int? = null,
-        @SerialName("from_id") val userId: Int,
+        @SerialName("from_id") val fromId: Int,
         @SerialName("date") val date: Int,
         @SerialName("text") val body: String,
         @SerialName("geo") val geo: Geo? = null,
@@ -51,7 +51,7 @@ data class Message(
     @Serializable
     data class Pinned(
         @SerialName("id") val id: Int,
-        @SerialName("from_id") val userId: Int,
+        @SerialName("from_id") val fromId: Int,
         @SerialName("peer_id") val peerId: Int,
         @SerialName("date") val date: Int,
         @SerialName("text") val body: String,
@@ -70,12 +70,14 @@ data class Message(
         @SerialName("link") val link: Link? = null,
         @SerialName("market") val market: Market? = null,
         @SerialName("market_album") val marketAlbum: Market.Album? = null,
+        @SerialName("poll") val poll: Poll? = null,
         @SerialName("wall") val wallPost: WallPost? = null,
         @SerialName("wall_reply") val wallReply: WallComment? = null,
         @SerialName("sticker") val sticker: Sticker? = null,
         @SerialName("gift") val gift: Gift? = null,
         @SerialName("graffiti") val graffiti: Graffiti? = null,
-        @SerialName("audio_message") val audioMessage: AudioMessage? = null)
+        @SerialName("audio_message") val audioMessage: AudioMessage? = null,
+        @SerialName("story") val story: Story? = null)
 
     @Serializable
     data class ServiceAction(
