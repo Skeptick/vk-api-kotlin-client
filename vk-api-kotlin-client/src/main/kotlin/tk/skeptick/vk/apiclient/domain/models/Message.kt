@@ -80,6 +80,25 @@ data class Message(
         @SerialName("story") val story: Story? = null)
 
     @Serializable
+    data class Geo(
+        @SerialName("type") val type: String,
+        @SerialName("coordinates") val coordinates: Coordinates,
+        @SerialName("place") val place: Place? = null) {
+
+        @Serializable
+        data class Coordinates(
+            @SerialName("latitude") val latitude: Double,
+            @SerialName("longitude") val longitude: Double)
+
+        @Serializable
+        data class Place(
+            @SerialName("title") val title: String,
+            @SerialName("country") val country: String,
+            @SerialName("city") val city: String)
+
+    }
+
+    @Serializable
     data class ServiceAction(
         @SerialName("type") val type: Type,
         @SerialName("member_id") val memberId: Int? = null,

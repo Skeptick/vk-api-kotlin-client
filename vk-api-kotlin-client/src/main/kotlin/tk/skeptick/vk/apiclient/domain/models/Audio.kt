@@ -37,8 +37,8 @@ data class Audio(
         @SerialName("id") val id: String,
         @SerialName("domain") val domain: String,
         @SerialName("name") val name: String,
-        @SerialName("is_followed") val isFollowed: Boolean,
-        @SerialName("can_follow") val canFollow: Boolean)
+        @SerialName("is_followed") val isFollowed: Boolean? = null,
+        @SerialName("can_follow") val canFollow: Boolean? = null)
 
     @Serializable
     data class Album(

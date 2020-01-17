@@ -12,3 +12,9 @@ interface MessageAttachment : Media {
     override val accessKey: String? get() = null
     val typeAttachment: String
 }
+
+data class BaseMedia(
+    override val id: Int,
+    override val ownerId: Int,
+    override val accessKey: String?
+) : Media

@@ -73,6 +73,7 @@ data class ResolveScreenNameResponse(
         USER("user"),
         GROUP("group"),
         PAGE("page"),
+        VK_APP("vk_app"),
         APPLICATION("application");
 
         companion object : EnumStringSerializer<Type>(Type::class)
