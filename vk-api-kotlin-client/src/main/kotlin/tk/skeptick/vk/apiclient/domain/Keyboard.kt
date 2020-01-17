@@ -23,6 +23,7 @@ data class Keyboard(
             @SerialName("label") val label: String? = null,
             @SerialName("payload") val payload: MessagePayload? = null,
             @SerialName("hash") val hash: String? = null,
+            @SerialName("link") val link: String? = null,
             @SerialName("app_id") val appId: Int? = null,
             @SerialName("owner_id") val ownerId: Int? = null) {
 
@@ -31,7 +32,8 @@ data class Keyboard(
                 TEXT("text"),
                 LOCATION("location"),
                 VK_PAY("vkpay"),
-                VK_APP("open_app");
+                VK_APP("open_app"),
+                OPEN_LINK("open_link");
 
                 companion object : EnumStringSerializer<Type>(Type::class)
             }

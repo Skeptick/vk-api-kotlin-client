@@ -29,6 +29,10 @@ class KeyboardBuilder {
         rows += listOf(VkAppButton(label, appId, ownerId, hash, payload).apply(block).build())
     }
 
+    fun openLinkButton(label: String, link: String, payload: MessagePayload? = null, block: OpenLinkButton.() -> Unit = { }) {
+        rows += listOf(OpenLinkButton(label, link, payload).apply(block).build())
+    }
+
     @KeyboardDsl
     class RowBuilder {
 
@@ -82,6 +86,13 @@ class KeyboardBuilder {
     class VkAppButton(val label: String, val appId: Int, var ownerId: Int?, var hash: String?, var payload: MessagePayload?) {
         internal fun build(): Keyboard.Button = Keyboard.Button(
             action = Keyboard.Button.Action(Keyboard.Button.Action.Type.VK_APP, label = label, appId = appId, ownerId = ownerId, payload = payload, hash = hash)
+        )
+    }
+
+    @KeyboardDsl
+    class OpenLinkButton(val label: String, val link: String, var payload: MessagePayload?) {
+        internal fun build(): Keyboard.Button = Keyboard.Button(
+            action = Keyboard.Button.Action(Keyboard.Button.Action.Type.OPEN_LINK, label = label, link = link, payload = payload)
         )
     }
 
