@@ -58,10 +58,12 @@ class DocsApi(override val client: ApiClient)
         }
 
     override fun getById(
-        docs: List<Media>
+        docs: List<Media>,
+        returnTags: Boolean
     ): VkApiRequest<List<Document>> =
         Methods.getById.httpPost(Document.serializer().list) {
             append("docs", prepareDocs(docs))
+            append("return_tags", returnTags.asInt())
         }
 
     override fun getMessagesUploadServer(

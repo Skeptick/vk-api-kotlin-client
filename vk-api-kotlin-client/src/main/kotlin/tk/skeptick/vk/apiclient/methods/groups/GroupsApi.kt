@@ -969,180 +969,186 @@ class GroupsApi(override val client: ApiClient)
         groupId: Int,
         serverId: Int,
         apiVersion: String?,
-        messageNew: Boolean?,
         messageReply: Boolean?,
+        messagesEdit: Boolean?,
+        messageAllow: Boolean?,
+        messageDeny: Boolean?,
+        messageTypingState: Boolean?,
+        messageRead: Boolean?,
         photoNew: Boolean?,
+        photoCommentNew: Boolean?,
+        photoCommentEdit: Boolean?,
+        photoCommentRestore: Boolean?,
+        photoCommentDelete: Boolean?,
         audioNew: Boolean?,
         videoNew: Boolean?,
+        videoCommentNew: Boolean?,
+        videoCommentEdit: Boolean?,
+        videoCommentRestore: Boolean?,
+        videoCommentDelete: Boolean?,
+        wallPostNew: Boolean?,
+        wallRepost: Boolean?,
         wallReplyNew: Boolean?,
         wallReplyEdit: Boolean?,
-        wallReplyDelete: Boolean?,
         wallReplyRestore: Boolean?,
-        wallPostNew: Boolean?,
+        wallReplyDelete: Boolean?,
         boardPostNew: Boolean?,
         boardPostEdit: Boolean?,
         boardPostRestore: Boolean?,
         boardPostDelete: Boolean?,
-        photoCommentNew: Boolean?,
-        photoCommentEdit: Boolean?,
-        photoCommentDelete: Boolean?,
-        photoCommentRestore: Boolean?,
-        videoCommentNew: Boolean?,
-        videoCommentEdit: Boolean?,
-        videoCommentDelete: Boolean?,
-        videoCommentRestore: Boolean?,
         marketCommentNew: Boolean?,
         marketCommentEdit: Boolean?,
-        marketCommentDelete: Boolean?,
         marketCommentRestore: Boolean?,
-        pollVoteNew: Boolean?,
-        groupJoin: Boolean?,
+        marketCommentDelete: Boolean?,
         groupLeave: Boolean?,
-        groupChangeSettings: Boolean?,
-        groupChangePhoto: Boolean?,
-        groupOfficersEdit: Boolean?,
-        messageAllow: Boolean?,
-        messageDeny: Boolean?,
-        wallRepost: Boolean?,
+        groupJoin: Boolean?,
         userBlock: Boolean?,
         userUnblock: Boolean?,
-        messagesEdit: Boolean?,
-        messageTypingState: Boolean?,
-        leadFormsNew: Boolean?
+        pollVoteNew: Boolean?,
+        groupOfficersEdit: Boolean?,
+        groupChangeSettings: Boolean?,
+        groupChangePhoto: Boolean?,
+        vkPayTransaction: Boolean?,
+        appPayload: Boolean?
     ): VkApiRequest<BooleanInt> =
         Methods.setCallbackSettings.httpGet(BooleanInt.serializer()) {
             append("group_id", groupId)
             append("server_id", serverId)
             append("api_version", apiVersion)
-            append("message_new", messageNew?.asInt())
             append("message_reply", messageReply?.asInt())
+            append("messages_edit", messagesEdit?.asInt())
+            append("message_allow", messageAllow?.asInt())
+            append("message_deny", messageDeny?.asInt())
+            append("message_typing_state", messageTypingState?.asInt())
+            append("message_read", messageRead?.asInt())
             append("photo_new", photoNew?.asInt())
+            append("photo_comment_new", photoCommentNew?.asInt())
+            append("photo_comment_edit", photoCommentEdit?.asInt())
+            append("photo_comment_restore", photoCommentRestore?.asInt())
+            append("photo_comment_delete", photoCommentDelete?.asInt())
             append("audio_new", audioNew?.asInt())
             append("video_new", videoNew?.asInt())
+            append("video_comment_new", videoCommentNew?.asInt())
+            append("video_comment_edit", videoCommentEdit?.asInt())
+            append("video_comment_restore", videoCommentRestore?.asInt())
+            append("video_comment_delete", videoCommentDelete?.asInt())
+            append("wall_post_new", wallPostNew?.asInt())
+            append("wall_repost", wallRepost?.asInt())
             append("wall_reply_new", wallReplyNew?.asInt())
             append("wall_reply_edit", wallReplyEdit?.asInt())
-            append("wall_reply_delete", wallReplyDelete?.asInt())
             append("wall_reply_restore", wallReplyRestore?.asInt())
-            append("wall_post_new", wallPostNew?.asInt())
+            append("wall_reply_delete", wallReplyDelete?.asInt())
             append("board_post_new", boardPostNew?.asInt())
             append("board_post_edit", boardPostEdit?.asInt())
             append("board_post_restore", boardPostRestore?.asInt())
             append("board_post_delete", boardPostDelete?.asInt())
-            append("photo_comment_new", photoCommentNew?.asInt())
-            append("photo_comment_edit", photoCommentEdit?.asInt())
-            append("photo_comment_delete", photoCommentDelete?.asInt())
-            append("photo_comment_restore", photoCommentRestore?.asInt())
-            append("video_comment_new", videoCommentNew?.asInt())
-            append("video_comment_edit", videoCommentEdit?.asInt())
-            append("video_comment_delete", videoCommentDelete?.asInt())
-            append("video_comment_restore", videoCommentRestore?.asInt())
             append("market_comment_new", marketCommentNew?.asInt())
             append("market_comment_edit", marketCommentEdit?.asInt())
-            append("market_comment_delete", marketCommentDelete?.asInt())
             append("market_comment_restore", marketCommentRestore?.asInt())
-            append("poll_vote_new", pollVoteNew?.asInt())
-            append("group_join", groupJoin?.asInt())
+            append("market_comment_delete", marketCommentDelete?.asInt())
             append("group_leave", groupLeave?.asInt())
-            append("group_change_settings", groupChangeSettings?.asInt())
-            append("group_change_photo", groupChangePhoto?.asInt())
-            append("group_officers_edit", groupOfficersEdit?.asInt())
-            append("message_allow", messageAllow?.asInt())
-            append("message_deny", messageDeny?.asInt())
-            append("wall_repost", wallRepost?.asInt())
+            append("group_join", groupJoin?.asInt())
             append("user_block", userBlock?.asInt())
             append("user_unblock", userUnblock?.asInt())
-            append("messages_edit", messagesEdit?.asInt())
-            append("message_typing_state", messageTypingState?.asInt())
-            append("lead_forms_new", leadFormsNew?.asInt())
+            append("poll_vote_new", pollVoteNew?.asInt())
+            append("group_officers_edit", groupOfficersEdit?.asInt())
+            append("group_change_settings", groupChangeSettings?.asInt())
+            append("group_change_photo", groupChangePhoto?.asInt())
+            append("vkpay_transaction", vkPayTransaction?.asInt())
+            append("app_payload", appPayload?.asInt())
         }
 
     override fun setLongPollSettings(
         groupId: Int,
+        apiVersion: String,
         enabled: Boolean?,
-        messageNew: Boolean?,
         messageReply: Boolean?,
+        messagesEdit: Boolean?,
+        messageAllow: Boolean?,
+        messageDeny: Boolean?,
+        messageTypingState: Boolean?,
+        messageRead: Boolean?,
         photoNew: Boolean?,
+        photoCommentNew: Boolean?,
+        photoCommentEdit: Boolean?,
+        photoCommentRestore: Boolean?,
+        photoCommentDelete: Boolean?,
         audioNew: Boolean?,
         videoNew: Boolean?,
+        videoCommentNew: Boolean?,
+        videoCommentEdit: Boolean?,
+        videoCommentRestore: Boolean?,
+        videoCommentDelete: Boolean?,
+        wallPostNew: Boolean?,
+        wallRepost: Boolean?,
         wallReplyNew: Boolean?,
         wallReplyEdit: Boolean?,
-        wallReplyDelete: Boolean?,
         wallReplyRestore: Boolean?,
-        wallPostNew: Boolean?,
+        wallReplyDelete: Boolean?,
         boardPostNew: Boolean?,
         boardPostEdit: Boolean?,
         boardPostRestore: Boolean?,
         boardPostDelete: Boolean?,
-        photoCommentNew: Boolean?,
-        photoCommentEdit: Boolean?,
-        photoCommentDelete: Boolean?,
-        photoCommentRestore: Boolean?,
-        videoCommentNew: Boolean?,
-        videoCommentEdit: Boolean?,
-        videoCommentDelete: Boolean?,
-        videoCommentRestore: Boolean?,
         marketCommentNew: Boolean?,
         marketCommentEdit: Boolean?,
-        marketCommentDelete: Boolean?,
         marketCommentRestore: Boolean?,
-        pollVoteNew: Boolean?,
-        groupJoin: Boolean?,
+        marketCommentDelete: Boolean?,
         groupLeave: Boolean?,
-        groupChangeSettings: Boolean?,
-        groupChangePhoto: Boolean?,
-        groupOfficersEdit: Boolean?,
-        messageAllow: Boolean?,
-        messageDeny: Boolean?,
-        wallRepost: Boolean?,
+        groupJoin: Boolean?,
         userBlock: Boolean?,
         userUnblock: Boolean?,
-        messagesEdit: Boolean?,
-        messageTypingState: Boolean?,
-        leadFormsNew: Boolean?
+        pollVoteNew: Boolean?,
+        groupOfficersEdit: Boolean?,
+        groupChangeSettings: Boolean?,
+        groupChangePhoto: Boolean?,
+        vkPayTransaction: Boolean?,
+        appPayload: Boolean?
     ): VkApiRequest<BooleanInt> =
         Methods.setLongPollSettings.httpGet(BooleanInt.serializer()) {
             append("group_id", groupId)
+            append("api_version", apiVersion)
             append("enabled", enabled?.asInt())
-            append("message_new", messageNew?.asInt())
             append("message_reply", messageReply?.asInt())
+            append("messages_edit", messagesEdit?.asInt())
+            append("message_allow", messageAllow?.asInt())
+            append("message_deny", messageDeny?.asInt())
+            append("message_typing_state", messageTypingState?.asInt())
+            append("message_read", messageRead?.asInt())
             append("photo_new", photoNew?.asInt())
+            append("photo_comment_new", photoCommentNew?.asInt())
+            append("photo_comment_edit", photoCommentEdit?.asInt())
+            append("photo_comment_restore", photoCommentRestore?.asInt())
+            append("photo_comment_delete", photoCommentDelete?.asInt())
             append("audio_new", audioNew?.asInt())
             append("video_new", videoNew?.asInt())
+            append("video_comment_new", videoCommentNew?.asInt())
+            append("video_comment_edit", videoCommentEdit?.asInt())
+            append("video_comment_restore", videoCommentRestore?.asInt())
+            append("video_comment_delete", videoCommentDelete?.asInt())
+            append("wall_post_new", wallPostNew?.asInt())
+            append("wall_repost", wallRepost?.asInt())
             append("wall_reply_new", wallReplyNew?.asInt())
             append("wall_reply_edit", wallReplyEdit?.asInt())
-            append("wall_reply_delete", wallReplyDelete?.asInt())
             append("wall_reply_restore", wallReplyRestore?.asInt())
-            append("wall_post_new", wallPostNew?.asInt())
+            append("wall_reply_delete", wallReplyDelete?.asInt())
             append("board_post_new", boardPostNew?.asInt())
             append("board_post_edit", boardPostEdit?.asInt())
             append("board_post_restore", boardPostRestore?.asInt())
             append("board_post_delete", boardPostDelete?.asInt())
-            append("photo_comment_new", photoCommentNew?.asInt())
-            append("photo_comment_edit", photoCommentEdit?.asInt())
-            append("photo_comment_delete", photoCommentDelete?.asInt())
-            append("photo_comment_restore", photoCommentRestore?.asInt())
-            append("video_comment_new", videoCommentNew?.asInt())
-            append("video_comment_edit", videoCommentEdit?.asInt())
-            append("video_comment_delete", videoCommentDelete?.asInt())
-            append("video_comment_restore", videoCommentRestore?.asInt())
             append("market_comment_new", marketCommentNew?.asInt())
             append("market_comment_edit", marketCommentEdit?.asInt())
-            append("market_comment_delete", marketCommentDelete?.asInt())
             append("market_comment_restore", marketCommentRestore?.asInt())
-            append("poll_vote_new", pollVoteNew?.asInt())
-            append("group_join", groupJoin?.asInt())
+            append("market_comment_delete", marketCommentDelete?.asInt())
             append("group_leave", groupLeave?.asInt())
-            append("group_change_settings", groupChangeSettings?.asInt())
-            append("group_change_photo", groupChangePhoto?.asInt())
-            append("group_officers_edit", groupOfficersEdit?.asInt())
-            append("message_allow", messageAllow?.asInt())
-            append("message_deny", messageDeny?.asInt())
-            append("wall_repost", wallRepost?.asInt())
+            append("group_join", groupJoin?.asInt())
             append("user_block", userBlock?.asInt())
             append("user_unblock", userUnblock?.asInt())
-            append("messages_edit", messagesEdit?.asInt())
-            append("message_typing_state", messageTypingState?.asInt())
-            append("lead_forms_new", leadFormsNew?.asInt())
+            append("poll_vote_new", pollVoteNew?.asInt())
+            append("group_officers_edit", groupOfficersEdit?.asInt())
+            append("group_change_settings", groupChangeSettings?.asInt())
+            append("group_change_photo", groupChangePhoto?.asInt())
+            append("vkpay_transaction", vkPayTransaction?.asInt())
+            append("app_payload", appPayload?.asInt())
         }
 
     override fun setSettings(

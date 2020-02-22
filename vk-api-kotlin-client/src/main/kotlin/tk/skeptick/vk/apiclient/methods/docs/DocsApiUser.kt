@@ -53,7 +53,8 @@ interface DocsApiUser : DocsApiCommon {
      * @see <a href="https://vk.com/dev/docs.getById">VK API</a>
      */
     fun getById(
-        docs: List<Media>
+        docs: List<Media>,
+        returnTags: Boolean = false
     ): VkApiRequest<List<Document>>
 
     /**
