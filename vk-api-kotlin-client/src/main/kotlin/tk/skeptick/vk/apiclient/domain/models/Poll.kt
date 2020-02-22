@@ -6,6 +6,7 @@ import tk.skeptick.vk.apiclient.EnumStringSerializer
 import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.domain.AttachmentType
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
+import tk.skeptick.vk.apiclient.domain.WallAttachment
 import tk.skeptick.vk.apiclient.domain.models.Photo.Size as PhotoSize
 
 @Serializable
@@ -31,9 +32,10 @@ data class Poll(
     @SerialName("photo") val photo: Photo? = null,
     @SerialName("background") val background: Background? = null,
     @SerialName("friends") val friends: List<Friend>? = null
-) : MessageAttachment {
+) : WallAttachment, MessageAttachment {
 
-    override val typeAttachment: String get() = AttachmentType.POLL.value
+    override val typeAttachment: AttachmentType get() = AttachmentType.POLL
+
     val isUnlimited: Boolean get() = endDate == 0
 
     @Serializable

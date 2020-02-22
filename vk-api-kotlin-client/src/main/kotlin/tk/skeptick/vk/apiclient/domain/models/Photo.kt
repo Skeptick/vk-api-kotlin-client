@@ -1,8 +1,11 @@
 package tk.skeptick.vk.apiclient.domain.models
 
 import kotlinx.serialization.*
+import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.domain.AttachmentType
+import tk.skeptick.vk.apiclient.domain.CommentAttachment
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
+import tk.skeptick.vk.apiclient.domain.WallAttachment
 
 @Serializable
 data class Photo(
@@ -17,10 +20,11 @@ data class Photo(
     @SerialName("width") val width: Int? = null,
     @SerialName("access_key") override val accessKey: String? = null,
     @SerialName("post_id") val wallPostId: Int? = null
-) : MessageAttachment {
+) : CommentAttachment, WallAttachment, MessageAttachment {
 
-    override val typeAttachment get() = AttachmentType.PHOTO.value
-    val isInCommunity get() = userId == 100
+    override val typeAttachment: AttachmentType get() = AttachmentType.PHOTO
+
+    val isUploadFromGroup get() = userId == 100
 
     @Serializable
     data class Size(

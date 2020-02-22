@@ -4,6 +4,7 @@ import io.ktor.util.date.GMTDate
 import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.DefaultMethodsParams
 import tk.skeptick.vk.apiclient.VkApiRequest
+import tk.skeptick.vk.apiclient.domain.CommentAttachment
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
 import tk.skeptick.vk.apiclient.domain.models.WallComment
 import tk.skeptick.vk.apiclient.domain.models.WallPost
@@ -20,7 +21,7 @@ interface WallApiUser : WallApiCommon {
         fromGroup: Int = 0,
         message: String? = null,
         replyToCommentId: Int? = null,
-        attachments: List<MessageAttachment>? = null,
+        attachments: List<CommentAttachment>? = null,
         stickerId: Int? = null,
         guid: String? = null
     ): VkApiRequest<CreateCommentResponse>
@@ -87,7 +88,7 @@ interface WallApiUser : WallApiCommon {
         commentId: Int,
         ownerId: Int? = null,
         message: String? = null,
-        attachments: List<MessageAttachment>? = null
+        attachments: List<CommentAttachment>? = null
     ): VkApiRequest<BooleanInt>
 
     /**

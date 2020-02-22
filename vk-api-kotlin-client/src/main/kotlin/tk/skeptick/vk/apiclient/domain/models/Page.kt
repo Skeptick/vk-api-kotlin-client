@@ -4,10 +4,12 @@ import kotlinx.serialization.*
 import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.EnumIntSerializer
 import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.domain.AttachmentType
+import tk.skeptick.vk.apiclient.domain.WallAttachment
 
 @Serializable
 data class Page(
-    @SerialName("id") val id: Int,
+    @SerialName("id") override val id: Int,
     @SerialName("group_id") val groupId: Int,
     @SerialName("title") val title: String,
     @SerialName("edited") val editedDate: Int,
@@ -23,7 +25,11 @@ data class Page(
     @SerialName("creator_id") val creatorId: Int? = null,
     @SerialName("editor_id") val editorId: Int? = null,
     @SerialName("current_user_can_edit") val isCurrentUserCanEdit: BooleanInt? = null,
-    @SerialName("current_user_can_edit_access") val isCurrentUserCanEditAccess: BooleanInt? = null) {
+    @SerialName("current_user_can_edit_access") val isCurrentUserCanEditAccess: BooleanInt? = null
+) : WallAttachment {
+
+    override val ownerId: Int get() = -groupId
+    override val typeAttachment: AttachmentType get() = AttachmentType.PAGE
 
     @Serializable(with = PrivacyType.Companion::class)
     enum class PrivacyType(override val value: Int) : SerializableEnum<Int> {

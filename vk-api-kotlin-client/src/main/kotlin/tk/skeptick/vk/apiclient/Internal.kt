@@ -11,8 +11,7 @@ import io.ktor.utils.io.core.ByteReadPacket
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
-import tk.skeptick.vk.apiclient.domain.Keyboard
-import tk.skeptick.vk.apiclient.domain.MessageAttachment
+import tk.skeptick.vk.apiclient.domain.*
 import tk.skeptick.vk.apiclient.domain.models.Address
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
@@ -114,12 +113,17 @@ internal inline val CaptchaResponse.parameters: Parameters
         append("captcha_key", key)
     }
 
-internal inline val MessageAttachment.attachment: String
+internal inline val Media.media: String
     get() = buildString {
-        append(typeAttachment)
         append(ownerId)
-        append('_').append(id)
-        if (accessKey != null) append(accessKey)
+        append("_").append(id)
+        if (accessKey != null) append("_").append(accessKey)
+    }
+
+internal inline val Attachment.attachment: String
+    get() = buildString {
+        append(typeAttachment.value)
+        append(media)
     }
 
 //--- Parsers ---//
@@ -173,3 +177,4 @@ internal fun parseOAuthResponse(
 
 internal fun Keyboard.serialize(): String = json.stringify(Keyboard.serializer(), this)
 internal fun Address.Timetable.serialize(): String = json.stringify(Address.Timetable.serializer(), this)
+internal fun PrivacySettings.serialize(): String = json.stringify(PrivacySettings.serializer(), this)

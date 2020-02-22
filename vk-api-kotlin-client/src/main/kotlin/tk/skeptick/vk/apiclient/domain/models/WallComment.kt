@@ -22,7 +22,8 @@ data class WallComment(
     @SerialName("thread") val thread: Thread? = null
 ) : MessageAttachment {
 
-    override val typeAttachment: String get() = AttachmentType.WALL.value
+    override val typeAttachment: AttachmentType get() = AttachmentType.WALL
+
     override val ownerId: Int = wallOwnerId ?: fromId
 
     @Serializable

@@ -5,7 +5,9 @@ import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.EnumStringSerializer
 import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.domain.AttachmentType
+import tk.skeptick.vk.apiclient.domain.CommentAttachment
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
+import tk.skeptick.vk.apiclient.domain.WallAttachment
 
 @Serializable
 data class Video(
@@ -42,9 +44,9 @@ data class Video(
     @SerialName("repeat") val isRepeat: BooleanInt = BooleanInt(false),
     @SerialName("is_favorite") val isFavorite: Boolean = false,
     @SerialName("access_key") override val accessKey: String? = null
-) : MessageAttachment {
+) : CommentAttachment, WallAttachment, MessageAttachment {
 
-    override val typeAttachment get() = AttachmentType.VIDEO.value
+    override val typeAttachment: AttachmentType get() = AttachmentType.VIDEO
 
     @Serializable
     data class Privacy(

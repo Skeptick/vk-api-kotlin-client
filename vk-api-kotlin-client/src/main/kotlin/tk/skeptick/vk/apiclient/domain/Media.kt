@@ -6,15 +6,26 @@ interface Media {
     val accessKey: String?
 }
 
-interface MessageAttachment : Media {
+interface Attachment : Media {
     override val id: Int
     override val ownerId: Int
     override val accessKey: String? get() = null
-    val typeAttachment: String
+    val typeAttachment: AttachmentType
 }
+
+interface MessageAttachment : Attachment
+interface WallAttachment : Attachment
+interface CommentAttachment : Attachment
 
 data class BaseMedia(
     override val id: Int,
     override val ownerId: Int,
     override val accessKey: String?
 ) : Media
+
+data class BaseAttachment(
+    override val id: Int,
+    override val ownerId: Int,
+    override val accessKey: String?,
+    override val typeAttachment: AttachmentType
+) : CommentAttachment, WallAttachment, MessageAttachment

@@ -37,7 +37,7 @@ data class Story(
     @SerialName("access_key") override val accessKey: String? = null
 ) : MessageAttachment {
 
-    override val typeAttachment: String get() = AttachmentType.STORY.value
+    override val typeAttachment: AttachmentType get() = AttachmentType.STORY
 
     @Serializable(with = Type.Companion::class)
     enum class Type(override val value: String) : SerializableEnum<String> {

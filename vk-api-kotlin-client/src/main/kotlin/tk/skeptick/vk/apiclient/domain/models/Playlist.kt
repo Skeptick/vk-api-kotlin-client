@@ -5,11 +5,14 @@ import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.EnumIntSerializer
 import tk.skeptick.vk.apiclient.EnumStringSerializer
 import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.domain.AttachmentType
+import tk.skeptick.vk.apiclient.domain.MessageAttachment
+import tk.skeptick.vk.apiclient.domain.WallAttachment
 
 @Serializable
 data class Playlist(
-    @SerialName("id") val id: Int,
-    @SerialName("owner_id") val ownerId: Int,
+    @SerialName("id") override val id: Int,
+    @SerialName("owner_id") override val ownerId: Int,
     @SerialName("type") val type: Type,
     @SerialName("title") val title: String,
     @SerialName("description") val description: String,
@@ -27,7 +30,10 @@ data class Playlist(
     @SerialName("thumbs") val thumbs: List<Thumb>? = null,
     @SerialName("photo") val photo: Thumb? = null,
     @SerialName("meta") val meta: Meta? = null,
-    @SerialName("access_key") val accessKey: String? = null) {
+    @SerialName("access_key") override val accessKey: String? = null
+) : WallAttachment, MessageAttachment {
+
+    override val typeAttachment: AttachmentType get() = AttachmentType.AUDIO_PLAYLIST
 
     @Serializable(with = Type.Companion::class)
     enum class Type(override val value: Int) : SerializableEnum<Int> {

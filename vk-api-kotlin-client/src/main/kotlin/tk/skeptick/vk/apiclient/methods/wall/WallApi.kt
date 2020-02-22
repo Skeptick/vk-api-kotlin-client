@@ -3,6 +3,7 @@ package tk.skeptick.vk.apiclient.methods.wall
 import io.ktor.util.date.GMTDate
 import kotlinx.serialization.list
 import tk.skeptick.vk.apiclient.*
+import tk.skeptick.vk.apiclient.domain.CommentAttachment
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
 import tk.skeptick.vk.apiclient.domain.models.WallComment
 import tk.skeptick.vk.apiclient.domain.models.WallPost
@@ -26,7 +27,7 @@ class WallApi(override val client: ApiClient)
         fromGroup: Int,
         message: String?,
         replyToCommentId: Int?,
-        attachments: List<MessageAttachment>?,
+        attachments: List<CommentAttachment>?,
         stickerId: Int?,
         guid: String?
     ): VkApiRequest<CreateCommentResponse> =
@@ -36,7 +37,7 @@ class WallApi(override val client: ApiClient)
             append("from_group", fromGroup)
             append("message", message)
             append("reply_to_comment", replyToCommentId)
-            append("attachments", attachments?.joinToString(",") { it.attachment })
+            append("attachments", attachments?.joinToString(",", transform = CommentAttachment::attachment))
             append("sticker_id", stickerId)
             append("guid", guid)
         }
@@ -55,7 +56,7 @@ class WallApi(override val client: ApiClient)
             append("owner_id", ownerId)
             append("message", message)
             append("reply_to_comment", replyToCommentId)
-            append("attachments", attachments?.joinToString(",") { it.attachment })
+            append("attachments", attachments?.joinToString(",", transform = MessageAttachment::attachment))
             append("sticker_id", stickerId)
             append("guid", guid)
         }
@@ -100,7 +101,7 @@ class WallApi(override val client: ApiClient)
             append("owner_id", ownerId)
             append("friends_only", friendsOnly?.asInt())
             append("message", message)
-            append("attachments", attachments?.joinToString(",") { it.attachment }.append(attachmentLink))
+            append("attachments", attachments?.joinToString(",", transform = MessageAttachment::attachment).append(attachmentLink))
             append("services", servicesForExport?.joinToString(","))
             append("signed", signed?.asInt())
             append("publish_date", publishDate?.unixtime)
@@ -130,7 +131,7 @@ class WallApi(override val client: ApiClient)
             append("post_id", postId)
             append("owner_id", ownerId)
             append("message", message)
-            append("attachments", attachments?.joinToString(",") { it.attachment }.append(attachmentLink))
+            append("attachments", attachments?.joinToString(",", transform = MessageAttachment::attachment).append(attachmentLink))
             append("signed", signed.asInt())
             append("lat", latitude)
             append("long", longitude)
@@ -144,13 +145,13 @@ class WallApi(override val client: ApiClient)
         commentId: Int,
         ownerId: Int?,
         message: String?,
-        attachments: List<MessageAttachment>?
+        attachments: List<CommentAttachment>?
     ): VkApiRequest<BooleanInt> =
         Methods.editComment.httpPost(BooleanInt.serializer()) {
             append("comment_id", commentId)
             append("owner_id", ownerId)
             append("message", message)
-            append("attachments", attachments?.joinToString(",") { it.attachment })
+            append("attachments", attachments?.joinToString(",", transform = CommentAttachment::attachment))
         }
 
     override fun get(
@@ -287,7 +288,7 @@ class WallApi(override val client: ApiClient)
             append("friends_only", friendsOnly.asInt())
             append("from_group", fromGroup.asInt())
             append("message", message)
-            append("attachments", attachments?.joinToString(",") { it.attachment }.append(attachmentLink))
+            append("attachments", attachments?.joinToString(",", transform = MessageAttachment::attachment).append(attachmentLink))
             append("services", servicesForExport?.joinToString(","))
             append("signed", signed.asInt())
             append("publish_date", publishDate?.unixtime)
@@ -317,7 +318,7 @@ class WallApi(override val client: ApiClient)
         Methods.postAdsStealth.httpPost(PostResponse.serializer()) {
             append("owner_id", ownerId)
             append("message", message)
-            append("attachments", attachments?.joinToString(",") { it.attachment }.append(attachmentLink))
+            append("attachments", attachments?.joinToString(",", transform = MessageAttachment::attachment).append(attachmentLink))
             append("signed", signed.asInt())
             append("lat", latitude)
             append("long", longitude)

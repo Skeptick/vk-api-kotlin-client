@@ -6,6 +6,7 @@ import tk.skeptick.vk.apiclient.EnumIntSerializer
 import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.domain.AttachmentType
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
+import tk.skeptick.vk.apiclient.domain.WallAttachment
 
 @Serializable
 data class Market(
@@ -27,9 +28,9 @@ data class Market(
     @SerialName("url") val url: String? = null,
     @SerialName("button_title") val buttonTitle: String? = null,
     @SerialName("is_favorite") val isFavorite: Boolean? = null
-) : MessageAttachment {
+) : WallAttachment, MessageAttachment {
 
-    override val typeAttachment: String get() = AttachmentType.MARKET.value
+    override val typeAttachment: AttachmentType get() = AttachmentType.MARKET
 
     @Serializable(with = AvailabilityType.Companion::class)
     enum class AvailabilityType(override val value: Int) : SerializableEnum<Int> {

@@ -4,7 +4,9 @@ import kotlinx.serialization.*
 import tk.skeptick.vk.apiclient.EnumIntSerializer
 import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.domain.AttachmentType
+import tk.skeptick.vk.apiclient.domain.CommentAttachment
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
+import tk.skeptick.vk.apiclient.domain.WallAttachment
 
 @Serializable
 data class Document(
@@ -17,10 +19,11 @@ data class Document(
     @SerialName("ext") val extension: String,
     @SerialName("url") val url: String,
     @SerialName("preview") val preview: Preview? = null,
+    @SerialName("tags") val tags: List<String>? = null,
     @SerialName("access_key") override val accessKey: String? = null
-) : MessageAttachment {
+) : CommentAttachment, WallAttachment, MessageAttachment {
 
-    override val typeAttachment get() = AttachmentType.DOC.value
+    override val typeAttachment: AttachmentType get() = AttachmentType.DOC
 
     @Serializable(with = Type.Companion::class)
     enum class Type(override val value: Int) : SerializableEnum<Int> {

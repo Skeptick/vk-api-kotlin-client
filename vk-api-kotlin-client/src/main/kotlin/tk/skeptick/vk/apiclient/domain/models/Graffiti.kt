@@ -15,6 +15,6 @@ data class Graffiti(
     @SerialName("access_key") override val accessKey: String? = null
 ) : MessageAttachment {
 
-    override val typeAttachment get() = AttachmentType.GRAFFITI.value
+    override val typeAttachment: AttachmentType get() = AttachmentType.GRAFFITI
 
 }

@@ -41,8 +41,10 @@ data class WallPost(
     @SerialName("access_key") override val accessKey: String? = null
 ) : MessageAttachment {
 
-    override val typeAttachment: String get() = AttachmentType.WALL.value
+    override val typeAttachment: AttachmentType get() = AttachmentType.WALL
+
     override val ownerId: Int = _ownerId ?: toId!!
+
 
     @Serializable(with = Type.Companion::class)
     enum class Type(override val value: String) : SerializableEnum<String> {

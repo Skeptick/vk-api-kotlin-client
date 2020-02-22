@@ -4,7 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.domain.AttachmentType
+import tk.skeptick.vk.apiclient.domain.CommentAttachment
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
+import tk.skeptick.vk.apiclient.domain.WallAttachment
 
 @Serializable
 data class Audio(
@@ -28,9 +30,9 @@ data class Audio(
     @SerialName("is_explicit") val isExplicit: Boolean? = null,
     @SerialName("is_licensed") val isLicensed: Boolean? = null,
     @SerialName("access_key") override val accessKey: String? = null
-) : MessageAttachment {
+) : CommentAttachment, WallAttachment, MessageAttachment {
 
-    override val typeAttachment get() = AttachmentType.AUDIO.value
+    override val typeAttachment: AttachmentType get() = AttachmentType.AUDIO
 
     @Serializable
     data class Artist(
