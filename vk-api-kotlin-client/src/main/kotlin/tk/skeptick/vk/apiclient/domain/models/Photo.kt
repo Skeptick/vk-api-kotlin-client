@@ -15,11 +15,17 @@ data class Photo(
     @SerialName("sizes") val sizes: List<Size>,
     @SerialName("text") val description: String,
     @SerialName("date") val date: Int,
-    @SerialName("user_id") val userId: Int? = null,
-    @SerialName("height") val height: Int? = null,
-    @SerialName("width") val width: Int? = null,
+    @SerialName("likes") val likes: Likes? = null,
+    @SerialName("reposts") val reposts: Reposts? = null,
+    @SerialName("comments") val comments: Comments? = null,
+    @SerialName("can_comment") val canComment: BooleanInt? = null,
+    @SerialName("tags") val tags: Tags? = null,
     @SerialName("access_key") override val accessKey: String? = null,
-    @SerialName("post_id") val wallPostId: Int? = null
+    @SerialName("user_id") val userId: Int? = null,
+    @SerialName("post_id") val wallPostId: Int? = null,
+    @SerialName("placer_id") val placerId: Int? = null,
+    @SerialName("tag_created") val tagCreated: Int? = null,
+    @SerialName("tag_id") val tagId: Int? = null
 ) : CommentAttachment, WallAttachment, MessageAttachment {
 
     override val typeAttachment: AttachmentType get() = AttachmentType.PHOTO
@@ -34,15 +40,21 @@ data class Photo(
         @SerialName("type") val type: String? = null)
 
     @Serializable
-    data class Album(
-        @SerialName("id") val id: Int,
-        @SerialName("owner_id") val ownerId: Int,
-        @SerialName("title") val title: String,
-        @SerialName("created") val createdDate: Int,
-        @SerialName("updated") val updatedDate: Int,
-        @SerialName("size") val size: Int,
-        @SerialName("description") val description: String? = null,
-        @SerialName("thumb") val thumb: Photo? = null)
+    data class Likes(
+        @SerialName("count") val count: Int,
+        @SerialName("user_likes") val isUserLikes: BooleanInt? = null)
+
+    @Serializable
+    data class Reposts(
+        @SerialName("count") val count: Int)
+
+    @Serializable
+    data class Comments(
+        @SerialName("count") val count: Int)
+
+    @Serializable
+    data class Tags(
+        @SerialName("count") val count: Int)
 
 }
 

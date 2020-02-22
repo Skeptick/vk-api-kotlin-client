@@ -12,6 +12,7 @@ data class Link(
     @SerialName("caption") val caption: String? = null,
     @SerialName("description") val description: String? = null,
     @SerialName("photo") val photo: Photo? = null,
+    @SerialName("video") val video: Video? = null,
     @SerialName("product") val product: Product? = null,
     @SerialName("button") val button: Button? = null,
     @SerialName("preview_page") val previewPage: String? = null,
@@ -36,7 +37,8 @@ data class Link(
 
             @Serializable(with = Type.Companion::class)
             enum class Type(override val value: String) : SerializableEnum<String> {
-                OPEN_URL("open_url");
+                OPEN_URL("open_url"),
+                JOIN_GROUP_AND_OPEN_URL("join_group_and_open_url");
 
                 companion object : EnumStringSerializer<Type>(Type::class)
             }

@@ -19,12 +19,20 @@ data class WallComment(
     @SerialName("attachments") val attachments: List<WallPost.Attachment>? = null,
     @SerialName("parents_stack") val parentsStack: List<Int>? = null,
     @SerialName("likes") val likes: Likes? = null,
-    @SerialName("thread") val thread: Thread? = null
+    @SerialName("thread") val thread: Thread? = null,
+    @SerialName("photo_id") val photoId: Int? = null,
+    @SerialName("video_id") val videoId: Int? = null,
+    @SerialName("item_id") val itemId: Int? = null,
+    @SerialName("photo_owner_id") val photoOwnerId: Int? = null,
+    @SerialName("video_owner_id") val videoOwnerId: Int? = null,
+    @SerialName("post_owner_id") val postOwnerId: Int? = null,
+    @SerialName("market_owner_id") val marketOwnerId: Int? = null
 ) : MessageAttachment {
 
     override val typeAttachment: AttachmentType get() = AttachmentType.WALL
 
     override val ownerId: Int = wallOwnerId ?: fromId
+
 
     @Serializable
     data class Likes(

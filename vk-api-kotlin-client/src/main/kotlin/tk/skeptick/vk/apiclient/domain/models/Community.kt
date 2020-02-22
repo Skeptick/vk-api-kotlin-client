@@ -94,6 +94,7 @@ data class Community(
 
     @Serializable(with = AdminLevel.Companion::class)
     enum class AdminLevel(override val value: Int) : SerializableEnum<Int> {
+        NO_ROLE(0),
         MODERATOR(1),
         EDITOR(2),
         ADMINISTRATOR(3);
