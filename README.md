@@ -31,7 +31,7 @@ ______________________
 | [Notes]         |     0 из 10    | :heavy_multiplication_x: |
 | [Notifications] |     0 из 3     | :heavy_multiplication_x: |
 | [Pages]         |     0 из 8     | :heavy_multiplication_x: |
-| [Photos]        |     0 из 46    | :heavy_multiplication_x: |
+| [Photos]        |    46 из 46    | :heavy_check_mark:       |
 | [Polls]         |     0 из 9     | :heavy_multiplication_x: |
 | [PrettyCards]   |     0 из 6     | :heavy_multiplication_x: |
 | [Search]        |     0 из 1     | :heavy_multiplication_x: |

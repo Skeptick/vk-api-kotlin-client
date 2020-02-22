@@ -234,6 +234,11 @@ enum class CommentsSort(internal val value: String) {
     DESC("desc")
 }
 
+enum class PhotoSearchSort(internal val value: Int) {
+    DATE(0),
+    LIKES(1)
+}
+
 //--- Types & other Enums ---//
 
 enum class MarketCurrency(internal val value: Int) {
@@ -392,4 +397,16 @@ enum class FavePagesType(internal val value: String) {
     USERS("users"),
     GROUPS("groups"),
     HINTS("hints")
+}
+
+sealed class PhotoAlbumType(val value: String) {
+    object Wall : PhotoAlbumType("wall")
+    object Profile : PhotoAlbumType("profile")
+    object Saved : PhotoAlbumType("saved")
+    class Custom(val id: Int) : PhotoAlbumType("$id")
+}
+
+enum class FeedType(val value: String) {
+    PHOTO("photo"),
+    PHOTO_TAG("photo_tag");
 }

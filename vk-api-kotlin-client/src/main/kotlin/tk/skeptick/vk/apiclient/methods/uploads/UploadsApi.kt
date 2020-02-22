@@ -1,5 +1,8 @@
 package tk.skeptick.vk.apiclient.methods.uploads
 
+import io.ktor.http.Parameters
+import io.ktor.http.parametersOf
+import kotlinx.serialization.internal.StringSerializer
 import tk.skeptick.vk.apiclient.*
 
 class UploadsApi(override val client: ApiClient)
@@ -12,30 +15,116 @@ class UploadsApi(override val client: ApiClient)
         UploadFilesRequest(
             client = client,
             uploadUrl = uploadUrl,
-            files = listOf(UploadableFile("file", file)),
+            files = listOf(UploadableFile(DEFAULT_FILE_FIELD, file)),
+            parameters = Parameters.Empty,
             serializer = UploadDocumentResponse.serializer()
         )
 
-    override fun photoIntoMessage(
+    override fun photoForAlbum(
         uploadUrl: String,
         files: List<FileContent>
-    ): UploadFilesRequest<UploadPhotoIntoMessageResponse> =
+    ): UploadFilesRequest<UploadAlbumPhotoResponse> =
         UploadFilesRequest(
             client = client,
             uploadUrl = uploadUrl,
-            files = prepareFiles(files, "file"),
-            serializer = UploadPhotoIntoMessageResponse.serializer()
+            files = prepareFiles(files),
+            parameters = Parameters.Empty,
+            serializer = UploadAlbumPhotoResponse.serializer()
+        )
+
+    override fun photoForChat(
+        uploadUrl: String,
+        file: FileContent
+    ): UploadFilesRequest<String> =
+        UploadFilesRequest(
+            client = client,
+            uploadUrl = uploadUrl,
+            files = listOf(UploadableFile(DEFAULT_FILE_FIELD, file)),
+            parameters = Parameters.Empty,
+            serializer = StringSerializer
+        )
+
+    override fun photoForMarketAlbum(
+        uploadUrl: String,
+        file: FileContent
+    ): UploadFilesRequest<UploadMarketAlbumPhotoResponse> =
+        UploadFilesRequest(
+            client = client,
+            uploadUrl = uploadUrl,
+            files = listOf(UploadableFile(DEFAULT_FILE_FIELD, file)),
+            parameters = Parameters.Empty,
+            serializer = UploadMarketAlbumPhotoResponse.serializer()
+        )
+
+    override fun photoForMarket(
+        uploadUrl: String,
+        files: List<FileContent>
+    ): UploadFilesRequest<UploadMarketPhotoResponse> =
+        UploadFilesRequest(
+            client = client,
+            uploadUrl = uploadUrl,
+            files = prepareFiles(files),
+            parameters = Parameters.Empty,
+            serializer = UploadMarketPhotoResponse.serializer()
+        )
+
+    override fun photoForMessage(
+        uploadUrl: String,
+        files: List<FileContent>
+    ): UploadFilesRequest<UploadPhotoResponse> =
+        UploadFilesRequest(
+            client = client,
+            uploadUrl = uploadUrl,
+            files = prepareFiles(files),
+            parameters = Parameters.Empty,
+            serializer = UploadPhotoResponse.serializer()
+        )
+
+    override fun photoForOwnerCover(
+        uploadUrl: String,
+        file: FileContent
+    ): UploadFilesRequest<UploadOwnerCoverPhotoResponse> =
+        UploadFilesRequest(
+            client = client,
+            uploadUrl = uploadUrl,
+            files = listOf(UploadableFile(DEFAULT_FILE_FIELD, file)),
+            parameters = Parameters.Empty,
+            serializer = UploadOwnerCoverPhotoResponse.serializer()
+        )
+
+    override fun photoForOwner(
+        uploadUrl: String,
+        file: FileContent,
+        previewX: Int?,
+        previewY: Int?,
+        previewWidth: Int?
+    ): UploadFilesRequest<UploadOwnerPhotoResponse> =
+        UploadFilesRequest(
+            client = client,
+            uploadUrl = uploadUrl,
+            files = listOf(UploadableFile(DEFAULT_FILE_FIELD, file)),
+            parameters = parametersOf("_square_crop", "$previewX,$previewY,$previewWidth"),
+            serializer = UploadOwnerPhotoResponse.serializer()
+        )
+
+    override fun photoForWall(
+        uploadUrl: String,
+        files: List<FileContent>
+    ): UploadFilesRequest<UploadPhotoResponse> =
+        UploadFilesRequest(
+            client = client,
+            uploadUrl = uploadUrl,
+            files = prepareFiles(files),
+            parameters = Parameters.Empty,
+            serializer = UploadPhotoResponse.serializer()
         )
 
     companion object {
 
-        private fun prepareFiles(
-            files: List<FileContent>,
-            namePrefix: String
-        ): List<UploadableFile> =
-            files.mapIndexed { i, file ->
-                UploadableFile("$namePrefix${i + 1}", file)
-            }
+        private const val DEFAULT_FILE_FIELD = "file"
+
+        private fun prepareFiles(files: List<FileContent>): List<UploadableFile> =
+            files.mapIndexed { i, file -> UploadableFile("$DEFAULT_FILE_FIELD$i", file) }
 
     }
 

@@ -14,14 +14,20 @@ interface UploadsApiCommon {
     ): UploadFilesRequest<UploadDocumentResponse>
 
     /**
-     * @param[files] can contain a maximum of six items,
-     * the rest will be ignored during the uploading
-     *
+     * @param[files] can contain a maximum of 10 items, the rest will be ignored during the uploading
      * @see <a href="https://vk.com/dev/upload_files">VK API</a>
      */
-    fun photoIntoMessage(
+    fun photoForMessage(
         uploadUrl: String,
         files: List<FileContent>
-    ): UploadFilesRequest<UploadPhotoIntoMessageResponse>
+    ): UploadFilesRequest<UploadPhotoResponse>
+
+    /**
+     * @see <a href="https://vk.com/dev/upload_files">VK API</a>
+     */
+    fun photoForOwnerCover(
+        uploadUrl: String,
+        file: FileContent
+    ): UploadFilesRequest<UploadOwnerCoverPhotoResponse>
 
 }
