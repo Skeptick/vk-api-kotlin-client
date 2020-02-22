@@ -1,5 +1,3 @@
-@file:Suppress("NOTHING_TO_INLINE")
-
 package tk.skeptick.vk.apiclient
 
 import com.github.kittinunf.result.coroutines.SuspendableResult
@@ -7,9 +5,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.*
 import io.ktor.client.request.post
 import io.ktor.client.request.request
-import io.ktor.client.response.HttpResponse
-import io.ktor.client.response.readText
+import io.ktor.client.statement.HttpStatement
 import io.ktor.http.*
+import io.ktor.util.flattenEntries
 import tk.skeptick.vk.apiclient.domain.Language
 import tk.skeptick.vk.apiclient.oauth.OAuth
 import tk.skeptick.vk.apiclient.oauth.OAuthResponse
@@ -19,7 +17,9 @@ class VkApiClient(
     val httpClient: HttpClient
 ) : ApiClient {
 
-    init { httpClient.configure() }
+    init {
+        httpClient.configure()
+    }
 
     private var baseParams = Parameters.build {
         append("access_token", accessToken)
@@ -40,7 +40,7 @@ class VkApiClient(
         request: VkApiRequest<T>,
         additionalParameters: Parameters?
     ): SuspendableResult<T, Exception> = try {
-        parseMethodResponse(request(additionalParameters).readText(), request.serializer)
+        parseMethodResponse(request(additionalParameters).receive(), request.serializer)
     } catch (exception: Exception) {
         SuspendableResult.error(exception)
     }
@@ -48,22 +48,22 @@ class VkApiClient(
     override suspend fun <T : Any> uploadFile(
         request: UploadFilesRequest<T>
     ): SuspendableResult<T, Exception> = try {
-        parseUploadResponse(request().readText(), request.serializer)
+        parseUploadResponse(request().receive(), request.serializer)
     } catch (exception: Exception) {
         SuspendableResult.error(exception)
     }
 
     private suspend inline operator fun <T : Any> VkApiRequest<T>.invoke(
         additionalParameters: Parameters? = null
-    ): HttpResponse = httpClient.request(DefaultApiParams.API_URL + path) {
+    ): HttpStatement = httpClient.request(DefaultApiParams.API_URL + path) {
         method = httpMethod
-        val parameters = baseParams + parameters + additionalParameters
-        if (method == HttpMethod.Post) body = FormDataContent(parameters)
-        else url.parameters.appendAll(parameters)
+        val parameters = baseParams + parameters + (additionalParameters ?: Parameters.Empty)
+        if (method == HttpMethod.Post) body = FormDataContent(parameters) else url.parameters.appendAll(parameters)
     }
 
-    private suspend inline operator fun <T : Any> UploadFilesRequest<T>.invoke(): HttpResponse =
+    private suspend inline operator fun <T : Any> UploadFilesRequest<T>.invoke(): HttpStatement =
         httpClient.submitFormWithBinaryData(uploadUrl, formData {
+            parameters.flattenEntries().map(Pair<String, String>::formPart).forEach(::append)
             files.map(UploadableFile::formPart).forEach(::append)
         })
 
@@ -83,7 +83,8 @@ class VkApiClient(
             authData: OAuth,
             captchaResponse: CaptchaResponse? = null
         ): SuspendableResult<OAuthResponse, Exception> = httpClient.configure().post<String>(DefaultApiParams.OAUTH_URL) {
-            body = FormDataContent(authData.parameters + captchaResponse?.parameters)
+            val parameters = authData.parameters + (captchaResponse?.parameters ?: Parameters.Empty)
+            body = FormDataContent(parameters)
         }.let(::parseOAuthResponse)
 
         private fun HttpClient.configure(): HttpClient = config {

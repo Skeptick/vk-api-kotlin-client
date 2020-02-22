@@ -32,6 +32,7 @@ class UploadFilesRequest<T : Any>(
     val client: ApiClient,
     val uploadUrl: String,
     val files: List<UploadableFile>,
+    val parameters: Parameters,
     val serializer: KSerializer<T>
 )
 

@@ -56,12 +56,8 @@ internal inline fun ParametersBuilder.append(first: String, second: Any?) {
 internal inline val GMTDate.unixtime: Int
     get() = (GMTDate(seconds, minutes, hours, dayOfMonth, month, year).timestamp / 1000).toInt()
 
-internal inline operator fun Parameters.plus(other: Parameters?): Parameters =
-    if (other == null) this
-    else Parameters.build {
-        appendAll(this@plus)
-        appendAll(other)
-    }
+internal inline val Pair<String, String>.formPart: FormPart<String>
+    get() = FormPart(first, second, Headers.Empty)
 
 internal inline val UploadableFile.formPart: FormPart<ByteReadPacket>
     get() = FormPart(key, ByteReadPacket(content.bytes), content.filename.filenameHeader)
