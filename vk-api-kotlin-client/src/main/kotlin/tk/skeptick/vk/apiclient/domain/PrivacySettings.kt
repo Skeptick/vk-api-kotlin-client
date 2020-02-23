@@ -27,18 +27,14 @@ data class PrivacySettings(
         @SerialName("allowed") val allowed: List<Int>? = null,
         @SerialName("excluded") val excluded: List<Int>? = null)
 
-    @Serializer(forClass = PrivacySettings::class)
-    companion object : SerializationStrategy<PrivacySettings> {
-
-        override fun serialize(encoder: Encoder, obj: PrivacySettings) {
-            val result = mutableListOf<String>()
-            obj.category?.value?.let(result::add)
-            obj.owners?.allowed?.map { "$it" }?.let(result::addAll)
-            obj.owners?.excluded?.map { "-$it" }?.let(result::addAll)
-            obj.lists?.allowed?.map { "list$it" }?.let(result::addAll)
-            obj.lists?.excluded?.map { "-list$it" }?.let(result::addAll)
-            encoder.encodeString(result.joinToString(","))
-        }
-
+    fun toRequestString(): String {
+        val result = mutableListOf<String>()
+        if (category != null) result.add(category.value)
+        if (owners?.allowed != null) for (id in owners.allowed) result.add("$id")
+        if (owners?.excluded != null) for (id in owners.excluded) result.add("-$id")
+        if (lists?.allowed != null) for (id in lists.allowed) result.add("list$id")
+        if (lists?.excluded != null) for (id in lists.excluded) result.add("-list$id")
+        return result.joinToString(",")
     }
+
 }

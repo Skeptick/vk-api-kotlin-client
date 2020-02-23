@@ -172,5 +172,5 @@ internal fun parseOAuthResponse(
 //--- Serializers ---//
 
 internal fun Keyboard.serialize(): String = json.stringify(Keyboard.serializer(), this)
+
 internal fun Address.Timetable.serialize(): String = json.stringify(Address.Timetable.serializer(), this)
-internal fun PrivacySettings.serialize(): String = json.stringify(PrivacySettings.serializer(), this)
