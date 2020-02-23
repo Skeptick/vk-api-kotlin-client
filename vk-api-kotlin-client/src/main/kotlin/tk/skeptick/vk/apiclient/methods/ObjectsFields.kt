@@ -199,6 +199,14 @@ enum class WallPostFilter(internal val value: String) {
     ALL("all") // все
 }
 
+enum class VideoSearchFilter(internal val value: String) {
+    MP4("mp4"),
+    YOUTUBE("youtube"),
+    VIMEO("vimeo"),
+    SHORT("short"),
+    LONG("long")
+}
+
 //--- Order & Sort ---//
 
 enum class FriendsOrder(internal val value: String) {
@@ -237,6 +245,12 @@ enum class CommentsSort(internal val value: String) {
 enum class PhotoSearchSort(internal val value: Int) {
     DATE(0),
     LIKES(1)
+}
+
+enum class VideoSearchSort(internal val value: Int) {
+    DATE(0),
+    DURATION(1),
+    RELEVANCE(2)
 }
 
 //--- Types & other Enums ---//
@@ -409,4 +423,9 @@ sealed class PhotoAlbumType(val value: String) {
 enum class FeedType(val value: String) {
     PHOTO("photo"),
     PHOTO_TAG("photo_tag");
+}
+
+sealed class VideoAlbumType(val value: Int) {
+    object Added : VideoAlbumType(-2)
+    class Custom(val id: Int) : VideoAlbumType(id)
 }

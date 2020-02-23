@@ -54,3 +54,10 @@ data class UploadOwnerPhotoResponse(
     @SerialName("mid") val moderatorId: Int,
     @SerialName("message_code") val messageCode: Int,
     @SerialName("profile_aid") val profileAlbumId: Int)
+
+@Serializable
+data class UploadVideoResponse(
+    @SerialName("video_id") val videoId: Int,
+    @SerialName("owner_id") val ownerId: Int,
+    @SerialName("size") val size: Int,
+    @SerialName("video_hash") val videoHash: String)

@@ -119,6 +119,29 @@ class UploadsApi(override val client: ApiClient)
             serializer = UploadPhotoResponse.serializer()
         )
 
+    override fun videoByLink(
+        uploadUrl: String
+    ): UploadFilesRequest<BooleanInt> =
+        UploadFilesRequest(
+            client = client,
+            uploadUrl = uploadUrl,
+            files = emptyList(),
+            parameters = Parameters.Empty,
+            serializer = BooleanInt.serializer()
+        )
+
+    override fun video(
+        uploadUrl: String,
+        file: FileContent
+    ): UploadFilesRequest<UploadVideoResponse> =
+        UploadFilesRequest(
+            client = client,
+            uploadUrl = uploadUrl,
+            files = listOf(UploadableFile(DEFAULT_FILE_FIELD, file)),
+            parameters = Parameters.Empty,
+            serializer = UploadVideoResponse.serializer()
+        )
+
     companion object {
 
         private const val DEFAULT_FILE_FIELD = "file"

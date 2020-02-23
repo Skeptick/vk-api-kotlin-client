@@ -42,7 +42,7 @@ ______________________
 | [Streaming]     |     0 из 5     | :heavy_multiplication_x: |
 | [Users]         |     7 из 6     | :heavy_check_mark:       |
 | [Utils]         |     7 из 7     | :heavy_check_mark:       |
-| [Video]         |     0 из 24    | :heavy_multiplication_x: |
+| [Video]         |    24 из 24    | :heavy_check_mark:       |
 | [Wall]          |    23 из 23    | :heavy_check_mark:       |
 | [Widgets]       |     0 из 2     | :heavy_multiplication_x: |
 

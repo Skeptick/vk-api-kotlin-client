@@ -1,5 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.uploads
 
+import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.FileContent
 import tk.skeptick.vk.apiclient.UploadFilesRequest
 
@@ -39,6 +40,9 @@ interface UploadsApiUser : UploadsApiCommon {
         files: List<FileContent>
     ): UploadFilesRequest<UploadMarketPhotoResponse>
 
+    /**
+     * @see <a href="https://vk.com/dev/upload_files">VK API</a>
+     */
     fun photoForOwner(
         uploadUrl: String,
         file: FileContent,
@@ -55,5 +59,20 @@ interface UploadsApiUser : UploadsApiCommon {
         uploadUrl: String,
         files: List<FileContent>
     ): UploadFilesRequest<UploadPhotoResponse>
+
+    /**
+     * @see <a href="https://vk.com/dev/upload_files">VK API</a>
+     */
+    fun videoByLink(
+        uploadUrl: String
+    ): UploadFilesRequest<BooleanInt>
+
+    /**
+     * @see <a href="https://vk.com/dev/upload_files">VK API</a>
+     */
+    fun video(
+        uploadUrl: String,
+        file: FileContent
+    ): UploadFilesRequest<UploadVideoResponse>
 
 }

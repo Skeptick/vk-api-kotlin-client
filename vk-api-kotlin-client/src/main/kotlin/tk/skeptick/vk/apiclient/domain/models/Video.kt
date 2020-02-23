@@ -2,12 +2,7 @@ package tk.skeptick.vk.apiclient.domain.models
 
 import kotlinx.serialization.*
 import tk.skeptick.vk.apiclient.BooleanInt
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
-import tk.skeptick.vk.apiclient.domain.AttachmentType
-import tk.skeptick.vk.apiclient.domain.CommentAttachment
-import tk.skeptick.vk.apiclient.domain.MessageAttachment
-import tk.skeptick.vk.apiclient.domain.WallAttachment
+import tk.skeptick.vk.apiclient.domain.*
 
 @Serializable
 data class Video(
@@ -32,8 +27,8 @@ data class Video(
     @SerialName("can_like") val canLike: BooleanInt? = null,
     @SerialName("can_comment") val canComment: BooleanInt? = null,
     @SerialName("can_repost") val canRepost: BooleanInt? = null,
-    @SerialName("privacy_view") val privacyView: Privacy? = null,
-    @SerialName("privacy_comment") val privacyComment: Privacy? = null,
+    @SerialName("privacy_view") val privacyView: PrivacySettings? = null,
+    @SerialName("privacy_comment") val privacyComment: PrivacySettings? = null,
     @SerialName("likes") val likes: Likes? = null,
     @SerialName("reposts") val reposts: Reposts? = null,
     @SerialName("is_private") val isPrivate: BooleanInt = BooleanInt(false),
@@ -47,28 +42,6 @@ data class Video(
 ) : CommentAttachment, WallAttachment, MessageAttachment {
 
     override val typeAttachment: AttachmentType get() = AttachmentType.VIDEO
-
-    @Serializable
-    data class Privacy(
-        @SerialName("category") val category: Category? = null,
-        @SerialName("owners") val owners: Owners? = null) {
-
-        @Serializable(with = Category.Companion::class)
-        enum class Category(override val value: String) : SerializableEnum<String> {
-            ALL("all"),
-            FRIENDS("friends"),
-            FRIENDS_OF_FRIENDS("friends_of_friends"),
-            ONLY_ME("only_me");
-
-            companion object : EnumStringSerializer<Category>(Category::class)
-        }
-
-        @Serializable
-        data class Owners(
-            @SerialName("excluded") val excluded: List<Int>? = null,
-            @SerialName("allowed") val allowed: List<Int>? = null)
-
-    }
 
     @Serializable
     data class VideoImage(
