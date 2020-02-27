@@ -7,9 +7,6 @@ interface Media {
 }
 
 interface Attachment : Media {
-    override val id: Int
-    override val ownerId: Int
-    override val accessKey: String? get() = null
     val typeAttachment: AttachmentType
 }
 

@@ -33,6 +33,7 @@ data class WallComment(
 
     override val ownerId: Int = wallOwnerId ?: fromId
 
+    override val accessKey: String? = null
 
     @Serializable
     data class Likes(

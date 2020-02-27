@@ -19,4 +19,6 @@ data class Note(
 
     override val typeAttachment: AttachmentType get() = AttachmentType.NOTE
 
+    override val accessKey: String? = null
+
 }

@@ -36,6 +36,8 @@ data class Poll(
 
     override val typeAttachment: AttachmentType get() = AttachmentType.POLL
 
+    override val accessKey: String? = null
+
     val isUnlimited: Boolean get() = endDate == 0
 
     @Serializable

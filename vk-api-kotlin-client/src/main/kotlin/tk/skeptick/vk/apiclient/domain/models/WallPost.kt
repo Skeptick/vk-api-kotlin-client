@@ -47,7 +47,6 @@ data class WallPost(
 
     override val ownerId: Int = _ownerId ?: toId!!
 
-
     @Serializable(with = Type.Companion::class)
     enum class Type(override val value: String) : SerializableEnum<String> {
         POST("post"),

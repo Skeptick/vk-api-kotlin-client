@@ -28,8 +28,11 @@ data class Page(
     @SerialName("current_user_can_edit_access") val isCurrentUserCanEditAccess: BooleanInt? = null
 ) : WallAttachment {
 
-    override val ownerId: Int get() = -groupId
     override val typeAttachment: AttachmentType get() = AttachmentType.PAGE
+
+    override val ownerId: Int get() = -groupId
+
+    override val accessKey: String? = null
 
     @Serializable(with = PrivacyType.Companion::class)
     enum class PrivacyType(override val value: Int) : SerializableEnum<Int> {

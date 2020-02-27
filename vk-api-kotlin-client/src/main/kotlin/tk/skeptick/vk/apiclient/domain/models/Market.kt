@@ -32,6 +32,8 @@ data class Market(
 
     override val typeAttachment: AttachmentType get() = AttachmentType.MARKET
 
+    override val accessKey: String? = null
+
     @Serializable(with = AvailabilityType.Companion::class)
     enum class AvailabilityType(override val value: Int) : SerializableEnum<Int> {
         AVAILABLE(0),

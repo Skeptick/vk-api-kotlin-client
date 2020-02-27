@@ -30,4 +30,6 @@ data class Album(
 
     override val typeAttachment: AttachmentType get() = AttachmentType.ALBUM
 
+    override val accessKey: String? = null
+
 }
