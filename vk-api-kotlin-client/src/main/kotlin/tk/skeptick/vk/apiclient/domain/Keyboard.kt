@@ -33,7 +33,8 @@ data class Keyboard(
                 LOCATION("location"),
                 VK_PAY("vkpay"),
                 VK_APP("open_app"),
-                OPEN_LINK("open_link");
+                OPEN_LINK("open_link"),
+                OPEN_PHOTO("open_photo");
 
                 companion object : EnumStringSerializer<Type>(Type::class)
             }

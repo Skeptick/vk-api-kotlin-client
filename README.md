@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    implementation "tk.skeptick:vk-api-kotlin-client:0.1.9"
+    implementation "tk.skeptick:vk-api-kotlin-client:0.2.0"
 }
 ```
 
@@ -70,7 +70,7 @@ dependencies {
 #### Подготовка
 Первым делом подключите подходящий вам [HTTP-клиент](https://github.com/ktorio/ktor/tree/master/ktor-client), например CIO:
 ```
-implementation "io.ktor:ktor-client-cio:1.3.0-beta-1"
+implementation "io.ktor:ktor-client-cio:1.3.1"
 ```
 Для Android используейте `ktor-client-okhttp` или `ktor-client-android`, для server-side рекомендую `ktor-client-apache`. Подробнее см. в [документации](https://ktor.io/clients/http-client/engines.html) и в [репозиториях](https://github.com/ktorio/ktor/tree/master/ktor-client) ktor.
 
@@ -179,7 +179,7 @@ keyboard {
 License
 =======
 
-    Copyright 2019 Danil Yudov
+    Copyright 2020 Danil Yudov
     
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

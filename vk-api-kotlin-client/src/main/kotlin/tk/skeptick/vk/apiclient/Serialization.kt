@@ -45,5 +45,5 @@ abstract class CustomEnumSerializer<E, T>(clazz: KClass<E>)
     protected val members = clazz.enumMembers()
     protected val values = members.map(SerializableEnum<T>::value)
     private val names = members.map(Enum<E>::name).toTypedArray()
-    override val descriptor: EnumDescriptor = EnumDescriptor(clazz.enumClassName(), names)
+    @InternalSerializationApi override val descriptor = EnumDescriptor(clazz.enumClassName(), names)
 }
