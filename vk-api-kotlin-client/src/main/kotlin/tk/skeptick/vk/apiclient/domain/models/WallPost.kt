@@ -41,7 +41,7 @@ data class WallPost(
     @SerialName("access_key") override val accessKey: String? = null
 ) : MessageAttachment {
 
-    override val ownerId: Int = _ownerId ?: toId!!
+    override val ownerId: Int get() = _ownerId ?: toId!!
     override val typeAttachment: AttachmentType get() = AttachmentType.WALL
 
     @Serializable

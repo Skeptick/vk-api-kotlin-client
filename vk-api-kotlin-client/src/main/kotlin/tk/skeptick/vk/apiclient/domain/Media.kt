@@ -8,6 +8,7 @@ interface Media {
 
 interface Attachment : Media {
     val typeAttachment: AttachmentType
+    override val accessKey: String? get() = null
 }
 
 interface MessageAttachment : Attachment

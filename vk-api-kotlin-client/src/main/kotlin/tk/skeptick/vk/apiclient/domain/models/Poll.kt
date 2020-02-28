@@ -32,7 +32,6 @@ data class Poll(
     @SerialName("friends") val friends: List<Friend>? = null
 ) : WallAttachment, MessageAttachment {
 
-    override val accessKey: String? = null
     override val typeAttachment: AttachmentType get() = AttachmentType.POLL
     val isUnlimited: Boolean get() = endDate == 0
 

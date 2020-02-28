@@ -62,7 +62,7 @@ class DocsApi(override val client: ApiClient)
         returnTags: Boolean
     ): VkApiRequest<List<Document>> =
         Methods.getById.httpPost(Document.serializer().list) {
-            append("docs", prepareDocs(docs))
+            append("docs", docs.joinToString(",", transform = Media::media))
             append("return_tags", returnTags.asInt())
         }
 
@@ -119,21 +119,6 @@ class DocsApi(override val client: ApiClient)
             append("count", count)
             append("offset", offset)
         }
-
-    private companion object {
-
-        fun prepareDocs(
-            docs: List<Media>
-        ): String = docs.joinToString(",") { doc ->
-            buildString {
-                append(doc.ownerId)
-                append('_')
-                append(doc.id)
-                doc.accessKey?.let { append(it) }
-            }
-        }
-
-    }
 
     private object Methods {
         private const val it = "docs."

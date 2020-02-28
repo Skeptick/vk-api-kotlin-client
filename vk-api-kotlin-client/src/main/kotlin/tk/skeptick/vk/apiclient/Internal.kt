@@ -113,7 +113,7 @@ internal inline val Media.media: String
     get() = buildString {
         append(ownerId)
         append("_").append(id)
-        if (accessKey != null) append("_").append(accessKey)
+        if (accessKey != null) append("_").append(accessKey!!)
     }
 
 internal inline val Attachment.attachment: String

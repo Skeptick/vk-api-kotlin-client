@@ -30,7 +30,6 @@ data class Market(
     @SerialName("is_favorite") val isFavorite: Boolean? = null
 ) : WallAttachment, MessageAttachment {
 
-    override val accessKey: String? = null
     override val typeAttachment: AttachmentType get() = AttachmentType.MARKET
 
     @Serializable(with = AvailabilityType.Companion::class)

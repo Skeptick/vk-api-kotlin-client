@@ -28,7 +28,6 @@ data class Album(
     @SerialName("thumb_is_last") val thumbIsLast: BooleanInt? = null
 ) : WallAttachment {
 
-    override val accessKey: String? = null
     override val typeAttachment: AttachmentType get() = AttachmentType.ALBUM
 
 }

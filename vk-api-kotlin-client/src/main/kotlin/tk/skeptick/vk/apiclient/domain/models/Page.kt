@@ -29,7 +29,6 @@ data class Page(
 ) : WallAttachment {
 
     override val ownerId: Int get() = -groupId
-    override val accessKey: String? = null
     override val typeAttachment: AttachmentType get() = AttachmentType.PAGE
 
     @Serializable(with = PrivacyType.Companion::class)
