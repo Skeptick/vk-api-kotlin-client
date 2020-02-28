@@ -1,6 +1,5 @@
 package tk.skeptick.vk.apiclient
 
-import com.github.kittinunf.result.coroutines.SuspendableResult
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.*
 import io.ktor.client.request.post
@@ -39,18 +38,18 @@ class VkApiClient(
     override suspend fun <T : Any> executeMethod(
         request: VkApiRequest<T>,
         additionalParameters: Parameters?
-    ): SuspendableResult<T, Exception> = try {
+    ): Result<T, Exception> = try {
         parseMethodResponse(request(additionalParameters).receive(), request.serializer)
     } catch (exception: Exception) {
-        SuspendableResult.error(exception)
+        Result.error(exception)
     }
 
     override suspend fun <T : Any> uploadFile(
         request: UploadFilesRequest<T>
-    ): SuspendableResult<T, Exception> = try {
+    ): Result<T, Exception> = try {
         parseUploadResponse(request().receive(), request.serializer)
     } catch (exception: Exception) {
-        SuspendableResult.error(exception)
+        Result.error(exception)
     }
 
     private suspend inline operator fun <T : Any> VkApiRequest<T>.invoke(
@@ -74,15 +73,15 @@ class VkApiClient(
             authData: OAuth,
             captchaResponse: CaptchaResponse? = null
         ): VkApiClient = when (val response = authorize(httpClient, authData, captchaResponse)) {
-            is SuspendableResult.Success -> VkApiClient(response.value.accessToken, httpClient)
-            is SuspendableResult.Failure -> throw response.error
+            is Result.Success -> VkApiClient(response.value.accessToken, httpClient)
+            is Result.Failure -> throw response.error
         }
 
         suspend fun authorize(
             httpClient: HttpClient,
             authData: OAuth,
             captchaResponse: CaptchaResponse? = null
-        ): SuspendableResult<OAuthResponse, Exception> = httpClient.configure().post<String>(DefaultApiParams.OAUTH_URL) {
+        ): Result<OAuthResponse, Exception> = httpClient.configure().post<String>(DefaultApiParams.OAUTH_URL) {
             val parameters = authData.parameters + (captchaResponse?.parameters ?: Parameters.Empty)
             body = FormDataContent(parameters)
         }.let(::parseOAuthResponse)
