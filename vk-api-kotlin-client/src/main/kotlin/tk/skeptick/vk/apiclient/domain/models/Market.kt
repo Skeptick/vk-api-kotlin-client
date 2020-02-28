@@ -3,7 +3,7 @@ package tk.skeptick.vk.apiclient.domain.models
 import kotlinx.serialization.*
 import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.EnumIntSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.IntEnum
 import tk.skeptick.vk.apiclient.domain.AttachmentType
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
 import tk.skeptick.vk.apiclient.domain.WallAttachment
@@ -30,17 +30,16 @@ data class Market(
     @SerialName("is_favorite") val isFavorite: Boolean? = null
 ) : WallAttachment, MessageAttachment {
 
+    override val accessKey: String? = null
     override val typeAttachment: AttachmentType get() = AttachmentType.MARKET
 
-    override val accessKey: String? = null
-
     @Serializable(with = AvailabilityType.Companion::class)
-    enum class AvailabilityType(override val value: Int) : SerializableEnum<Int> {
+    enum class AvailabilityType(override val value: Int) : IntEnum {
         AVAILABLE(0),
         DELETED(1),
         UNAVAILABLE(2);
 
-        companion object : EnumIntSerializer<AvailabilityType>(AvailabilityType::class)
+        companion object : EnumIntSerializer<AvailabilityType>(AvailabilityType::class, values())
     }
 
     @Serializable

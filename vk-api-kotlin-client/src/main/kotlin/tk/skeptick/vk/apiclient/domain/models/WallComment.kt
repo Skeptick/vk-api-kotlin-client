@@ -29,11 +29,9 @@ data class WallComment(
     @SerialName("market_owner_id") val marketOwnerId: Int? = null
 ) : MessageAttachment {
 
-    override val typeAttachment: AttachmentType get() = AttachmentType.WALL
-
     override val ownerId: Int = wallOwnerId ?: fromId
-
     override val accessKey: String? = null
+    override val typeAttachment: AttachmentType get() = AttachmentType.WALL
 
     @Serializable
     data class Likes(

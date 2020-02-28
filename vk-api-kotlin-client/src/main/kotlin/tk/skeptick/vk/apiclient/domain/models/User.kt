@@ -1,10 +1,7 @@
 package tk.skeptick.vk.apiclient.domain.models
 
 import kotlinx.serialization.*
-import tk.skeptick.vk.apiclient.BooleanInt
-import tk.skeptick.vk.apiclient.EnumIntSerializer
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.methods.groups.CommunityManager
 
 @Serializable
@@ -98,16 +95,16 @@ data class User(
     val isDeactivated: Boolean get() = deactivationType != null
 
     @Serializable(with = Sex.Companion::class)
-    enum class Sex(override val value: Int) : SerializableEnum<Int> {
+    enum class Sex(override val value: Int) : IntEnum {
         FEMALE(1),
         MALE(2),
         NOT_SPECIFIED(0);
 
-        companion object : EnumIntSerializer<Sex>(Sex::class)
+        companion object : EnumIntSerializer<Sex>(Sex::class, values())
     }
 
     @Serializable(with = RelationStatus.Companion::class)
-    enum class RelationStatus(override val value: Int) : SerializableEnum<Int> {
+    enum class RelationStatus(override val value: Int) : IntEnum {
         SINGLE(1),
         RELATIONSHIP(2),
         ENGAGED(3),
@@ -118,25 +115,23 @@ data class User(
         CIVIL_UNION(8),
         NOT_SPECIFIED(0);
 
-        companion object : EnumIntSerializer<RelationStatus>(RelationStatus::class)
+        companion object : EnumIntSerializer<RelationStatus>(RelationStatus::class, values())
     }
 
     @Serializable(with = FriendStatus.Companion::class)
-    enum class FriendStatus(override val value: Int) : SerializableEnum<Int> {
+    enum class FriendStatus(override val value: Int) : IntEnum {
         NOT_FRIEND(0),
         OUTGOING_REQUEST(1),
         INCOMING_REQUEST(2),
         FRIEND(3);
 
-        companion object : EnumIntSerializer<FriendStatus>(FriendStatus::class)
+        companion object : EnumIntSerializer<FriendStatus>(FriendStatus::class, values())
     }
 
-    @Serializable(with = DeactivationType.Companion::class)
-    enum class DeactivationType(override val value: String) : SerializableEnum<String> {
-        DELETED("deleted"),
-        BANNED("banned");
-
-        companion object : EnumStringSerializer<DeactivationType>(DeactivationType::class)
+    @Serializable
+    enum class DeactivationType(val value: String) {
+        @SerialName("deleted") DELETED("deleted"),
+        @SerialName("banned") BANNED("banned")
     }
 
     @Serializable
@@ -151,7 +146,7 @@ data class User(
         @SerialName("alcohol") val viewOnAlcohol: ViewOnBadHabit? = null) {
 
         @Serializable(with = PoliticalView.Companion::class)
-        enum class PoliticalView(override val value: Int) : SerializableEnum<Int> {
+        enum class PoliticalView(override val value: Int) : IntEnum {
             COMMUNIST(1),
             SOCIALIST(2),
             MODERATE(3),
@@ -162,11 +157,11 @@ data class User(
             APATHETIC(8),
             LIBERTARIAN(9);
 
-            companion object : EnumIntSerializer<PoliticalView>(PoliticalView::class)
+            companion object : EnumIntSerializer<PoliticalView>(PoliticalView::class, values())
         }
 
         @Serializable(with = ImportantInOthers.Companion::class)
-        enum class ImportantInOthers(override val value: Int) : SerializableEnum<Int> {
+        enum class ImportantInOthers(override val value: Int) : IntEnum {
             INTELLECT_AND_CREATIVITY(1),
             KINDNESS_AND_HONESTY(2),
             HEALTH_AND_BEAUTY(3),
@@ -174,11 +169,11 @@ data class User(
             COURAGE_AND_PERSISTENCE(5),
             HUMOR_AND_LOVE_FOR_LIFE(6);
 
-            companion object : EnumIntSerializer<ImportantInOthers>(ImportantInOthers::class)
+            companion object : EnumIntSerializer<ImportantInOthers>(ImportantInOthers::class, values())
         }
 
         @Serializable(with = PersonalPriority.Companion::class)
-        enum class PersonalPriority(override val value: Int) : SerializableEnum<Int> {
+        enum class PersonalPriority(override val value: Int) : IntEnum {
             FAMILY_AND_CHILDREN(1),
             CAREER_AND_MONEY(2),
             ENTERTAINMENT_AND_LEISURE(3),
@@ -188,18 +183,18 @@ data class User(
             BEAUTY_AND_ART(7),
             FAME_AND_INFLUENCE(8);
 
-            companion object : EnumIntSerializer<PersonalPriority>(PersonalPriority::class)
+            companion object : EnumIntSerializer<PersonalPriority>(PersonalPriority::class, values())
         }
 
         @Serializable(with = ViewOnBadHabit.Companion::class)
-        enum class ViewOnBadHabit(override val value: Int) : SerializableEnum<Int> {
+        enum class ViewOnBadHabit(override val value: Int) : IntEnum {
             VERY_NEGATIVE(1),
             NEGATIVE(2),
             NEUTRAL(3),
             COMPROMISABLE(4),
             POSITIVE(5);
 
-            companion object : EnumIntSerializer<ViewOnBadHabit>(ViewOnBadHabit::class)
+            companion object : EnumIntSerializer<ViewOnBadHabit>(ViewOnBadHabit::class, values())
         }
 
     }
@@ -210,15 +205,13 @@ data class User(
         @SerialName("id") val userId: Int? = null,
         @SerialName("name") val name: Int? = null) {
 
-        @Serializable(with = Type.Companion::class)
-        enum class Type(override val value: String) : SerializableEnum<String> {
-            CHILD("child"),
-            SIBLING("sibling"),
-            PARENT("parent"),
-            GRANDPARENT("grandparent"),
-            GRANDCHILD("grandchild");
-
-            companion object : EnumStringSerializer<Type>(Type::class)
+        @Serializable
+        enum class Type(val value: String) {
+            @SerialName("child") CHILD("child"),
+            @SerialName("sibling") SIBLING("sibling"),
+            @SerialName("parent") PARENT("parent"),
+            @SerialName("grandparent") GRANDPARENT("grandparent"),
+            @SerialName("grandchild") GRANDCHILD("grandchild")
         }
 
     }
@@ -227,15 +220,13 @@ data class User(
     data class Occupation(
         @SerialName("id") val id: Int? = null,
         @SerialName("name") val name: String? = null,
-        @SerialName("type") private val type: Type? = null) {
+        @SerialName("type") val type: Type? = null) {
 
-        @Serializable(with = Type.Companion::class)
-        enum class Type(override val value: String) : SerializableEnum<String> {
-            WORK("work"),
-            SCHOOL("school"),
-            UNIVERSITY("university");
-
-            companion object : EnumStringSerializer<Type>(Type::class)
+        @Serializable
+        enum class Type(val value: String) {
+            @SerialName("work") WORK("work"),
+            @SerialName("school") SCHOOL("school"),
+            @SerialName("university") UNIVERSITY("university")
         }
 
     }
@@ -255,7 +246,7 @@ data class User(
         @SerialName("type_str") val typeName: String? = null) {
 
         @Serializable(with = Type.Companion::class)
-        enum class Type(override val value: Int) : SerializableEnum<Int> {
+        enum class Type(override val value: Int) : IntEnum {
             SCHOOL(0),
             GYMNASIUM(1),
             LYCEUM(2),
@@ -271,7 +262,7 @@ data class User(
             SPECIALIZED_SCHOOL(12),
             ART_SCHOOL(13);
 
-            companion object : EnumIntSerializer<Type>(Type::class)
+            companion object : EnumIntSerializer<Type>(Type::class, values())
         }
 
     }
@@ -345,7 +336,7 @@ data class User(
         @SerialName("platform") val platform: ClientPlatform? = null) {
 
         @Serializable(with = ClientPlatform.Companion::class)
-        enum class ClientPlatform(override val value: Int) : SerializableEnum<Int> {
+        enum class ClientPlatform(override val value: Int) : IntEnum {
             WEB_MOBILE(1),
             APP_IPHONE(2),
             APP_IPAD(3),
@@ -355,7 +346,7 @@ data class User(
             WEB_DESKTOP(7),
             VK_MOBILE(8);
 
-            companion object : EnumIntSerializer<ClientPlatform>(ClientPlatform::class)
+            companion object : EnumIntSerializer<ClientPlatform>(ClientPlatform::class, values())
         }
 
     }

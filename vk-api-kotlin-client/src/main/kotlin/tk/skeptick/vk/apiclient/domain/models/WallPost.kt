@@ -2,8 +2,6 @@ package tk.skeptick.vk.apiclient.domain.models
 
 import kotlinx.serialization.*
 import tk.skeptick.vk.apiclient.BooleanInt
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.domain.*
 
 @Serializable
@@ -43,21 +41,18 @@ data class WallPost(
     @SerialName("access_key") override val accessKey: String? = null
 ) : MessageAttachment {
 
+    override val ownerId: Int = _ownerId ?: toId!!
     override val typeAttachment: AttachmentType get() = AttachmentType.WALL
 
-    override val ownerId: Int = _ownerId ?: toId!!
-
-    @Serializable(with = Type.Companion::class)
-    enum class Type(override val value: String) : SerializableEnum<String> {
-        POST("post"),
-        COPY("copy"),
-        REPLY("reply"),
-        POSTPONE("postpone"),
-        SUGGEST("suggest"),
-        PHOTO("photo"),
-        POST_ADS("post_ads");
-
-        companion object : EnumStringSerializer<Type>(Type::class)
+    @Serializable
+    enum class Type(val value: String) {
+        @SerialName("post") POST("post"),
+        @SerialName("copy") COPY("copy"),
+        @SerialName("reply") REPLY("reply"),
+        @SerialName("postpone") POSTPONE("postpone"),
+        @SerialName("suggest") SUGGEST("suggest"),
+        @SerialName("photo") PHOTO("photo"),
+        @SerialName("post_ads") POST_ADS("post_ads")
     }
 
     @Serializable
@@ -92,35 +87,29 @@ data class WallPost(
         @SerialName("platform") val platform: Platform? = null,
         @SerialName("data") val data: DataType? = null) {
 
-        @Serializable(with = Type.Companion::class)
-        enum class Type(override val value: String) : SerializableEnum<String> {
-            VK("vk"),
-            WIDGET("widget"),
-            API("api"),
-            RSS("rss"),
-            SMS("sms");
-
-            companion object : EnumStringSerializer<Type>(Type::class)
+        @Serializable
+        enum class Type(val value: String) {
+            @SerialName("vk") VK("vk"),
+            @SerialName("widget") WIDGET("widget"),
+            @SerialName("api") API("api"),
+            @SerialName("rss") RSS("rss"),
+            @SerialName("sms") SMS("sms")
         }
 
-        @Serializable(with = Platform.Companion::class)
-        enum class Platform(override val value: String) : SerializableEnum<String> {
-            ANDROID("android"),
-            IPHONE("iphone"),
-            WPHONE("wphone");
-
-            companion object : EnumStringSerializer<Platform>(Platform::class)
+        @Serializable
+        enum class Platform(val value: String) {
+            @SerialName("android") ANDROID("android"),
+            @SerialName("iphone") IPHONE("iphone"),
+            @SerialName("wphone") WPHONE("wphone")
         }
 
-        @Serializable(with = DataType.Companion::class)
-        enum class DataType(override val value: String) : SerializableEnum<String> {
-            PROFILE_ACTIVITY("profile_activity"),
-            PROFILE_PHOTO("profile_photo"),
-            COMMENTS("comments"),
-            LIKE("like"),
-            POLL("poll");
-
-            companion object : EnumStringSerializer<DataType>(DataType::class)
+        @Serializable
+        enum class DataType(val value: String) {
+            @SerialName("profile_activity") PROFILE_ACTIVITY("profile_activity"),
+            @SerialName("profile_photo") PROFILE_PHOTO("profile_photo"),
+            @SerialName("comments") COMMENTS("comments"),
+            @SerialName("like") LIKE("like"),
+            @SerialName("poll") POLL("poll")
         }
 
     }
@@ -152,11 +141,9 @@ data class WallPost(
         @SerialName("type") val type: Type,
         @SerialName("comments") val comments: List<WallComment>? = null) {
 
-        @Serializable(with = Type.Companion::class)
-        enum class Type(override val value: String) : SerializableEnum<String> {
-            COMMENTS("comments");
-
-            companion object : EnumStringSerializer<Type>(Type::class)
+        @Serializable
+        enum class Type(val value: String) {
+            @SerialName("comments") COMMENTS("comments")
         }
 
     }

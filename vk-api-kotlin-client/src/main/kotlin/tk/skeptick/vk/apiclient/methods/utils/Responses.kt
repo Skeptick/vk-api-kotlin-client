@@ -2,21 +2,17 @@ package tk.skeptick.vk.apiclient.methods.utils
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
 
 @Serializable
 data class CheckLinkResponse(
     @SerialName("status") val status: Status,
     @SerialName("link") val link: String) {
 
-    @Serializable(with = Status.Companion::class)
-    enum class Status(override val value: String) : SerializableEnum<String> {
-        NOT_BANNED("not_banned"),
-        BANNED("banned"),
-        PROCESSING("processing");
-
-        companion object : EnumStringSerializer<Status>(Status::class)
+    @Serializable
+    enum class Status(val value: String) {
+        @SerialName("not_banned") NOT_BANNED("not_banned"),
+        @SerialName("banned") BANNED("banned"),
+        @SerialName("processing") PROCESSING("processing")
     }
 
 }
@@ -68,15 +64,13 @@ data class ResolveScreenNameResponse(
     @SerialName("type") val type: Type,
     @SerialName("object_id") val objectId: Int) {
 
-    @Serializable(with = Type.Companion::class)
-    enum class Type(override val value: String) : SerializableEnum<String> {
-        USER("user"),
-        GROUP("group"),
-        PAGE("page"),
-        VK_APP("vk_app"),
-        APPLICATION("application");
-
-        companion object : EnumStringSerializer<Type>(Type::class)
+    @Serializable
+    enum class Type(val value: String) {
+        @SerialName("user") USER("user"),
+        @SerialName("group") GROUP("group"),
+        @SerialName("page") PAGE("page"),
+        @SerialName("vk_app") VK_APP("vk_app"),
+        @SerialName("application") APPLICATION("application")
     }
 
 }

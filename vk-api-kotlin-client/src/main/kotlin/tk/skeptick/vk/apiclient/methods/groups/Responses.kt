@@ -2,40 +2,37 @@ package tk.skeptick.vk.apiclient.methods.groups
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tk.skeptick.vk.apiclient.BooleanInt
-import tk.skeptick.vk.apiclient.EnumIntSerializer
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.AccessPermissionsCommunity
 import tk.skeptick.vk.apiclient.domain.models.Community
 import tk.skeptick.vk.apiclient.domain.models.Geo
 import tk.skeptick.vk.apiclient.domain.models.User
 
 @Serializable(with = PublicUnitAccessType.Companion::class)
-enum class PublicUnitAccessType(override val value: Int) : SerializableEnum<Int> {
+enum class PublicUnitAccessType(override val value: Int) : IntEnum {
     DISABLED(0),
     OPEN(1);
 
-    companion object : EnumIntSerializer<PublicUnitAccessType>(PublicUnitAccessType::class)
+    companion object : EnumIntSerializer<PublicUnitAccessType>(PublicUnitAccessType::class, values())
 }
 
 @Serializable(with = GroupUnitAccessType.Companion::class)
-enum class GroupUnitAccessType(override val value: Int) : SerializableEnum<Int> {
+enum class GroupUnitAccessType(override val value: Int) : IntEnum {
     DISABLED(0),
     OPEN(1),
     LIMITED(2);
 
-    companion object : EnumIntSerializer<GroupUnitAccessType>(GroupUnitAccessType::class)
+    companion object : EnumIntSerializer<GroupUnitAccessType>(GroupUnitAccessType::class, values())
 }
 
 @Serializable(with = GroupUnitAccessTypeExtended.Companion::class)
-enum class GroupUnitAccessTypeExtended(override val value: Int) : SerializableEnum<Int> {
+enum class GroupUnitAccessTypeExtended(override val value: Int) : IntEnum {
     DISABLED(0),
     OPEN(1),
     LIMITED(2),
     CLOSED(3);
 
-    companion object : EnumIntSerializer<GroupUnitAccessTypeExtended>(GroupUnitAccessTypeExtended::class)
+    companion object : EnumIntSerializer<GroupUnitAccessTypeExtended>(GroupUnitAccessTypeExtended::class, values())
 }
 
 @Serializable
@@ -59,12 +56,10 @@ data class CommunityBan(
     @SerialName("group") val group: Community? = null,
     @SerialName("profile") val profile: User? = null) {
 
-    @Serializable(with = Type.Companion::class)
-    enum class Type(override val value: String) : SerializableEnum<String> {
-        GROUP("group"),
-        PROFILE("profile");
-
-        companion object : EnumStringSerializer<Type>(Type::class)
+    @Serializable
+    enum class Type(val value: String) {
+        @SerialName("group") GROUP("group"),
+        @SerialName("profile") PROFILE("profile")
     }
 
     @Serializable
@@ -80,14 +75,14 @@ data class CommunityBan(
     }
 
     @Serializable(with = Reason.Companion::class)
-    enum class Reason(override val value: Int) : SerializableEnum<Int> {
+    enum class Reason(override val value: Int) : IntEnum {
         OTHER(0),
         SPAM(1),
         HARASSMENT(2),
         PROFANITY(3),
         IRRELEVANT_MESSAGES(4);
 
-        companion object : EnumIntSerializer<Reason>(Reason::class)
+        companion object : EnumIntSerializer<Reason>(Reason::class, values())
     }
 
 }
@@ -101,14 +96,12 @@ data class CommunityCallbackServer(
     @SerialName("secret_key") val secretKey: String,
     @SerialName("status") val status: Status) {
 
-    @Serializable(with = Status.Companion::class)
-    enum class Status(override val value: String) : SerializableEnum<String> {
-        UNCONFIGURED("unconfigured"),
-        FAILED("failed"),
-        WAIT("wait"),
-        OK("ok");
-
-        companion object : EnumStringSerializer<Status>(Status::class)
+    @Serializable
+    enum class Status(val value: String) {
+        @SerialName("unconfigured") UNCONFIGURED("unconfigured"),
+        @SerialName("failed") FAILED("failed"),
+        @SerialName("wait") WAIT("wait"),
+        @SerialName("ok") OK("ok")
     }
 
 }
@@ -191,14 +184,12 @@ data class CommunityManager(
     @SerialName("id") val id: Int,
     @SerialName("role") val role: Role) {
 
-    @Serializable(with = Role.Companion::class)
-    enum class Role(override val value: String) : SerializableEnum<String> {
-        MODERATOR("moderator"),
-        EDITOR("editor"),
-        ADMINISTRATOR("administrator"),
-        CREATOR("creator");
-
-        companion object : EnumStringSerializer<Role>(Role::class)
+    @Serializable
+    enum class Role(val value: String) {
+        @SerialName("moderator") MODERATOR("moderator"),
+        @SerialName("editor") EDITOR("editor"),
+        @SerialName("administrator") ADMINISTRATOR("administrator"),
+        @SerialName("creator") CREATOR("creator")
     }
 
 }
@@ -208,13 +199,11 @@ data class CommunityOnlineStatus(
     @SerialName("status") val status: Status,
     @SerialName("minutes") val minutes: Int? = null) {
 
-    @Serializable(with = Status.Companion::class)
-    enum class Status(override val value: String) : SerializableEnum<String> {
-        NONE("none"),
-        ONLINE("online"),
-        ANSWER_MARK("answer_mark");
-
-        companion object : EnumStringSerializer<Status>(Status::class)
+    @Serializable
+    enum class Status(val value: String) {
+        @SerialName("none") NONE("none"),
+        @SerialName("online") ONLINE("online"),
+        @SerialName("answer_mark") ANSWER_MARK("answer_mark")
     }
 
 }
@@ -266,12 +255,12 @@ data class CommunitySettings(
     @SerialName("live_covers") val liveCovers: Community.LiveCovers? = null) {
 
     @Serializable(with = CommunitySuggestedPrivacyType.Companion::class)
-    enum class CommunitySuggestedPrivacyType(override val value: Int) : SerializableEnum<Int> {
+    enum class CommunitySuggestedPrivacyType(override val value: Int) : IntEnum {
         DISABLED(0),
         ALL(1),
         SUBSCRIBERS(2);
 
-        companion object : EnumIntSerializer<CommunitySuggestedPrivacyType>(CommunitySuggestedPrivacyType::class)
+        companion object : EnumIntSerializer<CommunitySuggestedPrivacyType>(CommunitySuggestedPrivacyType::class, values())
     }
 
 }

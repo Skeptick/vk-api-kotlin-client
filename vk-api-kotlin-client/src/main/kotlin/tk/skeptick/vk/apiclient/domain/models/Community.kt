@@ -1,10 +1,7 @@
 package tk.skeptick.vk.apiclient.domain.models
 
 import kotlinx.serialization.*
-import tk.skeptick.vk.apiclient.BooleanInt
-import tk.skeptick.vk.apiclient.EnumIntSerializer
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.*
 
 @Serializable
 data class Community(
@@ -76,52 +73,48 @@ data class Community(
         else null
 
     @Serializable(with = CloseType.Companion::class)
-    enum class CloseType(override val value: Int) : SerializableEnum<Int> {
+    enum class CloseType(override val value: Int) : IntEnum {
         OPEN(0),
         CLOSED(1),
         PRIVATE(2);
 
-        companion object : EnumIntSerializer<CloseType>(CloseType::class)
+        companion object : EnumIntSerializer<CloseType>(CloseType::class, values())
     }
 
-    @Serializable(with = DeactivationType.Companion::class)
-    enum class DeactivationType(override val value: String) : SerializableEnum<String> {
-        DELETED("deleted"),
-        BANNED("banned");
-
-        companion object : EnumStringSerializer<DeactivationType>(DeactivationType::class)
+    @Serializable
+    enum class DeactivationType(val value: String) {
+        @SerialName("deleted") DELETED("deleted"),
+        @SerialName("banned") BANNED("banned")
     }
 
     @Serializable(with = AdminLevel.Companion::class)
-    enum class AdminLevel(override val value: Int) : SerializableEnum<Int> {
+    enum class AdminLevel(override val value: Int) : IntEnum {
         NO_ROLE(0),
         MODERATOR(1),
         EDITOR(2),
         ADMINISTRATOR(3);
 
-        companion object : EnumIntSerializer<AdminLevel>(AdminLevel::class)
+        companion object : EnumIntSerializer<AdminLevel>(AdminLevel::class, values())
     }
 
-    @Serializable(with = Type.Companion::class)
-    enum class Type(override val value: String) : SerializableEnum<String> {
-        GROUP("group"),
-        PAGE("page"),
-        EVENT("event");
-
-        companion object : EnumStringSerializer<Type>(Type::class)
+    @Serializable
+    enum class Type(val value: String) {
+        @SerialName("group") GROUP("group"),
+        @SerialName("page") PAGE("page"),
+        @SerialName("event") EVENT("event")
     }
 
     @Serializable(with = AgeLimits.Companion::class)
-    enum class AgeLimits(override val value: Int) : SerializableEnum<Int> {
+    enum class AgeLimits(override val value: Int) : IntEnum {
         NO_LIMITS(1),
         SIXTEEN_PLUS(2),
         EIGHTEEN_PLUS(3);
 
-        companion object : EnumIntSerializer<AgeLimits>(AgeLimits::class)
+        companion object : EnumIntSerializer<AgeLimits>(AgeLimits::class, values())
     }
 
     @Serializable(with = MainSectionType.Companion::class)
-    enum class MainSectionType(override val value: Int) : SerializableEnum<Int> {
+    enum class MainSectionType(override val value: Int) : IntEnum {
         NO(0),
         PHOTOS(1),
         TOPICS(2),
@@ -129,11 +122,11 @@ data class Community(
         VIDEOS(4),
         MARKET(5);
 
-        companion object : EnumIntSerializer<MainSectionType>(MainSectionType::class)
+        companion object : EnumIntSerializer<MainSectionType>(MainSectionType::class, values())
     }
 
     @Serializable(with = MemberStatus.Companion::class)
-    enum class MemberStatus(override val value: Int) : SerializableEnum<Int> {
+    enum class MemberStatus(override val value: Int) : IntEnum {
         NOT_MEMBER(0),
         MEMBER(1),
         NOT_SURE(2),
@@ -141,17 +134,17 @@ data class Community(
         SENT_REQUEST(4),
         INVITED(5);
 
-        companion object : EnumIntSerializer<MemberStatus>(MemberStatus::class)
+        companion object : EnumIntSerializer<MemberStatus>(MemberStatus::class, values())
     }
 
     @Serializable(with = WallCloseType.Companion::class)
-    enum class WallCloseType(override val value: Int) : SerializableEnum<Int> {
+    enum class WallCloseType(override val value: Int) : IntEnum {
         DISABLED(0),
         OPEN(1),
         LIMITED(2),
         CLOSED(3);
 
-        companion object : EnumIntSerializer<WallCloseType>(WallCloseType::class)
+        companion object : EnumIntSerializer<WallCloseType>(WallCloseType::class, values())
     }
 
     @Serializable
@@ -237,17 +230,15 @@ data class Community(
         @SerialName("target") val target: Target,
         @SerialName("title") val title: String) {
 
-        @Serializable(with = ActionType.Companion::class)
-        enum class ActionType(override val value: String) : SerializableEnum<String> {
-            NONE(""),
-            SEND_EMAIL("send_email"),
-            CALL_PHONE("call_phone"),
-            CALL_VK("call_vk"),
-            OPEN_URL("open_url"),
-            OPEN_APP("open_app"),
-            OPEN_GROUP_APP("open_group_app");
-
-            companion object : EnumStringSerializer<ActionType>(ActionType::class)
+        @Serializable
+        enum class ActionType(val value: String) {
+            @SerialName("") NONE(""),
+            @SerialName("send_email") SEND_EMAIL("send_email"),
+            @SerialName("call_phone") CALL_PHONE("call_phone"),
+            @SerialName("call_vk") CALL_VK("call_vk"),
+            @SerialName("open_url") OPEN_URL("open_url"),
+            @SerialName("open_app") OPEN_APP("open_app"),
+            @SerialName("open_group_app") OPEN_GROUP_APP("open_group_app")
         }
 
         @Serializable

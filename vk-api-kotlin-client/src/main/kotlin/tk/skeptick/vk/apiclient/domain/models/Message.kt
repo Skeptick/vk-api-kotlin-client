@@ -2,9 +2,7 @@ package tk.skeptick.vk.apiclient.domain.models
 
 import kotlinx.serialization.*
 import tk.skeptick.vk.apiclient.BooleanInt
-import tk.skeptick.vk.apiclient.EnumStringSerializer
 import tk.skeptick.vk.apiclient.domain.MessagePayload
-import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.domain.*
 import tk.skeptick.vk.apiclient.isChatPeerId
 
@@ -108,19 +106,17 @@ data class Message(
 
         val isActionFromEmail: Boolean get() = memberId?.let { it < 0 } ?: false
 
-        @Serializable(with = Type.Companion::class)
-        enum class Type(override val value: String) : SerializableEnum<String> {
-            CHAT_PHOTO_UPDATE("chat_photo_update"),
-            CHAT_PHOTO_REMOVE("chat_photo_remove"),
-            CHAT_CREATE("chat_create"),
-            CHAT_TITLE_UPDATE("chat_title_update"),
-            CHAT_INVITE_USER("chat_invite_user"),
-            CHAT_KICK_USER("chat_kick_user"),
-            CHAT_PIN_MESSAGE("chat_pin_message"),
-            CHAT_UNPIN_MESSAGE("chat_unpin_message"),
-            CHAT_INVITE_USER_BY_LINK("chat_invite_user_by_link");
-
-            companion object : EnumStringSerializer<Type>(Type::class)
+        @Serializable
+        enum class Type(val value: String) {
+            @SerialName("chat_photo_update") CHAT_PHOTO_UPDATE("chat_photo_update"),
+            @SerialName("chat_photo_remove") CHAT_PHOTO_REMOVE("chat_photo_remove"),
+            @SerialName("chat_create") CHAT_CREATE("chat_create"),
+            @SerialName("chat_title_update") CHAT_TITLE_UPDATE("chat_title_update"),
+            @SerialName("chat_invite_user") CHAT_INVITE_USER("chat_invite_user"),
+            @SerialName("chat_kick_user") CHAT_KICK_USER("chat_kick_user"),
+            @SerialName("chat_pin_message") CHAT_PIN_MESSAGE("chat_pin_message"),
+            @SerialName("chat_unpin_message") CHAT_UNPIN_MESSAGE("chat_unpin_message"),
+            @SerialName("chat_invite_user_by_link") CHAT_INVITE_USER_BY_LINK("chat_invite_user_by_link")
         }
 
     }

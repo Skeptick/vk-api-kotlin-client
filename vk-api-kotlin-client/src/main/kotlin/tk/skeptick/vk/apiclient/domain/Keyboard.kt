@@ -2,8 +2,6 @@ package tk.skeptick.vk.apiclient.domain
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
 
 @Serializable
 data class Keyboard(
@@ -27,28 +25,24 @@ data class Keyboard(
             @SerialName("app_id") val appId: Int? = null,
             @SerialName("owner_id") val ownerId: Int? = null) {
 
-            @Serializable(with = Type.Companion::class)
-            enum class Type(override val value: String) : SerializableEnum<String> {
-                TEXT("text"),
-                LOCATION("location"),
-                VK_PAY("vkpay"),
-                VK_APP("open_app"),
-                OPEN_LINK("open_link"),
-                OPEN_PHOTO("open_photo");
-
-                companion object : EnumStringSerializer<Type>(Type::class)
+            @Serializable
+            enum class Type(val value: String) {
+                @SerialName("text") TEXT("text"),
+                @SerialName("location") LOCATION("location"),
+                @SerialName("vkpay") VK_PAY("vkpay"),
+                @SerialName("open_app") VK_APP("open_app"),
+                @SerialName("open_link") OPEN_LINK("open_link"),
+                @SerialName("open_photo") OPEN_PHOTO("open_photo")
             }
 
         }
 
-        @Serializable(with = ButtonColor.Companion::class)
-        enum class ButtonColor(override val value: String) : SerializableEnum<String> {
-            PRIMARY("primary"),
-            DEFAULT("default"),
-            NEGATIVE("negative"),
-            POSITIVE("positive");
-
-            companion object : EnumStringSerializer<ButtonColor>(ButtonColor::class)
+        @Serializable
+        enum class ButtonColor(val value: String) {
+            @SerialName("primary") PRIMARY("primary"),
+            @SerialName("default") DEFAULT("default"),
+            @SerialName("negative") NEGATIVE("negative"),
+            @SerialName("positive") POSITIVE("positive")
         }
 
     }

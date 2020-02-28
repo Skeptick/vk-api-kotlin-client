@@ -1,8 +1,6 @@
 package tk.skeptick.vk.apiclient.domain.models
 
 import kotlinx.serialization.*
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
 
 @Serializable
 data class Link(
@@ -35,12 +33,10 @@ data class Link(
             @SerialName("target") val target: String? = null,
             @SerialName("group_id") val groupId: Int? = null) {
 
-            @Serializable(with = Type.Companion::class)
-            enum class Type(override val value: String) : SerializableEnum<String> {
-                OPEN_URL("open_url"),
-                JOIN_GROUP_AND_OPEN_URL("join_group_and_open_url");
-
-                companion object : EnumStringSerializer<Type>(Type::class)
+            @Serializable
+            enum class Type(val value: String) {
+                @SerialName("open_url") OPEN_URL("open_url"),
+                @SerialName("join_group_and_open_url") JOIN_GROUP_AND_OPEN_URL("join_group_and_open_url")
             }
 
         }

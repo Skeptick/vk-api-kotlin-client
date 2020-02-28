@@ -2,7 +2,7 @@ package tk.skeptick.vk.apiclient.domain.models
 
 import kotlinx.serialization.*
 import tk.skeptick.vk.apiclient.EnumIntSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.IntEnum
 import tk.skeptick.vk.apiclient.domain.AttachmentType
 import tk.skeptick.vk.apiclient.domain.CommentAttachment
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
@@ -26,7 +26,7 @@ data class Document(
     override val typeAttachment: AttachmentType get() = AttachmentType.DOC
 
     @Serializable(with = Type.Companion::class)
-    enum class Type(override val value: Int) : SerializableEnum<Int> {
+    enum class Type(override val value: Int) : IntEnum {
         TEXT(1),
         ARCHIVE(2),
         GIF(3),
@@ -36,7 +36,7 @@ data class Document(
         EBOOK(7),
         UNKNOWN(8);
 
-        companion object : EnumIntSerializer<Type>(Type::class)
+        companion object : EnumIntSerializer<Type>(Type::class, values())
     }
 
     @Serializable

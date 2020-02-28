@@ -3,8 +3,6 @@ package tk.skeptick.vk.apiclient.domain.models
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.BooleanInt
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.domain.AttachmentType
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
 
@@ -39,12 +37,10 @@ data class Story(
 
     override val typeAttachment: AttachmentType get() = AttachmentType.STORY
 
-    @Serializable(with = Type.Companion::class)
-    enum class Type(override val value: String) : SerializableEnum<String> {
-        PHOTO("photo"),
-        VIDEO("video");
-
-        companion object : EnumStringSerializer<Type>(Type::class)
+    @Serializable
+    enum class Type(val value: String) {
+        @SerialName("photo") PHOTO("photo"),
+        @SerialName("video") VIDEO("video")
     }
 
     @Serializable

@@ -2,8 +2,6 @@ package tk.skeptick.vk.apiclient.domain.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
 
 @Serializable
 data class Address(
@@ -21,15 +19,13 @@ data class Address(
     @SerialName("timetable") val timetable: Timetable? = null,
     @SerialName("time_offset") val timeOffset: Int? = null) {
 
-    @Serializable(with = WorkInfoStatus.Companion::class)
-    enum class WorkInfoStatus(override val value: String) : SerializableEnum<String> {
-        NO_INFORMATION("no_information"),
-        TEMPORARILY_CLOSED("temporarily_closed"),
-        TIMETABLE("timetable"),
-        ALWAYS_OPENED("always_opened"),
-        FOREVER_CLOSED("forever_closed");
-
-        companion object : EnumStringSerializer<WorkInfoStatus>(WorkInfoStatus::class)
+    @Serializable
+    enum class WorkInfoStatus(val value: String) {
+        @SerialName("no_information") NO_INFORMATION("no_information"),
+        @SerialName("temporarily_closed") TEMPORARILY_CLOSED("temporarily_closed"),
+        @SerialName("timetable") TIMETABLE("timetable"),
+        @SerialName("always_opened") ALWAYS_OPENED("always_opened"),
+        @SerialName("forever_closed") FOREVER_CLOSED("forever_closed")
     }
 
     @Serializable

@@ -2,8 +2,6 @@ package tk.skeptick.vk.apiclient.methods.fave
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.domain.models.*
 
 @Serializable
@@ -23,15 +21,13 @@ data class FaveItem(
     @SerialName("article") val article: Article? = null,
     @SerialName("link") val link: Link? = null) {
 
-    @Serializable(with = Type.Companion::class)
-    enum class Type(override val value: String) : SerializableEnum<String> {
-        POST("post"),
-        VIDEO("video"),
-        PRODUCT("product"),
-        ARTICLE("article"),
-        LINK("link");
-
-        companion object : EnumStringSerializer<Type>(Type::class)
+    @Serializable
+    enum class Type(val value: String) {
+        @SerialName("post") POST("post"),
+        @SerialName("video") VIDEO("video"),
+        @SerialName("product") PRODUCT("product"),
+        @SerialName("article") ARTICLE("article"),
+        @SerialName("link") LINK("link")
     }
 
 }
@@ -45,12 +41,10 @@ data class FavePage(
     @SerialName("user") val user: User? = null,
     @SerialName("page") val group: Community? = null) {
 
-    @Serializable(with = Type.Companion::class)
-    enum class Type(override val value: String) : SerializableEnum<String> {
-        USER("user"),
-        GROUP("group");
-
-        companion object : EnumStringSerializer<Type>(Type::class)
+    @Serializable
+    enum class Type(val value: String) {
+        @SerialName("user") USER("user"),
+        @SerialName("group") GROUP("group")
     }
 
 }

@@ -2,8 +2,6 @@ package tk.skeptick.vk.apiclient.domain.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
 
 @Serializable
 data class Article (
@@ -24,12 +22,10 @@ data class Article (
     @SerialName("photo") val photo: Photo? = null,
     @SerialName("access_key") val accessKey: String? = null) {
 
-    @Serializable(with = State.Companion::class)
-    enum class State(override val value: String) : SerializableEnum<String> {
-        AVAILABLE("available"),
-        PROTECTED("protected");
-
-        companion object : EnumStringSerializer<State>(State::class)
+    @Serializable
+    enum class State(val value: String) {
+        @SerialName("available") AVAILABLE("available"),
+        @SerialName("protected") PROTECTED("protected")
     }
 
 }

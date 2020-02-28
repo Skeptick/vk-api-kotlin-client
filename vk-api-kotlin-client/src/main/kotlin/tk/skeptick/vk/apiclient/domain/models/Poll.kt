@@ -2,8 +2,6 @@ package tk.skeptick.vk.apiclient.domain.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
 import tk.skeptick.vk.apiclient.domain.AttachmentType
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
 import tk.skeptick.vk.apiclient.domain.WallAttachment
@@ -34,10 +32,8 @@ data class Poll(
     @SerialName("friends") val friends: List<Friend>? = null
 ) : WallAttachment, MessageAttachment {
 
-    override val typeAttachment: AttachmentType get() = AttachmentType.POLL
-
     override val accessKey: String? = null
-
+    override val typeAttachment: AttachmentType get() = AttachmentType.POLL
     val isUnlimited: Boolean get() = endDate == 0
 
     @Serializable
@@ -64,12 +60,10 @@ data class Poll(
         @SerialName("images") val images: List<PhotoSize>? = null,
         @SerialName("points") val points: List<Point>? = null) {
 
-        @Serializable(with = Type.Companion::class)
-        enum class Type(override val value: String) : SerializableEnum<String> {
-            GRADIENT("gradient"),
-            TILE("tile");
-
-            companion object : EnumStringSerializer<Type>(Type::class)
+        @Serializable
+        enum class Type(val value: String) {
+            @SerialName("gradient") GRADIENT("gradient"),
+            @SerialName("tile") TILE("tile")
         }
 
         @Serializable

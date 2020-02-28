@@ -1,8 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.fave
 
-import kotlinx.serialization.list
 import tk.skeptick.vk.apiclient.*
-import tk.skeptick.vk.apiclient.domain.models.*
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
 import tk.skeptick.vk.apiclient.methods.FavePagesType

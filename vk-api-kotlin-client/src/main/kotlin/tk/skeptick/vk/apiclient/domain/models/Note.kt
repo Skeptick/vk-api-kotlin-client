@@ -17,8 +17,7 @@ data class Note(
     @SerialName("read_comments") val readCommentsCount: Int? = null
 ) : WallAttachment {
 
-    override val typeAttachment: AttachmentType get() = AttachmentType.NOTE
-
     override val accessKey: String? = null
+    override val typeAttachment: AttachmentType get() = AttachmentType.NOTE
 
 }

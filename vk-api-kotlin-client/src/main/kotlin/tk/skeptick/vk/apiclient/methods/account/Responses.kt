@@ -2,10 +2,7 @@ package tk.skeptick.vk.apiclient.methods.account
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tk.skeptick.vk.apiclient.BooleanInt
-import tk.skeptick.vk.apiclient.EnumIntSerializer
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.Language
 import tk.skeptick.vk.apiclient.domain.models.User
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
@@ -71,12 +68,12 @@ data class AccountProfileInfo(
     @SerialName("phone") val phone: String? = null) {
 
     @Serializable(with = BirthDateVisibility.Companion::class)
-    enum class BirthDateVisibility(override val value: Int) : SerializableEnum<Int> {
+    enum class BirthDateVisibility(override val value: Int) : IntEnum {
         SHOW_FULL(1),
         SHOW_MONTH_AND_DAY(2),
         HIDE(0);
 
-        companion object : EnumIntSerializer<BirthDateVisibility>(BirthDateVisibility::class)
+        companion object : EnumIntSerializer<BirthDateVisibility>(BirthDateVisibility::class, values())
     }
 
     @Serializable
@@ -86,12 +83,10 @@ data class AccountProfileInfo(
         @SerialName("last_name") val lastName: String,
         @SerialName("status") val status: Status) {
 
-        @Serializable(with = Status.Companion::class)
-        enum class Status(override val value: String) : SerializableEnum<String> {
-            PROCESSING("processing"),
-            DECLINED("declined");
-
-            companion object : EnumStringSerializer<Status>(Status::class)
+        @Serializable
+        enum class Status(val value: String) {
+            @SerialName("processing") PROCESSING("processing"),
+            @SerialName("declined") DECLINED("declined")
         }
 
     }
@@ -129,15 +124,13 @@ data class SaveAccountProfileInfoResponse(
         @SerialName("status") val status: Status,
         @SerialName("repeat_date") val repeatDate: Int? = null) {
 
-        @Serializable(with = Status.Companion::class)
-        enum class Status(override val value: String) : SerializableEnum<String> {
-            SUCCESS("success"),
-            PROCESSING("processing"),
-            DECLINED("declined"),
-            WAS_ACCEPTED("was_accepted"),
-            WAS_DECLINED("was_declined");
-
-            companion object : EnumStringSerializer<Status>(Status::class)
+        @Serializable
+        enum class Status(val value: String) {
+            @SerialName("success") SUCCESS("success"),
+            @SerialName("processing") PROCESSING("processing"),
+            @SerialName("declined") DECLINED("declined"),
+            @SerialName("was_accepted") WAS_ACCEPTED("was_accepted"),
+            @SerialName("was_declined") WAS_DECLINED("was_declined")
         }
 
     }

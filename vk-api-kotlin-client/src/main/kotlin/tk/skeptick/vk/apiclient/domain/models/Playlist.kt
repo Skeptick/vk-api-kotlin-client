@@ -3,8 +3,7 @@ package tk.skeptick.vk.apiclient.domain.models
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.EnumIntSerializer
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.IntEnum
 import tk.skeptick.vk.apiclient.domain.AttachmentType
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
 import tk.skeptick.vk.apiclient.domain.WallAttachment
@@ -36,11 +35,11 @@ data class Playlist(
     override val typeAttachment: AttachmentType get() = AttachmentType.AUDIO_PLAYLIST
 
     @Serializable(with = Type.Companion::class)
-    enum class Type(override val value: Int) : SerializableEnum<Int> {
+    enum class Type(override val value: Int) : IntEnum {
         USER_PLAYLIST(0),
         OFFICIAL_ALBUM(1);
 
-        companion object : EnumIntSerializer<Type>(Type::class)
+        companion object : EnumIntSerializer<Type>(Type::class, values())
     }
 
     @Serializable
@@ -73,11 +72,9 @@ data class Playlist(
     data class Meta(
         @SerialName("view") val view: View) {
 
-        @Serializable(with = View.Companion::class)
-        enum class View(override val value: String) : SerializableEnum<String> {
-            COMPACT("compact");
-
-            companion object : EnumStringSerializer<View>(View::class)
+        @Serializable
+        enum class View(val value: String) {
+            @SerialName("compact") COMPACT("compact")
         }
 
     }

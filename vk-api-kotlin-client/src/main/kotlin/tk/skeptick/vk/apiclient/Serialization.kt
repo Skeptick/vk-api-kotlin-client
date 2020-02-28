@@ -21,29 +21,17 @@ data class BooleanInt(val value: Boolean) {
     }
 }
 
-interface SerializableEnum<out T> {
-    val value: T
+interface IntEnum {
+    val value: Int
 }
 
-abstract class EnumIntSerializer<E>(clazz: KClass<E>)
-    : CustomEnumSerializer<E, Int>(clazz) where E : Enum<E>, E : SerializableEnum<Int> {
+abstract class EnumIntSerializer<E>(clazz: KClass<E>, cases: Array<E>)
+    : KSerializer<E> where E : Enum<E>, E : IntEnum {
 
-    override fun serialize(encoder: Encoder, obj: E) = encoder.encodeInt(values[members.indexOf(obj)])
-    override fun deserialize(decoder: Decoder): E = members[values.indexOf(decoder.decodeInt())]
-}
+    private val caseByInt = cases.associateBy(IntEnum::value)
+    private val names = cases.map(Enum<E>::name).toTypedArray()
 
-abstract class EnumStringSerializer<E>(clazz: KClass<E>)
-    : CustomEnumSerializer<E, String>(clazz) where E : Enum<E>, E : SerializableEnum<String> {
-
-    override fun serialize(encoder: Encoder, obj: E) = encoder.encodeString(values[members.indexOf(obj)])
-    override fun deserialize(decoder: Decoder): E = members[values.indexOf(decoder.decodeString())]
-}
-
-abstract class CustomEnumSerializer<E, T>(clazz: KClass<E>)
-    : KSerializer<E> where E : Enum<E>, E : SerializableEnum<T> {
-
-    protected val members = clazz.enumMembers()
-    protected val values = members.map(SerializableEnum<T>::value)
-    private val names = members.map(Enum<E>::name).toTypedArray()
     @InternalSerializationApi override val descriptor = EnumDescriptor(clazz.enumClassName(), names)
+    override fun serialize(encoder: Encoder, obj: E) = encoder.encodeInt(obj.value)
+    override fun deserialize(decoder: Decoder): E = caseByInt.getValue(decoder.decodeInt())
 }

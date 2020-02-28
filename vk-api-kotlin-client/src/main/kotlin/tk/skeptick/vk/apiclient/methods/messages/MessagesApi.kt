@@ -552,7 +552,7 @@ class MessagesApi(override val client: ApiClient)
         fields: List<ObjectField>,
         extended: Boolean
     ): VkApiRequest<ExtendedListResponse<RecentCall>> =
-        Methods.getLongPollServer.httpPost(extendedList(RecentCall.serializer())) {
+        Methods.getRecentCalls.httpPost(extendedList(RecentCall.serializer())) {
             append("count", count)
             append("start_message_id", startMessageId)
             append("fields", fields.joinToString(",") { it.value })

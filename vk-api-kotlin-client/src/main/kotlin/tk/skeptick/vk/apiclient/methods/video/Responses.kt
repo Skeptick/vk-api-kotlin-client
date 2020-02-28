@@ -32,8 +32,7 @@ data class SaveVideoResponse(
     @SerialName("access_key") override val accessKey: String
 ) : CommentAttachment, WallAttachment, MessageAttachment {
 
-    override val typeAttachment: AttachmentType get() = AttachmentType.VIDEO
-
     override val id: Int get() = videoId
+    override val typeAttachment: AttachmentType get() = AttachmentType.VIDEO
 
 }

@@ -3,7 +3,7 @@ package tk.skeptick.vk.apiclient.domain.models
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.EnumIntSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.IntEnum
 
 @Serializable
 data class Event(
@@ -17,13 +17,13 @@ data class Event(
     @SerialName("address") val address: String? = null) {
 
     @Serializable(with = MemberStatus.Companion::class)
-    enum class MemberStatus(override val value: Int) : SerializableEnum<Int> {
+    enum class MemberStatus(override val value: Int) : IntEnum {
         NOT_SELECTED(0),
         DEFINITELY_GOING(1),
         MAYBE_GOING(2),
         NOT_GOING(3);
 
-        companion object : EnumIntSerializer<MemberStatus>(MemberStatus::class)
+        companion object : EnumIntSerializer<MemberStatus>(MemberStatus::class, values())
     }
 
 }

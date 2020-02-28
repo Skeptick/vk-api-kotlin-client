@@ -1,8 +1,6 @@
 package tk.skeptick.vk.apiclient.domain
 
 import kotlinx.serialization.*
-import tk.skeptick.vk.apiclient.EnumStringSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
 
 @Serializable
 data class PrivacySettings(
@@ -10,16 +8,14 @@ data class PrivacySettings(
     @SerialName("owners") val owners: Ids? = null,
     @SerialName("lists") val lists: Ids? = null) {
 
-    @Serializable(with = Category.Companion::class)
-    enum class Category(override val value: String) : SerializableEnum<String> {
-        ALL("all"),
-        FRIENDS("friends"),
-        FRIENDS_OF_FRIENDS("friends_of_friends"),
-        FRIENDS_OF_FRIENDS_ONLY("friends_of_friends_only"),
-        ONLY_ME("only_me"),
-        NOBODY("nobody");
-
-        companion object : EnumStringSerializer<Category>(Category::class)
+    @Serializable
+    enum class Category(val value: String) {
+        @SerialName("all") ALL("all"),
+        @SerialName("friends") FRIENDS("friends"),
+        @SerialName("friends_of_friends") FRIENDS_OF_FRIENDS("friends_of_friends"),
+        @SerialName("friends_of_friends_only") FRIENDS_OF_FRIENDS_ONLY("friends_of_friends_only"),
+        @SerialName("only_me") ONLY_ME("only_me"),
+        @SerialName("nobody") NOBODY("nobody")
     }
 
     @Serializable

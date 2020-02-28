@@ -4,16 +4,16 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.BooleanInt
 import tk.skeptick.vk.apiclient.EnumIntSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.IntEnum
 import tk.skeptick.vk.apiclient.domain.models.User
 
 @Serializable(with = AddFriendResponse.Companion::class)
-enum class AddFriendResponse(override val value: Int) : SerializableEnum<Int> {
+enum class AddFriendResponse(override val value: Int) : IntEnum {
     REQUEST_SENT(1),
     REQUEST_APPROVED(2),
     REQUEST_RESENDING(4);
 
-    companion object : EnumIntSerializer<AddFriendResponse>(AddFriendResponse::class)
+    companion object : EnumIntSerializer<AddFriendResponse>(AddFriendResponse::class, values())
 }
 
 @Serializable

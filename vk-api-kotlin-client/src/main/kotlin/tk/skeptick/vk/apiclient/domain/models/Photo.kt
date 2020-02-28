@@ -29,7 +29,6 @@ data class Photo(
 ) : CommentAttachment, WallAttachment, MessageAttachment {
 
     override val typeAttachment: AttachmentType get() = AttachmentType.PHOTO
-
     val isUploadFromGroup get() = userId == 100
 
     @Serializable

@@ -3,7 +3,7 @@ package tk.skeptick.vk.apiclient.methods.gifts
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tk.skeptick.vk.apiclient.EnumIntSerializer
-import tk.skeptick.vk.apiclient.SerializableEnum
+import tk.skeptick.vk.apiclient.IntEnum
 import tk.skeptick.vk.apiclient.domain.models.Gift
 
 @Serializable
@@ -18,12 +18,12 @@ data class UserGift(
     val isAnonymous: Boolean get() = fromId == 0
 
     @Serializable(with = PrivacyType.Companion::class)
-    enum class PrivacyType(override val value: Int) : SerializableEnum<Int> {
+    enum class PrivacyType(override val value: Int) : IntEnum {
         SEEN_ALL(0),
         MESSAGE_SEEN_OWNER(1),
         NAME_AND_MESSAGE_SEEN_OWNER(2);
 
-        companion object : EnumIntSerializer<PrivacyType>(PrivacyType::class)
+        companion object : EnumIntSerializer<PrivacyType>(PrivacyType::class, values())
     }
 
 }

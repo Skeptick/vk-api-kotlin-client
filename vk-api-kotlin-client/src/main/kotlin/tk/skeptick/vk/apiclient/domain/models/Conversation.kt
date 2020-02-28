@@ -2,9 +2,7 @@ package tk.skeptick.vk.apiclient.domain.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tk.skeptick.vk.apiclient.EnumStringSerializer
 import tk.skeptick.vk.apiclient.domain.Keyboard
-import tk.skeptick.vk.apiclient.SerializableEnum
 
 @Serializable
 data class Conversation(
@@ -28,14 +26,12 @@ data class Conversation(
         @SerialName("type") val type: Type,
         @SerialName("local_id") val localId: Int) {
 
-        @Serializable(with = Type.Companion::class)
-        enum class Type(override val value: String) : SerializableEnum<String> {
-            USER("user"),
-            CHAT("chat"),
-            GROUP("group"),
-            EMAIL("email");
-
-            companion object : EnumStringSerializer<Type>(Type::class)
+        @Serializable
+        enum class Type(val value: String) {
+            @SerialName("user") USER("user"),
+            @SerialName("chat") CHAT("chat"),
+            @SerialName("group") GROUP("group"),
+            @SerialName("email") EMAIL("email")
         }
 
     }
@@ -57,13 +53,11 @@ data class Conversation(
         @SerialName("pinned_message") val pinnedMessage: Message.Pinned? = null,
         @SerialName("photo") val photo: SimplePhoto? = null) {
 
-        @Serializable(with = State.Companion::class)
-        enum class State(override val value: String) : SerializableEnum<String> {
-            IN("in"),
-            KICKED("kicked"),
-            LEFT("left");
-
-            companion object : EnumStringSerializer<State>(State::class)
+        @Serializable
+        enum class State(val value: String) {
+            @SerialName("in") IN("in"),
+            @SerialName("kicked") KICKED("kicked"),
+            @SerialName("left") LEFT("left")
         }
 
         @Serializable
