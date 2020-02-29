@@ -14,9 +14,7 @@ kotlin {
     if (ideaActive) {
         jvm()
         js().nodejs()
-        if (os.isWindows) mingwX64()
-        if (os.isLinux) linuxX64()
-        if (os.isMacOsX) macosX64()
+        linuxX64()
     } else if (os.isMacOsX) {
         jvm()
         js().nodejs()

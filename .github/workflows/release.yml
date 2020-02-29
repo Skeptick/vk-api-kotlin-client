@@ -40,5 +40,5 @@ jobs:
         env:
           BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
           BINTRAY_APIKEY: ${{ secrets.BINTRAY_APIKEY }}
-        run: ./gradlew publish
+        run: ./gradlew publishMingwX64PublicationToBintrayRepository
         shell: bash
