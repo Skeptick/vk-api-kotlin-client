@@ -33,7 +33,7 @@ kotlin {
 
     sourceSets {
         commonMain {
-            kotlin.srcDir("src")
+            kotlin.srcDir("src/main/kotlin")
             dependencies {
                 api(kotlin("stdlib"))
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:0.14.0")
