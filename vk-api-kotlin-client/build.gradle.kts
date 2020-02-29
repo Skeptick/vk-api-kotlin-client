@@ -25,6 +25,7 @@ kotlin {
         iosX64()
         tvosArm64()
         tvosX64()
+        mingwX64()
     } else if (os.isWindows) {
         mingwX64()
     }
