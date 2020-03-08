@@ -1,7 +1,7 @@
 package tk.skeptick.vk.apiclient.methods.docs
 
-import kotlinx.serialization.internal.IntSerializer
-import kotlinx.serialization.list
+import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.models.Document
 import tk.skeptick.vk.apiclient.domain.Media
@@ -16,7 +16,7 @@ class DocsApi(override val client: ApiClient)
         docId: Int,
         accessKey: String?
     ): VkApiRequest<Int> =
-        Methods.add.httpGet(IntSerializer) {
+        Methods.add.httpGet(Int.serializer()) {
             append("owner_id", ownerId)
             append("doc_id", docId)
             append("access_key", accessKey)

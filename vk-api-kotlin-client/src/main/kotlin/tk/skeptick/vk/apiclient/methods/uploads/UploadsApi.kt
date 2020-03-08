@@ -2,7 +2,7 @@ package tk.skeptick.vk.apiclient.methods.uploads
 
 import io.ktor.http.Parameters
 import io.ktor.http.parametersOf
-import kotlinx.serialization.internal.StringSerializer
+import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 
 class UploadsApi(override val client: ApiClient)
@@ -41,7 +41,7 @@ class UploadsApi(override val client: ApiClient)
             uploadUrl = uploadUrl,
             files = listOf(UploadableFile(DEFAULT_FILE_FIELD, file)),
             parameters = Parameters.Empty,
-            serializer = StringSerializer
+            serializer = String.serializer()
         )
 
     override fun photoForMarketAlbum(

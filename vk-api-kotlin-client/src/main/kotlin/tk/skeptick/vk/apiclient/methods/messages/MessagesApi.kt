@@ -1,9 +1,9 @@
 package tk.skeptick.vk.apiclient.methods.messages
 
 import io.ktor.util.date.GMTDate
-import kotlinx.serialization.internal.IntSerializer
-import kotlinx.serialization.list
-import kotlinx.serialization.map
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.*
 import tk.skeptick.vk.apiclient.domain.models.Chat
@@ -39,7 +39,7 @@ class MessagesApi(override val client: ApiClient)
         userIds: List<Int>,
         title: String
     ): VkApiRequest<Int> =
-        Methods.createChat.httpPost(IntSerializer) {
+        Methods.createChat.httpPost(Int.serializer()) {
             append("user_ids", userIds.joinToString(","))
             append("title", title)
         }
@@ -50,7 +50,7 @@ class MessagesApi(override val client: ApiClient)
         deleteForAll: Boolean,
         groupId: Int?
     ): VkApiRequest<Map<Int, BooleanInt>> =
-        Methods.delete.httpPost((IntSerializer to BooleanInt.serializer()).map) {
+        Methods.delete.httpPost(MapSerializer(Int.serializer(), BooleanInt.serializer())) {
             append("message_ids", messageIds.joinToString(","))
             append("spam", markAsSpam.asInt())
             append("delete_for_all", deleteForAll.asInt())
@@ -599,7 +599,7 @@ class MessagesApi(override val client: ApiClient)
         messageIds: List<Int>,
         markAsImportant: Boolean
     ): VkApiRequest<List<Int>> = 
-        Methods.markAsImportant.httpPost(IntSerializer.list) {
+        Methods.markAsImportant.httpPost(Int.serializer().list) {
             append("message_ids", messageIds.joinToString(","))
             append("important", markAsImportant.asInt())
         }
@@ -827,7 +827,7 @@ class MessagesApi(override val client: ApiClient)
         dontParseLink: Boolean,
         disableMentions: Boolean
     ): VkApiRequest<Int> =
-        Methods.send.httpPost(IntSerializer) {
+        Methods.send.httpPost(Int.serializer()) {
             append("peer_id", peerId)
             append("random_id", randomId)
             append("message", message)
@@ -857,7 +857,7 @@ class MessagesApi(override val client: ApiClient)
         disableMentions: Boolean,
         groupId: Int?
     ): VkApiRequest<Int> =
-        Methods.send.httpPost(IntSerializer) {
+        Methods.send.httpPost(Int.serializer()) {
             append("peer_id", peerId)
             append("random_id", randomId)
             append("message", message)

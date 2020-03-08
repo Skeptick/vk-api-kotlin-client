@@ -1,7 +1,7 @@
 package tk.skeptick.vk.apiclient.methods.friends
 
-import kotlinx.serialization.internal.IntSerializer
-import kotlinx.serialization.list
+import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.models.User
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
@@ -27,7 +27,7 @@ class FriendsApi(override val client: ApiClient)
         name: String,
         userIds: List<Int>?
     ): VkApiRequest<Int> =
-        Methods.addList.httpPost(IntSerializer) {
+        Methods.addList.httpPost(Int.serializer()) {
             append("name", name)
             append("user_ids", userIds?.joinToString(","))
         }
@@ -117,7 +117,7 @@ class FriendsApi(override val client: ApiClient)
         count: Int,
         offset: Int
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.get.httpGet(list(IntSerializer)) {
+        Methods.get.httpGet(list(Int.serializer())) {
             append("user_id", userId)
             append("order", order?.value)
             append("list_id", listId)
@@ -126,7 +126,7 @@ class FriendsApi(override val client: ApiClient)
         }
 
     override fun getAppUsers(): VkApiRequest<List<Int>> =
-        Methods.getAppUsers.httpGet(IntSerializer.list)
+        Methods.getAppUsers.httpGet(Int.serializer().list)
 
     override fun getByPhones(
         phones: List<String>,
@@ -153,7 +153,7 @@ class FriendsApi(override val client: ApiClient)
         count: Int?,
         offset: Int
     ): VkApiRequest<List<Int>> =
-        Methods.getMutual.httpGet(IntSerializer.list) {
+        Methods.getMutual.httpGet(Int.serializer().list) {
             append("target_uid", targetUserId)
             append("source_uid", sourceUserId)
             append("order", if (sortRandomly) "random" else null)
@@ -183,7 +183,7 @@ class FriendsApi(override val client: ApiClient)
         count: Int?,
         offset: Int
     ): VkApiRequest<List<Int>> =
-        Methods.getOnline.httpGet(IntSerializer.list) {
+        Methods.getOnline.httpGet(Int.serializer().list) {
             append("user_id", userId)
             append("list_id", listId)
             append("order", if (sortRandomly) "random" else null)
@@ -210,7 +210,7 @@ class FriendsApi(override val client: ApiClient)
     override fun getRecent(
         count: Int
     ): VkApiRequest<List<Int>> =
-        Methods.getRecent.httpGet(IntSerializer.list) {
+        Methods.getRecent.httpGet(Int.serializer().list) {
             append("count", count)
         }
 
@@ -218,7 +218,7 @@ class FriendsApi(override val client: ApiClient)
         count: Int,
         offset: Int
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.getRequests.httpGet(list(IntSerializer)) {
+        Methods.getRequests.httpGet(list(Int.serializer())) {
             append("count", count)
             append("offset", offset)
             append("out", 1)
@@ -239,7 +239,7 @@ class FriendsApi(override val client: ApiClient)
         sortByMutual: Boolean,
         needViewed: Boolean
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.getRequests.httpGet(list(IntSerializer)) {
+        Methods.getRequests.httpGet(list(Int.serializer())) {
             append("count", count)
             append("offset", offset)
             append("sort", sortByMutual.asInt())
@@ -263,7 +263,7 @@ class FriendsApi(override val client: ApiClient)
         offset: Int,
         sortByMutual: Boolean
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.getRequests.httpGet(list(IntSerializer)) {
+        Methods.getRequests.httpGet(list(Int.serializer())) {
             append("count", count)
             append("offset", offset)
             append("sort", sortByMutual.asInt())

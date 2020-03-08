@@ -1,7 +1,7 @@
 package tk.skeptick.vk.apiclient.methods.video
 
-import kotlinx.serialization.internal.IntSerializer
-import kotlinx.serialization.list
+import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.CommentAttachment
 import tk.skeptick.vk.apiclient.domain.Media
@@ -58,7 +58,7 @@ class VideoApi(override val client: ApiClient)
         fromGroup: Boolean,
         guid: String?
     ): VkApiRequest<Int> =
-        Methods.createComment.httpPost(IntSerializer) {
+        Methods.createComment.httpPost(Int.serializer()) {
             append("video_id", videoId)
             append("owner_id", ownerId)
             append("message", message)
@@ -190,7 +190,7 @@ class VideoApi(override val client: ApiClient)
         ownerId: Int,
         targetId: Int?
     ): VkApiRequest<List<Int>> =
-        Methods.getAlbumsByVideo.httpGet(IntSerializer.list) {
+        Methods.getAlbumsByVideo.httpGet(Int.serializer().list) {
             append("video_id", videoId)
             append("owner_id", ownerId)
             append("target_id", targetId)
@@ -238,7 +238,7 @@ class VideoApi(override val client: ApiClient)
         albumIds: List<VideoAlbumType>,
         targetId: Int?
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.removeFromAlbum.httpGet(list(IntSerializer)) {
+        Methods.removeFromAlbum.httpGet(list(Int.serializer())) {
             append("video_id", videoId)
             append("owner_id", ownerId)
             append("album_ids", albumIds.joinToString(",") { it.value.toString() })

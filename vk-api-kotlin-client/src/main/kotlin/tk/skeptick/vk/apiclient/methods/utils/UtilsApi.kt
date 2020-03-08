@@ -1,6 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.utils
 
-import kotlinx.serialization.internal.IntSerializer
+import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
 import tk.skeptick.vk.apiclient.methods.ShortLinkStatsInterval
@@ -47,7 +47,7 @@ class UtilsApi(override val client: ApiClient)
         }
 
     override fun getServerTime(): VkApiRequest<Int> =
-        Methods.getServerTime.httpGet(IntSerializer)
+        Methods.getServerTime.httpGet(Int.serializer())
 
     override fun getShortLink(
         url: String,

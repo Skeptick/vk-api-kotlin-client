@@ -20,13 +20,12 @@ data class EntityWrapper(
 
     @Serializer(forClass = EntityWrapper::class)
     companion object : KSerializer<EntityWrapper> {
-
         override fun deserialize(decoder: Decoder): EntityWrapper {
             val jsonObject = (decoder as JsonInput).decodeJson().jsonObject
             return when (val type = jsonObject["type"]?.content) {
                 Type.PAGE.value -> EntityWrapper(Type.PAGE, page = json.fromJson(Community.serializer(), jsonObject))
                 Type.PROFILE.value -> EntityWrapper(Type.PROFILE, profile = json.fromJson(User.serializer(), jsonObject))
-                else -> throw IllegalArgumentException("Type \"$type\" is not defined.")
+                else -> throw SerializationException("Type '$type' is not defined.")
             }
         }
     }

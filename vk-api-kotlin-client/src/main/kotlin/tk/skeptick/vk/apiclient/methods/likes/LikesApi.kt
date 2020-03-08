@@ -1,6 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.likes
 
-import kotlinx.serialization.internal.IntSerializer
+import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.EntityWrapper
 import tk.skeptick.vk.apiclient.methods.DefaultListResponse
@@ -69,7 +69,7 @@ class LikesApi(override val client: ApiClient)
         count: Int,
         skipOwn: Boolean
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.getList.httpGet(list(IntSerializer)) {
+        Methods.getList.httpGet(list(Int.serializer())) {
             append("type", type.value)
             append("item_id", itemId)
             append("owner_id", ownerId)

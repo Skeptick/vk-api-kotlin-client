@@ -122,9 +122,15 @@ internal inline val Attachment.attachment: String
 
 //--- Parsers ---//
 
-internal val json = Json(configuration = JsonConfiguration.Stable.copy(
-    strictMode = false,
-    encodeDefaults = false
+internal val json = Json(JsonConfiguration.Stable.copy(
+    encodeDefaults = false,
+    ignoreUnknownKeys = true,
+    isLenient = false,
+    serializeSpecialFloatingPointValues = false,
+    allowStructuredMapKeys = true,
+    prettyPrint = false,
+    unquotedPrint = false,
+    useArrayPolymorphism = false
 ))
 
 internal suspend fun <T : Any> parseMethodResponse(

@@ -1,6 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.account
 
-import kotlinx.serialization.internal.IntSerializer
+import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.AccessPermissionsUser
 import tk.skeptick.vk.apiclient.domain.models.User
@@ -52,7 +52,7 @@ class AccountApi(override val client: ApiClient)
         offset: Int,
         count: Int
     ): VkApiRequest<ExtendedListResponse<Int>> =
-        Methods.getBanned.httpGet(extendedList(IntSerializer)) {
+        Methods.getBanned.httpGet(extendedList(Int.serializer())) {
             append("offset", offset)
             append("count", count)
         }

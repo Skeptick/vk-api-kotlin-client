@@ -14,12 +14,8 @@ open class Bitmask(open var mask: Int = 0) {
     fun bitmask(bit: Int): BitmaskDelegate = BitmaskDelegate(bit)
 
     class BitmaskDelegate(private val bit: Int) : ReadWriteProperty<Bitmask, Boolean> {
-
-        override fun getValue(thisRef: Bitmask, property: KProperty<*>): Boolean =
-            thisRef.getValue(bit)
-
-        override fun setValue(thisRef: Bitmask, property: KProperty<*>, value: Boolean) =
-            if (value) thisRef.setValue(bit) else thisRef.clearValue(bit)
+        override fun getValue(thisRef: Bitmask, property: KProperty<*>): Boolean = thisRef.getValue(bit)
+        override fun setValue(thisRef: Bitmask, property: KProperty<*>, value: Boolean) = if (value) thisRef.setValue(bit) else thisRef.clearValue(bit)
     }
 }
 
@@ -52,12 +48,8 @@ class AccessPermissionsUser(
 
     @Serializer(forClass = AccessPermissionsUser::class)
     companion object : KSerializer<AccessPermissionsUser> {
-
-        override fun serialize(encoder: Encoder, obj: AccessPermissionsUser) =
-            encoder.encodeInt(obj.mask)
-
-        override fun deserialize(decoder: Decoder): AccessPermissionsUser =
-            AccessPermissionsUser(decoder.decodeInt())
+        override fun serialize(encoder: Encoder, value: AccessPermissionsUser) = encoder.encodeInt(value.mask)
+        override fun deserialize(decoder: Decoder): AccessPermissionsUser = AccessPermissionsUser(decoder.decodeInt())
     }
 }
 
@@ -77,11 +69,7 @@ class AccessPermissionsCommunity(
 
     @Serializer(forClass = AccessPermissionsCommunity::class)
     companion object : KSerializer<AccessPermissionsCommunity> {
-
-        override fun serialize(encoder: Encoder, obj: AccessPermissionsCommunity) =
-            encoder.encodeInt(obj.mask)
-
-        override fun deserialize(decoder: Decoder): AccessPermissionsCommunity =
-            AccessPermissionsCommunity(decoder.decodeInt())
+        override fun serialize(encoder: Encoder, value: AccessPermissionsCommunity) = encoder.encodeInt(value.mask)
+        override fun deserialize(decoder: Decoder): AccessPermissionsCommunity = AccessPermissionsCommunity(decoder.decodeInt())
     }
 }

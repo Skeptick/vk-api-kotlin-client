@@ -1,6 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.users
 
-import kotlinx.serialization.list
+import kotlinx.serialization.builtins.list
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.EntityWrapper
 import tk.skeptick.vk.apiclient.domain.models.User

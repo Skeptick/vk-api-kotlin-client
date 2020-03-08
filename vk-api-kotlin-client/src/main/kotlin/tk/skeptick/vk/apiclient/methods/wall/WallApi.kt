@@ -1,7 +1,7 @@
 package tk.skeptick.vk.apiclient.methods.wall
 
 import io.ktor.util.date.GMTDate
-import kotlinx.serialization.list
+import kotlinx.serialization.builtins.list
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.CommentAttachment
 import tk.skeptick.vk.apiclient.domain.MessageAttachment

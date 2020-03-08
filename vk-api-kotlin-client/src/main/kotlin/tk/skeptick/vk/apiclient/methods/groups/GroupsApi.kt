@@ -1,9 +1,8 @@
 package tk.skeptick.vk.apiclient.methods.groups
 
 import io.ktor.util.date.GMTDate
-import kotlinx.serialization.internal.IntSerializer
-import kotlinx.serialization.internal.StringSerializer
-import kotlinx.serialization.list
+import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.models.Address
 import tk.skeptick.vk.apiclient.domain.models.Community
@@ -50,7 +49,7 @@ class GroupsApi(override val client: ApiClient)
         title: String,
         secretKey: String?
     ): VkApiRequest<Int> =
-        Methods.addCallbackServer.httpGet(IntSerializer) {
+        Methods.addCallbackServer.httpGet(Int.serializer()) {
             append("group_id", groupId)
             append("url", url)
             append("title", title)
@@ -617,7 +616,7 @@ class GroupsApi(override val client: ApiClient)
         offset: Int,
         count: Int
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.get.httpGet(list(IntSerializer)) {
+        Methods.get.httpGet(list(Int.serializer())) {
             append("user_id", userId)
             append("filter", filter?.value)
             append("offset", offset)
@@ -695,7 +694,7 @@ class GroupsApi(override val client: ApiClient)
     override fun getCallbackConfirmationCode(
         groupId: Int
     ): VkApiRequest<String> =
-        Methods.getCallbackConfirmationCode.httpGet(StringSerializer) {
+        Methods.getCallbackConfirmationCode.httpGet(String.serializer()) {
             append("group_id", groupId)
         }
 
@@ -782,7 +781,7 @@ class GroupsApi(override val client: ApiClient)
         count: Int,
         onlyFriends: Boolean
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.getMembers.httpGet(list(IntSerializer)) {
+        Methods.getMembers.httpGet(list(Int.serializer())) {
             append("group_id", groupId)
             append("sort", sort.value)
             append("offset", offset)
@@ -849,7 +848,7 @@ class GroupsApi(override val client: ApiClient)
         offset: Int,
         count: Int
     ): VkApiRequest<DefaultListResponse<Int>> =
-        Methods.getRequests.httpGet(list(IntSerializer)) {
+        Methods.getRequests.httpGet(list(Int.serializer())) {
             append("group_id", groupId)
             append("offset", offset)
             append("count", count)

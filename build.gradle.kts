@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
 
-    val kotlinVersion = "1.3.61"
+    val kotlinVersion = "1.3.70"
 
     dependencies {
         classpath(kotlin("gradle-plugin", kotlinVersion))

@@ -1,7 +1,7 @@
 package tk.skeptick.vk.apiclient.methods.photos
 
-import kotlinx.serialization.internal.IntSerializer
-import kotlinx.serialization.list
+import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.MethodsContext
 import tk.skeptick.vk.apiclient.domain.CommentAttachment
@@ -32,7 +32,7 @@ class PhotosApi(override val client: ApiClient)
         photoId: Int,
         accessKey: String?
     ): VkApiRequest<Int> =
-        Methods.copy.httpGet(IntSerializer) {
+        Methods.copy.httpGet(Int.serializer()) {
             append("owner_id", ownerId)
             append("photo_id", photoId)
             append("access_key", accessKey)
@@ -68,7 +68,7 @@ class PhotosApi(override val client: ApiClient)
         accessKey: String?,
         guid: String?
     ): VkApiRequest<Int> =
-        Methods.createComment.httpPost(IntSerializer) {
+        Methods.createComment.httpPost(Int.serializer()) {
             append("photo_id", photoId)
             append("owner_id", ownerId)
             append("message", message)
@@ -206,14 +206,14 @@ class PhotosApi(override val client: ApiClient)
     override fun getAlbumsCountGroup(
         groupId: Int
     ): VkApiRequest<Int> =
-        Methods.getAlbumsCount.httpGet(IntSerializer) {
+        Methods.getAlbumsCount.httpGet(Int.serializer()) {
             append("group_id", groupId)
         }
 
     override fun getAlbumsCountUser(
         userId: Int?
     ): VkApiRequest<Int> =
-        Methods.getAlbumsCount.httpGet(IntSerializer) {
+        Methods.getAlbumsCount.httpGet(Int.serializer()) {
             append("user_id", userId)
         }
 
@@ -431,7 +431,7 @@ class PhotosApi(override val client: ApiClient)
         y2: Double,
         ownerId: Int?
     ): VkApiRequest<Int> =
-        Methods.putTag.httpGet(IntSerializer) {
+        Methods.putTag.httpGet(Int.serializer()) {
             append("photo_id", photoId)
             append("user_id", userId)
             append("x", x)
