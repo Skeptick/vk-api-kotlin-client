@@ -136,39 +136,39 @@ internal val json = Json(JsonConfiguration.Stable.copy(
 internal suspend fun <T : Any> parseMethodResponse(
     responseString: String,
     serializer: KSerializer<T>
-): Result<T, Exception> =
-    Result.of<VkApiResponse<T>, Exception> {
+): VkResult<T, Exception> =
+    VkResult.of<VkApiResponse<T>, Exception> {
         json.parse(VkApiResponse.serializer(serializer), responseString)
     }.flatMap { vkApiResponse ->
         vkApiResponse.asSuspendableResult()
     }
 
-private inline fun <T : Any> VkApiResponse<T>.asSuspendableResult(): Result<T, Exception> =
+private inline fun <T : Any> VkApiResponse<T>.asSuspendableResult(): VkResult<T, Exception> =
     when {
-        error != null -> Result.error(error)
-        response != null -> Result.of(response)
-        else -> Result.error(IllegalStateException("Response is null"))
+        error != null -> VkResult.error(error)
+        response != null -> VkResult.of(response)
+        else -> VkResult.error(IllegalStateException("Response is null"))
     }
 
 
 internal fun <T : Any> parseUploadResponse(
     responseString: String,
     serializer: KSerializer<T>
-): Result<T, Exception> {
+): VkResult<T, Exception> {
     val jsonObject = json.parseJson(responseString).jsonObject
     return when (jsonObject.contains("error")) {
-        true -> Result.error(json.fromJson(UploadFileError.serializer(), jsonObject))
-        false -> Result.of(json.fromJson(serializer, jsonObject))
+        true -> VkResult.error(json.fromJson(UploadFileError.serializer(), jsonObject))
+        false -> VkResult.of(json.fromJson(serializer, jsonObject))
     }
 }
 
 internal fun parseOAuthResponse(
     responseString: String
-): Result<OAuthResponse, Exception> {
+): VkResult<OAuthResponse, Exception> {
     val jsonObject = json.parseJson(responseString).jsonObject
     return when (jsonObject.contains("access_token")) {
-        true -> Result.of(json.fromJson(OAuthResponse.serializer(), jsonObject))
-        false -> Result.error(json.fromJson(OAuthError.serializer(), jsonObject))
+        true -> VkResult.of(json.fromJson(OAuthResponse.serializer(), jsonObject))
+        false -> VkResult.error(json.fromJson(OAuthError.serializer(), jsonObject))
     }
 }
 

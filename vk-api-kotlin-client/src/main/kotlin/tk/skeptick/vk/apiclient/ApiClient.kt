@@ -7,10 +7,10 @@ interface ApiClient {
     suspend fun <T : Any> executeMethod(
         request: VkApiRequest<T>,
         additionalParameters: Parameters? = null
-    ): Result<T, Exception>
+    ): VkResult<T, Exception>
 
     suspend fun <T : Any> uploadFile(
         request: UploadFilesRequest<T>
-    ): Result<T, Exception>
+    ): VkResult<T, Exception>
 
 }

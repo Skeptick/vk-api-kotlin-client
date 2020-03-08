@@ -38,18 +38,18 @@ class VkApiClient(
     override suspend fun <T : Any> executeMethod(
         request: VkApiRequest<T>,
         additionalParameters: Parameters?
-    ): Result<T, Exception> = try {
+    ): VkResult<T, Exception> = try {
         parseMethodResponse(request(additionalParameters).receive(), request.serializer)
     } catch (exception: Exception) {
-        Result.error(exception)
+        VkResult.error(exception)
     }
 
     override suspend fun <T : Any> uploadFile(
         request: UploadFilesRequest<T>
-    ): Result<T, Exception> = try {
+    ): VkResult<T, Exception> = try {
         parseUploadResponse(request().receive(), request.serializer)
     } catch (exception: Exception) {
-        Result.error(exception)
+        VkResult.error(exception)
     }
 
     private suspend inline operator fun <T : Any> VkApiRequest<T>.invoke(
@@ -73,15 +73,15 @@ class VkApiClient(
             authData: OAuth,
             captchaResponse: CaptchaResponse? = null
         ): VkApiClient = when (val response = authorize(httpClient, authData, captchaResponse)) {
-            is Result.Success -> VkApiClient(response.value.accessToken, httpClient)
-            is Result.Failure -> throw response.error
+            is VkResult.Success -> VkApiClient(response.value.accessToken, httpClient)
+            is VkResult.Failure -> throw response.error
         }
 
         suspend fun authorize(
             httpClient: HttpClient,
             authData: OAuth,
             captchaResponse: CaptchaResponse? = null
-        ): Result<OAuthResponse, Exception> = httpClient.configure().post<String>(DefaultApiParams.OAUTH_URL) {
+        ): VkResult<OAuthResponse, Exception> = httpClient.configure().post<String>(DefaultApiParams.OAUTH_URL) {
             val parameters = authData.parameters + (captchaResponse?.parameters ?: Parameters.Empty)
             body = FormDataContent(parameters)
         }.let(::parseOAuthResponse)

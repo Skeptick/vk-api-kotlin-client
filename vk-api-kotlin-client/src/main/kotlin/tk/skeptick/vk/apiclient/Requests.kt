@@ -35,10 +35,10 @@ class UploadFilesRequest<T : Any>(
     val serializer: KSerializer<T>
 )
 
-suspend fun <T : Any> VkApiRequest<T>.execute(captchaResponse: CaptchaResponse? = null): Result<T, Exception> {
+suspend fun <T : Any> VkApiRequest<T>.execute(captchaResponse: CaptchaResponse? = null): VkResult<T, Exception> {
     return client.executeMethod(this, captchaResponse?.parameters)
 }
 
-suspend fun <T : Any> UploadFilesRequest<T>.execute(): Result<T, Exception> {
+suspend fun <T : Any> UploadFilesRequest<T>.execute(): VkResult<T, Exception> {
     return client.uploadFile(this)
 }

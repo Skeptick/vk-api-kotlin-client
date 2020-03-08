@@ -21,68 +21,68 @@
 
 package tk.skeptick.vk.apiclient
 
-infix fun <V : Any?, E : Exception> Result<V, E>.or(fallback: V) = when (this) {
-    is Result.Success -> this
-    else -> Result.Success(fallback)
+infix fun <V : Any?, E : Exception> VkResult<V, E>.or(fallback: V) = when (this) {
+    is VkResult.Success -> this
+    else -> VkResult.Success(fallback)
 }
 
-inline infix fun <V: Any?, E: Exception> Result<V, E>.getOrElse(fallback: (E) -> V): V {
+inline infix fun <V: Any?, E: Exception> VkResult<V, E>.getOrElse(fallback: (E) -> V): V {
     return when (this) {
-        is Result.Success -> value
-        is Result.Failure -> fallback(error)
+        is VkResult.Success -> value
+        is VkResult.Failure -> fallback(error)
     }
 }
 
-fun <V: Any?, E: Exception> Result<V, E>.getOrNull(): V? {
+fun <V: Any?, E: Exception> VkResult<V, E>.getOrNull(): V? {
     return when (this) {
-        is Result.Success -> value
-        is Result.Failure -> null
+        is VkResult.Success -> value
+        is VkResult.Failure -> null
     }
 }
 
-suspend fun <V : Any?, U : Any?, E : Exception> Result<V, E>.map(transform: suspend (V) -> U): Result<U, E> = try {
+suspend fun <V : Any?, U : Any?, E : Exception> VkResult<V, E>.map(transform: suspend (V) -> U): VkResult<U, E> = try {
     when (this) {
-        is Result.Success -> Result.Success(transform(value))
-        is Result.Failure -> Result.Failure(error)
+        is VkResult.Success -> VkResult.Success(transform(value))
+        is VkResult.Failure -> VkResult.Failure(error)
     }
 } catch (ex: Exception) {
-    Result.error(ex as E)
+    VkResult.error(ex as E)
 }
 
-suspend fun <V : Any?, U : Any?, E : Exception> Result<V, E>.flatMap(transform: suspend (V) -> Result<U, E>): Result<U, E> = try {
+suspend fun <V : Any?, U : Any?, E : Exception> VkResult<V, E>.flatMap(transform: suspend (V) -> VkResult<U, E>): VkResult<U, E> = try {
     when (this) {
-        is Result.Success -> transform(value)
-        is Result.Failure -> Result.Failure(error)
+        is VkResult.Success -> transform(value)
+        is VkResult.Failure -> VkResult.Failure(error)
     }
 } catch (ex: Exception) {
-    Result.error(ex as E)
+    VkResult.error(ex as E)
 }
 
-suspend fun <V : Any?, E : Exception, E2 : Exception> Result<V, E>.mapError(transform: suspend (E) -> E2) = when (this) {
-    is Result.Success -> Result.Success<V, E2>(value)
-    is Result.Failure -> Result.Failure<V, E2>(transform(error))
+suspend fun <V : Any?, E : Exception, E2 : Exception> VkResult<V, E>.mapError(transform: suspend (E) -> E2) = when (this) {
+    is VkResult.Success -> VkResult.Success<V, E2>(value)
+    is VkResult.Failure -> VkResult.Failure<V, E2>(transform(error))
 }
 
-suspend fun <V : Any?, E : Exception, E2 : Exception> Result<V, E>.flatMapError(transform: suspend (E) -> Result<V, E2>) = when (this) {
-    is Result.Success -> Result.Success(value)
-    is Result.Failure -> transform(error)
+suspend fun <V : Any?, E : Exception, E2 : Exception> VkResult<V, E>.flatMapError(transform: suspend (E) -> VkResult<V, E2>) = when (this) {
+    is VkResult.Success -> VkResult.Success(value)
+    is VkResult.Failure -> transform(error)
 }
 
-suspend fun <V : Any?, E : Exception> Result<V, E>.any(predicate: suspend (V) -> Boolean): Boolean = try {
+suspend fun <V : Any?, E : Exception> VkResult<V, E>.any(predicate: suspend (V) -> Boolean): Boolean = try {
     when (this) {
-        is Result.Success -> predicate(value)
-        is Result.Failure -> false
+        is VkResult.Success -> predicate(value)
+        is VkResult.Failure -> false
     }
 } catch (ex: Exception) {
     false
 }
 
-suspend fun <V : Any?, E : Exception> List<Result<V, E>>.lift(): Result<List<V>, E> = Result.of {
-    filterIsInstance<Result.Success<V, *>>().map(Result.Success<V, *>::value)
+suspend fun <V : Any?, E : Exception> List<VkResult<V, E>>.lift(): VkResult<List<V>, E> = VkResult.of {
+    filterIsInstance<VkResult.Success<V, *>>().map(VkResult.Success<V, *>::value)
 }
 
 
-sealed class Result<out V : Any?, out E : Exception> {
+sealed class VkResult<out V : Any?, out E : Exception> {
 
     abstract operator fun component1(): V?
     abstract operator fun component2(): E?
@@ -96,7 +96,7 @@ sealed class Result<out V : Any?, out E : Exception> {
 
     abstract fun get(): V
 
-    class Success<out V : Any?, out E : Exception>(val value: V) : Result<V, E>() {
+    class Success<out V : Any?, out E : Exception>(val value: V) : VkResult<V, E>() {
         override fun component1(): V? = value
         override fun component2(): E? = null
         override fun get(): V = value
@@ -105,7 +105,7 @@ sealed class Result<out V : Any?, out E : Exception> {
         override fun equals(other: Any?) = if (this === other) true else other is Success<*, *> && value == other.value
     }
 
-    class Failure<out V : Any?, out E : Exception>(val error: E) : Result<V, E>() {
+    class Failure<out V : Any?, out E : Exception>(val error: E) : VkResult<V, E>() {
         override fun component1(): V? = null
         override fun component2(): E? = error
         override fun get(): V = throw error
@@ -121,11 +121,11 @@ sealed class Result<out V : Any?, out E : Exception> {
             return Failure(ex)
         }
 
-        fun <V : Any?> of(value: V?, fail: (() -> Exception) = { Exception() }): Result<V, Exception> {
+        fun <V : Any?> of(value: V?, fail: (() -> Exception) = { Exception() }): VkResult<V, Exception> {
             return value?.let(::Success) ?: error(fail)
         }
 
-        suspend fun <V : Any?, E: Exception> of(f: suspend () -> V): Result<V, E> = try {
+        suspend fun <V : Any?, E: Exception> of(f: suspend () -> V): VkResult<V, E> = try {
             Success(f())
         } catch(ex: Exception) {
             Failure(ex as E)
