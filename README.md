@@ -1,7 +1,11 @@
 VK API Kotlin Client
 ======================
-#### [Версия VK API](https://vk.com/dev/versions): 5.103
-______________________
+[![Kotlin 1.3.70](https://img.shields.io/badge/Kotlin-1.3.70-blue.svg?style=flat)](http://kotlinlang.org)
+[![Bintray Download](https://img.shields.io/bintray/v/skeptick/maven/vk-api-kotlin-client?label=Bintray)](https://bintray.com/skeptick/maven/vk-api-kotlin-client/_latestVersion)
+[![VK API](https://img.shields.io/badge/VK%20API-5.103-blue.svg?style=flat&logo=vk&logoColor=white)](https://vk.com/dev/versions)
+
+
+
 #### Использует:
   - [kotlinx.coroutines]
   - [kotlinx.serialization]
@@ -47,14 +51,31 @@ ______________________
 | [Widgets]       |     0 из 2     | :heavy_multiplication_x: |
 
 #### Использование
-
+Подключите репозиторий:
 ```groovy
 repositories {
     maven { url "https://dl.bintray.com/skeptick/maven/" }
 }
-
+```
+Если включена Gradle Metadata (в Gradle 6+ включена по умолчанию):
+```groovy
 dependencies {
-    implementation "tk.skeptick:vk-api-kotlin-client:0.2.0"
+    implementation "tk.skeptick:vk-api-kotlin-client:0.2.2"
+}
+```
+В ином случае явно укажите необходимую платформу:
+```groovy
+dependencies {
+    implementation "tk.skeptick:vk-api-kotlin-client-jvm:0.2.2"
+    implementation "tk.skeptick:vk-api-kotlin-client-js:0.2.2"
+    implementation "tk.skeptick:vk-api-kotlin-client-linuxx64:0.2.2"
+    implementation "tk.skeptick:vk-api-kotlin-client-mingwx64:0.2.2"
+    implementation "tk.skeptick:vk-api-kotlin-client-macosx64:0.2.2"
+    implementation "tk.skeptick:vk-api-kotlin-client-iosarm32:0.2.2"
+    implementation "tk.skeptick:vk-api-kotlin-client-iosarm64:0.2.2"
+    implementation "tk.skeptick:vk-api-kotlin-client-iosx64:0.2.2"
+    implementation "tk.skeptick:vk-api-kotlin-client-tvosarm64:0.2.2"
+    implementation "tk.skeptick:vk-api-kotlin-client-tvosx64:0.2.2"
 }
 ```
 
@@ -63,14 +84,14 @@ dependencies {
 
 В продакшне используйте на свой страх и риск. Лично я использую (в основном для ботов), и имеющиеся методы польностью покрывают мои нужды. Если вам нужен какой-то иной раздел API, не реализованный в библиотеке, можете реквестировать.
 
-В библиотеке отсутствуют какие-либо платформенные зависимости, так что в теории, её можно использовать и с __Kotlin JS__ и с __Kotlin Native__ (ни то, ни другое не тестировалось), и само собой нет завязки на Java 8+, т.е. можно использовать и с Android.
+Библиотека доступна для большинства платформ (весь список расположен выше), в том числе для Android и iOS.
 
 Примеры использования
 --------------------
 #### Подготовка
 Первым делом подключите подходящий вам [HTTP-клиент](https://github.com/ktorio/ktor/tree/master/ktor-client), например CIO:
 ```
-implementation "io.ktor:ktor-client-cio:1.3.1"
+implementation "io.ktor:ktor-client-cio:1.3.2"
 ```
 Для Android используейте `ktor-client-okhttp` или `ktor-client-android`, для server-side рекомендую `ktor-client-apache`. Подробнее см. в [документации](https://ktor.io/clients/http-client/engines.html) и в [репозиториях](https://github.com/ktorio/ktor/tree/master/ktor-client) ktor.
 
@@ -89,7 +110,7 @@ val sendResult = api.messages.send(peerId = 1000000, message = "Hello!").execute
 val friendsResult = api.friends.get(order = FriendsOrder.NAME, count = 10).execute()
 ```
 #### Обработка результата
-В качестве результата любого запроса возвращается ~~монада~~ объект Result. Подробнее о нём можно почитать в [ReadMe самой библиотеки](https://github.com/kittinunf/Result).
+В качестве результата любого запроса возвращается ~~монада~~ объект [VkResult](vk-api-kotlin-client/src/main/kotlin/tk/skeptick/vk/apiclient/VkResult.kt). Подробнее ознакомиться с концепцией и примерами использования можно в [ReadMe библиотеки](https://github.com/kittinunf/Result), копипастом с которой он является (увы, сама библиотека Kotlin/Multiplatform не поддерживает).
 #### Загрузка файлов (на примере документа)
 ```kotlin
 val file = File("file.txt")
