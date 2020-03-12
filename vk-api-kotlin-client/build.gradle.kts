@@ -36,8 +36,8 @@ kotlin {
             dependencies {
                 api(kotlin("stdlib"))
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:0.20.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3")
-                api("io.ktor:ktor-client-core-native:1.3.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.4")
+                api("io.ktor:ktor-client-core-native:1.3.2")
             }
         }
     }
