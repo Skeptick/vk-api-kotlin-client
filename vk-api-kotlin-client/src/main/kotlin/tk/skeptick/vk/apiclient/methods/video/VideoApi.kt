@@ -62,7 +62,7 @@ class VideoApi(override val client: ApiClient)
             append("video_id", videoId)
             append("owner_id", ownerId)
             append("message", message)
-            append("attachments", attachments?.joinToString(",", transform = CommentAttachment::attachment))
+            append("attachments", attachments?.joinToString(",", transform = CommentAttachment::attachmentString))
             append("sticker_id", stickerId)
             append("from_group", fromGroup.asInt())
             append("guid", guid)
@@ -141,7 +141,7 @@ class VideoApi(override val client: ApiClient)
             append("comment_id", commentId)
             append("owner_id", ownerId)
             append("message", message)
-            append("attachments", attachments?.joinToString(",", transform = CommentAttachment::attachment))
+            append("attachments", attachments?.joinToString(",", transform = CommentAttachment::attachmentString))
         }
 
     override fun get(
@@ -154,7 +154,7 @@ class VideoApi(override val client: ApiClient)
     ): VkApiRequest<DefaultListResponse<Video>> =
         Methods.get.httpGet(list(Video.serializer())) {
             append("owner_id", ownerId)
-            append("videos", videos?.joinToString(",", transform = Media::media))
+            append("videos", videos?.joinToString(",", transform = Media::mediaString))
             append("album_id", albumId)
             append("count", count)
             append("offset", offset)

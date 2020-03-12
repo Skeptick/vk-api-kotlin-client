@@ -72,7 +72,7 @@ class PhotosApi(override val client: ApiClient)
             append("photo_id", photoId)
             append("owner_id", ownerId)
             append("message", message)
-            append("attachments", attachments?.joinToString(",", transform = CommentAttachment::attachment))
+            append("attachments", attachments?.joinToString(",", transform = CommentAttachment::attachmentString))
             append("sticker_id", stickerId)
             append("from_group", fromGroup.asInt())
             append("access_key", accessKey)
@@ -158,7 +158,7 @@ class PhotosApi(override val client: ApiClient)
             append("comment_id", commentId)
             append("owner_id", ownerId)
             append("message", message)
-            append("attachments", attachments?.joinToString(",", transform = CommentAttachment::attachment))
+            append("attachments", attachments?.joinToString(",", transform = CommentAttachment::attachmentString))
         }
 
     override fun get(
@@ -256,7 +256,7 @@ class PhotosApi(override val client: ApiClient)
         extended: Boolean
     ): VkApiRequest<List<Photo>> =
         Methods.getById.httpPost(Photo.serializer().list) {
-            append("photos", photos.joinToString(",", transform = Media::media))
+            append("photos", photos.joinToString(",", transform = Media::mediaString))
             append("extended", extended.asInt())
         }
 

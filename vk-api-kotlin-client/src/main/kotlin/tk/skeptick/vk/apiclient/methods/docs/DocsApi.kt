@@ -62,7 +62,7 @@ class DocsApi(override val client: ApiClient)
         returnTags: Boolean
     ): VkApiRequest<List<Document>> =
         Methods.getById.httpPost(Document.serializer().list) {
-            append("docs", docs.joinToString(",", transform = Media::media))
+            append("docs", docs.joinToString(",", transform = Media::mediaString))
             append("return_tags", returnTags.asInt())
         }
 

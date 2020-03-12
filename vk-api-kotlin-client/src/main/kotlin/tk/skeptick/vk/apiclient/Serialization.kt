@@ -1,9 +1,30 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package tk.skeptick.vk.apiclient
 
 import kotlinx.serialization.*
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.builtins.nullable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
+import tk.skeptick.vk.apiclient.domain.Keyboard
+import tk.skeptick.vk.apiclient.domain.models.Address
+import tk.skeptick.vk.apiclient.methods.DefaultListResponse
+import tk.skeptick.vk.apiclient.methods.ExtendedListResponse
 import kotlin.reflect.KClass
+
+internal val json = Json(
+    JsonConfiguration.Stable.copy(
+        encodeDefaults = false,
+        ignoreUnknownKeys = true,
+        isLenient = false,
+        serializeSpecialFloatingPointValues = false,
+        allowStructuredMapKeys = true,
+        prettyPrint = false,
+        unquotedPrint = false,
+        useArrayPolymorphism = false
+    )
+)
 
 @Serializable
 data class BooleanInt(val value: Boolean) {
@@ -32,7 +53,14 @@ private fun <E : Enum<E>> EnumDescriptor(clazz: KClass<E>, cases: Array<E>): Ser
     }
 }
 
-@Suppress("NOTHING_TO_INLINE")
 private inline fun <E : Enum<E>> SerialDescriptorBuilder.descriptor(case: E): SerialDescriptor {
     return SerialDescriptor("$serialName.${case.name}", StructureKind.OBJECT)
 }
+
+internal fun Keyboard.serialize(): String = json.stringify(Keyboard.serializer(), this)
+
+internal fun Address.Timetable.serialize(): String = json.stringify(Address.Timetable.serializer(), this)
+
+internal inline fun <T : Any> list(nestedSerializer: KSerializer<T>) = DefaultListResponse.serializer(nestedSerializer)
+
+internal inline fun <T : Any> extendedList(nestedSerializer: KSerializer<T>) = ExtendedListResponse.serializer(nestedSerializer)
