@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "tk.skeptick"
-version = "0.2.1"
+version = "0.2.2"
 
 kotlin {
     val ideaActive = System.getProperty("idea.active") == "true"
