@@ -11,7 +11,7 @@ data class Video(
     @SerialName("title") val title: String,
     @SerialName("duration") val duration: Int, // sec
     @SerialName("date") val date: Int,
-    @SerialName("comments") val commentsCount: Int,
+    @SerialName("comments") val commentsCount: Int? = null,
     @SerialName("description") val description: String? = null,
     @SerialName("views") val viewsCount: Int? = null,
     @SerialName("image") val image: List<VideoImage>? = null,
