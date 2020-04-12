@@ -9,10 +9,10 @@ data class Video(
     @SerialName("id") override val id: Int,
     @SerialName("owner_id") override val ownerId: Int,
     @SerialName("title") val title: String,
-    @SerialName("description") val description: String,
     @SerialName("duration") val duration: Int, // sec
     @SerialName("date") val date: Int,
     @SerialName("comments") val commentsCount: Int,
+    @SerialName("description") val description: String? = null,
     @SerialName("views") val viewsCount: Int? = null,
     @SerialName("image") val image: List<VideoImage>? = null,
     @SerialName("first_frame") val firstFrame: List<VideoImage>? = null,
