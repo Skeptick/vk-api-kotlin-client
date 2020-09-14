@@ -10,10 +10,10 @@ import tk.skeptick.vk.apiclient.domain.WallAttachment
 @Serializable
 data class Album(
     @SerialName("id") override val id: Int,
-    @SerialName("thumb_id") val thumpId: Int,
     @SerialName("owner_id") override val ownerId: Int,
     @SerialName("title") val title: String,
     @SerialName("size") val size: Int,
+    @SerialName("thumb_id") val thumpId: Int? = null,
     @SerialName("created") val created: Int? = null,
     @SerialName("updated") val updated: Int? = null,
     @SerialName("description") val description: String? = null,
