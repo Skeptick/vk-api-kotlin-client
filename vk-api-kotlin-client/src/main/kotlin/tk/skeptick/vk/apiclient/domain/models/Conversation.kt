@@ -43,15 +43,18 @@ data class Conversation(
 
     @Serializable
     data class ChatSettings(
+        @SerialName("owner_id") val ownerId: Int,
         @SerialName("title") val title: String,
         @SerialName("state") val state: State,
+        @SerialName("admin_ids") val adminIds: List<Int>,
         @SerialName("active_ids") val activeUserIds: List<Int>,
         @SerialName("acl") val acl: AccessControlList,
-        @SerialName("owner_id") val ownerId: Int,
         @SerialName("members_count") val membersCount: Int? = null,
         @SerialName("is_group_channel") val isGroupChannel: Boolean? = null,
+        @SerialName("is_disappearing") val isDisappearing: Boolean? = null,
         @SerialName("pinned_message") val pinnedMessage: Message.Pinned? = null,
-        @SerialName("photo") val photo: SimplePhoto? = null) {
+        @SerialName("photo") val photo: SimplePhoto? = null,
+        @SerialName("theme") val theme: String? = null) {
 
         @Serializable
         enum class State(val value: String) {
@@ -68,14 +71,15 @@ data class Conversation(
             @SerialName("can_promote_users") val canPromoteUsers: Boolean,
             @SerialName("can_see_invite_link") val canSeeInviteLink: Boolean,
             @SerialName("can_change_invite_link") val canChangeInviteLink: Boolean,
-            @SerialName("can_moderate") val canModerate: Boolean)
+            @SerialName("can_moderate") val canModerate: Boolean,
+            @SerialName("can_copy_chat") val canCopyChat: Boolean)
 
     }
 
     @Serializable
     data class PushSettings(
         @SerialName("no_sound") val isNoSound: Boolean,
-        @SerialName("disabled_until") val disabledUntil: Int,
-        @SerialName("disabled_forever") val isDisabledForever: Boolean)
+        @SerialName("disabled_forever") val isDisabledForever: Boolean,
+        @SerialName("disabled_until") val disabledUntil: Int? = null)
 
 }

@@ -28,7 +28,10 @@ data class Message(
     @SerialName("ref") val ref: String? = null,
     @SerialName("ref_source") val refSource: String? = null,
     @SerialName("chat_id") val chatId: Int? = null,
-    @SerialName("admin_author_id") val adminAuthorId: Int? = null) {
+    @SerialName("admin_author_id") val adminAuthorId: Int? = null,
+    @SerialName("expire_ttl") val expireTtl: Int? = null,
+    @SerialName("is_expired") val isExpired: Boolean? = null,
+    @SerialName("ttl") val ttl: Int? = null) {
 
     val isFromChat: Boolean get() = peerId.isChatPeerId
     val isServiceAction: Boolean get() = serviceAction != null
@@ -116,7 +119,8 @@ data class Message(
             @SerialName("chat_kick_user") CHAT_KICK_USER("chat_kick_user"),
             @SerialName("chat_pin_message") CHAT_PIN_MESSAGE("chat_pin_message"),
             @SerialName("chat_unpin_message") CHAT_UNPIN_MESSAGE("chat_unpin_message"),
-            @SerialName("chat_invite_user_by_link") CHAT_INVITE_USER_BY_LINK("chat_invite_user_by_link")
+            @SerialName("chat_invite_user_by_link") CHAT_INVITE_USER_BY_LINK("chat_invite_user_by_link"),
+            @SerialName("chat_screenshot") CHAT_SCREENSHOT("chat_screenshot")
         }
 
     }
