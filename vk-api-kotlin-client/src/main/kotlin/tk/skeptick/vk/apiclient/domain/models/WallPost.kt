@@ -93,7 +93,8 @@ data class WallPost(
             @SerialName("widget") WIDGET("widget"),
             @SerialName("api") API("api"),
             @SerialName("rss") RSS("rss"),
-            @SerialName("sms") SMS("sms")
+            @SerialName("sms") SMS("sms"),
+            @SerialName("mvk") MVK("mvk")
         }
 
         @Serializable
