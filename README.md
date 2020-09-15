@@ -60,22 +60,25 @@ repositories {
 Если включена Gradle Metadata (в Gradle 6+ включена по умолчанию):
 ```groovy
 dependencies {
-    implementation "tk.skeptick:vk-api-kotlin-client:0.2.2"
+    implementation "tk.skeptick:vk-api-kotlin-client:0.2.4"
 }
 ```
 В ином случае явно укажите необходимую платформу:
 ```groovy
 dependencies {
-    implementation "tk.skeptick:vk-api-kotlin-client-jvm:0.2.2"
-    implementation "tk.skeptick:vk-api-kotlin-client-js:0.2.2"
-    implementation "tk.skeptick:vk-api-kotlin-client-linuxx64:0.2.2"
-    implementation "tk.skeptick:vk-api-kotlin-client-mingwx64:0.2.2"
-    implementation "tk.skeptick:vk-api-kotlin-client-macosx64:0.2.2"
-    implementation "tk.skeptick:vk-api-kotlin-client-iosarm32:0.2.2"
-    implementation "tk.skeptick:vk-api-kotlin-client-iosarm64:0.2.2"
-    implementation "tk.skeptick:vk-api-kotlin-client-iosx64:0.2.2"
-    implementation "tk.skeptick:vk-api-kotlin-client-tvosarm64:0.2.2"
-    implementation "tk.skeptick:vk-api-kotlin-client-tvosx64:0.2.2"
+    implementation "tk.skeptick:vk-api-kotlin-client-jvm:0.2.4"
+    implementation "tk.skeptick:vk-api-kotlin-client-js:0.2.4"
+    implementation "tk.skeptick:vk-api-kotlin-client-linuxx64:0.2.4"
+    implementation "tk.skeptick:vk-api-kotlin-client-mingwx64:0.2.4"
+    implementation "tk.skeptick:vk-api-kotlin-client-macosx64:0.2.4"
+    implementation "tk.skeptick:vk-api-kotlin-client-iosarm32:0.2.4"
+    implementation "tk.skeptick:vk-api-kotlin-client-iosarm64:0.2.4"
+    implementation "tk.skeptick:vk-api-kotlin-client-iosx64:0.2.4"
+    implementation "tk.skeptick:vk-api-kotlin-client-tvosarm64:0.2.4"
+    implementation "tk.skeptick:vk-api-kotlin-client-tvosx64:0.2.4"
+    implementation "tk.skeptick:vk-api-kotlin-client-watchosarm32:0.2.4"
+    implementation "tk.skeptick:vk-api-kotlin-client-watchosarm64:0.2.4"
+    implementation "tk.skeptick:vk-api-kotlin-client-watchosx86:0.2.4"
 }
 ```
 

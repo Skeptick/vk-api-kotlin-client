@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "tk.skeptick"
-version = "0.2.3"
+version = "0.2.4"
 
 kotlin {
     val ideaActive = System.getProperty("idea.active") == "true"
@@ -17,7 +17,7 @@ kotlin {
         linuxX64()
     } else if (os.isMacOsX) {
         jvm()
-        js().nodejs()
+        js(BOTH).nodejs()
         linuxX64()
         macosX64()
         iosArm32()
@@ -25,6 +25,9 @@ kotlin {
         iosX64()
         tvosArm64()
         tvosX64()
+        watchosArm32()
+        watchosArm64()
+        watchosX86()
         mingwX64()
     } else if (os.isWindows) {
         mingwX64()
