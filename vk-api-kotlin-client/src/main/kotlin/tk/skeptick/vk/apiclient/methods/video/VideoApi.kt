@@ -1,6 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.video
 
-import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.CommentAttachment
@@ -190,7 +190,7 @@ class VideoApi(override val client: ApiClient)
         ownerId: Int,
         targetId: Int?
     ): VkApiRequest<List<Int>> =
-        Methods.getAlbumsByVideo.httpGet(Int.serializer().list) {
+        Methods.getAlbumsByVideo.httpGet(ListSerializer(Int.serializer())) {
             append("video_id", videoId)
             append("owner_id", ownerId)
             append("target_id", targetId)

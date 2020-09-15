@@ -1,7 +1,7 @@
 package tk.skeptick.vk.apiclient.methods.wall
 
 import io.ktor.util.date.GMTDate
-import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.ListSerializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.CommentAttachment
 import tk.skeptick.vk.apiclient.domain.MessageAttachment
@@ -175,7 +175,7 @@ class WallApi(override val client: ApiClient)
         posts: Map<Int, List<Int>>,
         copyHistoryDepth: Int
     ): VkApiRequest<List<WallPost>> =
-        Methods.getById.httpGet(WallPost.serializer().list) {
+        Methods.getById.httpGet(ListSerializer(WallPost.serializer())) {
             append("posts", posts.toList().joinToString(",") { it.posts })
             append("copy_history_depth", copyHistoryDepth)
         }

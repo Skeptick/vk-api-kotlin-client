@@ -150,10 +150,3 @@ data class WallPost(
     }
 
 }
-
-
-
-
-
-
-

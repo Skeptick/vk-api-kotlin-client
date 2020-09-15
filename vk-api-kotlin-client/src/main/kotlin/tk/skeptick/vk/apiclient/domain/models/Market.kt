@@ -82,10 +82,3 @@ data class Market(
         @SerialName("count") val count: Int)
 
 }
-
-
-
-
-
-
-

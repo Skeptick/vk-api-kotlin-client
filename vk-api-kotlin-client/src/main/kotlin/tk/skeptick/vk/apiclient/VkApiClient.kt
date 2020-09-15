@@ -82,8 +82,7 @@ class VkApiClient(
             authData: OAuth,
             captchaResponse: CaptchaResponse? = null
         ): VkResult<OAuthResponse, Exception> = httpClient.configure().post<String>(DefaultApiParams.OAUTH_URL) {
-            val parameters = authData.parameters + (captchaResponse?.parameters ?: Parameters.Empty)
-            body = FormDataContent(parameters)
+            body = FormDataContent(authData.parameters + (captchaResponse?.parameters ?: Parameters.Empty))
         }.let(::parseOAuthResponse)
 
         private fun HttpClient.configure(): HttpClient = config {

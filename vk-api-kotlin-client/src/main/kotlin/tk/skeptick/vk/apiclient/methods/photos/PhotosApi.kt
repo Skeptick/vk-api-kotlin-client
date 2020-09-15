@@ -1,6 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.photos
 
-import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.MethodsContext
@@ -255,7 +255,7 @@ class PhotosApi(override val client: ApiClient)
         photos: List<Media>,
         extended: Boolean
     ): VkApiRequest<List<Photo>> =
-        Methods.getById.httpPost(Photo.serializer().list) {
+        Methods.getById.httpPost(ListSerializer(Photo.serializer())) {
             append("photos", photos.joinToString(",", transform = Media::mediaString))
             append("extended", extended.asInt())
         }
@@ -363,7 +363,7 @@ class PhotosApi(override val client: ApiClient)
         ownerId: Int?,
         accessKey: String?
     ): VkApiRequest<List<Tag>> =
-        Methods.getTags.httpGet(Tag.serializer().list) {
+        Methods.getTags.httpGet(ListSerializer(Tag.serializer())) {
             append("photo_id", photoId)
             append("owner_id", ownerId)
             append("access_key", accessKey)
@@ -528,7 +528,7 @@ class PhotosApi(override val client: ApiClient)
         caption: String?,
         groupId: Int?
     ): VkApiRequest<List<Photo>> =
-        Methods.save.httpPost(Photo.serializer().list) {
+        Methods.save.httpPost(ListSerializer(Photo.serializer())) {
             append("album_id", albumId)
             append("server", server)
             append("photos_list", photosList)
@@ -545,7 +545,7 @@ class PhotosApi(override val client: ApiClient)
         photo: String,
         hash: String
     ): VkApiRequest<List<Photo>> =
-        Methods.saveMarketAlbumPhoto.httpPost(Photo.serializer().list) {
+        Methods.saveMarketAlbumPhoto.httpPost(ListSerializer(Photo.serializer())) {
             append("group_id", groupId)
             append("server", server)
             append("photo", photo)
@@ -560,7 +560,7 @@ class PhotosApi(override val client: ApiClient)
         cropHash: String?,
         groupId: Int?
     ): VkApiRequest<List<Photo>> =
-        Methods.saveMarketPhoto.httpPost(Photo.serializer().list) {
+        Methods.saveMarketPhoto.httpPost(ListSerializer(Photo.serializer())) {
             append("server", server)
             append("photo", photo)
             append("hash", hash)
@@ -574,7 +574,7 @@ class PhotosApi(override val client: ApiClient)
         photo: String,
         hash: String
     ): VkApiRequest<List<Photo>> =
-        Methods.saveMessagesPhoto.httpPost(Photo.serializer().list) {
+        Methods.saveMessagesPhoto.httpPost(ListSerializer(Photo.serializer())) {
             append("server", server)
             append("photo", photo)
             append("hash", hash)
@@ -584,7 +584,7 @@ class PhotosApi(override val client: ApiClient)
         photo: String,
         hash: String
     ): VkApiRequest<List<Community.Cover.Image>> =
-        Methods.saveOwnerCoverPhoto.httpPost(Community.Cover.Image.serializer().list) {
+        Methods.saveOwnerCoverPhoto.httpPost(ListSerializer(Community.Cover.Image.serializer())) {
             append("photo", photo)
             append("hash", hash)
         }
@@ -610,7 +610,7 @@ class PhotosApi(override val client: ApiClient)
         longitude: Double?,
         caption: String?
     ): VkApiRequest<List<Photo>> =
-        Methods.saveWallPhoto.httpPost(Photo.serializer().list) {
+        Methods.saveWallPhoto.httpPost(ListSerializer(Photo.serializer())) {
             append("server", server)
             append("photo", photo)
             append("hash", hash)

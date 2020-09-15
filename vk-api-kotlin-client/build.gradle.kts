@@ -34,10 +34,15 @@ kotlin {
         commonMain {
             kotlin.srcDir("src/main/kotlin")
             dependencies {
-                api(kotlin("stdlib"))
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:0.20.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.8")
-                api("io.ktor:ktor-client-core-native:1.3.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
+                api("io.ktor:ktor-client-core:1.4.0")
+            }
+        }
+        all {
+            languageSettings.apply {
+                useExperimentalAnnotation("kotlinx.serialization.ExperimentalSerializationApi")
+                useExperimentalAnnotation("kotlinx.serialization.InternalSerializationApi")
             }
         }
     }

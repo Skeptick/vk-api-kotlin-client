@@ -1,6 +1,7 @@
 package tk.skeptick.vk.apiclient.methods.messages
 
 import io.ktor.util.date.GMTDate
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.list
 import kotlinx.serialization.builtins.serializer
@@ -237,7 +238,7 @@ class MessagesApi(override val client: ApiClient)
     override fun getChat(
         chatIds: List<Int>
     ): VkApiRequest<List<Chat>> =
-        Methods.getChat.httpPost(Chat.serializer().list) {
+        Methods.getChat.httpPost(ListSerializer(Chat.serializer())) {
             append("chat_ids", chatIds.joinToString(","))
         }
 
@@ -599,7 +600,7 @@ class MessagesApi(override val client: ApiClient)
         messageIds: List<Int>,
         markAsImportant: Boolean
     ): VkApiRequest<List<Int>> = 
-        Methods.markAsImportant.httpPost(Int.serializer().list) {
+        Methods.markAsImportant.httpPost(ListSerializer(Int.serializer())) {
             append("message_ids", messageIds.joinToString(","))
             append("important", markAsImportant.asInt())
         }
@@ -885,7 +886,7 @@ class MessagesApi(override val client: ApiClient)
         payload: MessagePayload?,
         dontParseLink: Boolean
     ): VkApiRequest<List<SendBulkMessageResponse>> =
-        Methods.send.httpPost(SendBulkMessageResponse.serializer().list) {
+        Methods.send.httpPost(ListSerializer(SendBulkMessageResponse.serializer())) {
             append("user_ids", userIds.joinToString(","))
             append("random_id", randomId)
             append("message", message)

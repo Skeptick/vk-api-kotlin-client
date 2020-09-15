@@ -3,6 +3,8 @@
 package tk.skeptick.vk.apiclient.domain
 
 import kotlinx.serialization.*
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 

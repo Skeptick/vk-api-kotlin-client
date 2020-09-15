@@ -56,4 +56,3 @@ data class Photo(
         @SerialName("count") val count: Int)
 
 }
-

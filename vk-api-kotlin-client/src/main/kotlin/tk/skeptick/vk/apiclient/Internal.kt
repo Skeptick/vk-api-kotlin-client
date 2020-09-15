@@ -7,6 +7,7 @@ import io.ktor.http.*
 import io.ktor.util.date.GMTDate
 import io.ktor.utils.io.core.ByteReadPacket
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.json.jsonObject
 import tk.skeptick.vk.apiclient.methods.VkApiResponse
 import tk.skeptick.vk.apiclient.methods.uploads.UploadFileError
 import tk.skeptick.vk.apiclient.oauth.OAuthError
@@ -61,7 +62,7 @@ internal suspend fun <T : Any> parseMethodResponse(
     serializer: KSerializer<T>
 ): VkResult<T, Exception> =
     VkResult.of<VkApiResponse<T>, Exception> {
-        json.parse(VkApiResponse.serializer(serializer), responseString)
+        json.decodeFromString(VkApiResponse.serializer(serializer), responseString)
     }.flatMap { vkApiResponse ->
         when {
             vkApiResponse.error != null -> VkResult.error(vkApiResponse.error)
@@ -74,19 +75,19 @@ internal fun <T : Any> parseUploadResponse(
     responseString: String,
     serializer: KSerializer<T>
 ): VkResult<T, Exception> {
-    val jsonObject = json.parseJson(responseString).jsonObject
+    val jsonObject = json.parseToJsonElement(responseString).jsonObject
     return when (jsonObject.contains("error")) {
-        true -> VkResult.error(json.fromJson(UploadFileError.serializer(), jsonObject))
-        false -> VkResult.of(json.fromJson(serializer, jsonObject))
+        true -> VkResult.error(json.decodeFromJsonElement(UploadFileError.serializer(), jsonObject))
+        false -> VkResult.of(json.decodeFromJsonElement(serializer, jsonObject))
     }
 }
 
 internal fun parseOAuthResponse(
     responseString: String
 ): VkResult<OAuthResponse, Exception> {
-    val jsonObject = json.parseJson(responseString).jsonObject
+    val jsonObject = json.parseToJsonElement(responseString).jsonObject
     return when (jsonObject.contains("access_token")) {
-        true -> VkResult.of(json.fromJson(OAuthResponse.serializer(), jsonObject))
-        false -> VkResult.error(json.fromJson(OAuthError.serializer(), jsonObject))
+        true -> VkResult.of(json.decodeFromJsonElement(OAuthResponse.serializer(), jsonObject))
+        false -> VkResult.error(json.decodeFromJsonElement(OAuthError.serializer(), jsonObject))
     }
 }

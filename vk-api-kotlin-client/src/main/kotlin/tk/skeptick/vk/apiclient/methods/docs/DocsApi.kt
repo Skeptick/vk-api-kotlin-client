@@ -1,6 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.docs
 
-import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.models.Document
@@ -61,7 +61,7 @@ class DocsApi(override val client: ApiClient)
         docs: List<Media>,
         returnTags: Boolean
     ): VkApiRequest<List<Document>> =
-        Methods.getById.httpPost(Document.serializer().list) {
+        Methods.getById.httpPost(ListSerializer(Document.serializer())) {
             append("docs", docs.joinToString(",", transform = Media::mediaString))
             append("return_tags", returnTags.asInt())
         }

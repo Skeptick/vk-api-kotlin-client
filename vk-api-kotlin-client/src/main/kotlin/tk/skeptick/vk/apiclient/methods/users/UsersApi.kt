@@ -1,6 +1,6 @@
 package tk.skeptick.vk.apiclient.methods.users
 
-import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.ListSerializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.EntityWrapper
 import tk.skeptick.vk.apiclient.domain.models.User
@@ -14,7 +14,7 @@ class UsersApi(override val client: ApiClient)
         userFields: List<UserOptionalField>,
         nameCase: NameCase
     ): VkApiRequest<List<User>> =
-        Methods.get.httpPost(User.serializer().list) {
+        Methods.get.httpPost(ListSerializer(User.serializer())) {
             append("user_ids", userNames?.joinToString(","))
             append("fields", userFields.joinToString(",") { it.value })
             append("name_case", nameCase.value)

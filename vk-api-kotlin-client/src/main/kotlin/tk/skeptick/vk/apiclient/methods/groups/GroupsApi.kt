@@ -1,7 +1,7 @@
 package tk.skeptick.vk.apiclient.methods.groups
 
 import io.ktor.util.date.GMTDate
-import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
 import tk.skeptick.vk.apiclient.*
 import tk.skeptick.vk.apiclient.domain.models.Address
@@ -677,7 +677,7 @@ class GroupsApi(override val client: ApiClient)
         groupNames: List<String>,
         communityFields: List<CommunityOptionalField>?
     ): VkApiRequest<List<Community>> =
-        Methods.getById.httpPost(Community.serializer().list) {
+        Methods.getById.httpPost(ListSerializer(Community.serializer())) {
             append("group_ids", groupNames.joinToString(","))
             append("fields", communityFields?.joinToString(",") { it.value })
         }
@@ -900,7 +900,7 @@ class GroupsApi(override val client: ApiClient)
         groupId: Int,
         userIds: List<Int>
     ): VkApiRequest<List<CommunityMemberResponse>> =
-        Methods.isMember.httpPost(CommunityMemberResponse.serializer().list) {
+        Methods.isMember.httpPost(ListSerializer(CommunityMemberResponse.serializer())) {
             append("group_id", groupId)
             append("user_ids", userIds.joinToString(","))
         }
