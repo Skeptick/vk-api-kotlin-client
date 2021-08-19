@@ -4,7 +4,7 @@ VK API Kotlin Client
 [![Bintray Download](https://img.shields.io/bintray/v/skeptick/maven/vk-api-kotlin-client?label=Bintray)](https://bintray.com/skeptick/maven/vk-api-kotlin-client/_latestVersion)
 [![VK API](https://img.shields.io/badge/VK%20API-5.103-blue.svg?style=flat&logo=vk&logoColor=white)](https://vk.com/dev/versions)
 
-
+### В связи с закрытием Bintray библиотека нигде не опубликована, не поддерживается, и из-за любви VK ломать обратную совместимость к использованию не рекомендуется.
 
 #### Использует:
   - [kotlinx.coroutines]
@@ -50,42 +50,8 @@ VK API Kotlin Client
 | [Wall]          |    23 из 23    | :heavy_check_mark:       |
 | [Widgets]       |     0 из 2     | :heavy_multiplication_x: |
 
-#### Использование
-Подключите репозиторий:
-```groovy
-repositories {
-    maven { url "https://dl.bintray.com/skeptick/maven/" }
-}
-```
-Если включена Gradle Metadata (в Gradle 6+ включена по умолчанию):
-```groovy
-dependencies {
-    implementation "tk.skeptick:vk-api-kotlin-client:0.2.4"
-}
-```
-В ином случае явно укажите необходимую платформу:
-```groovy
-dependencies {
-    implementation "tk.skeptick:vk-api-kotlin-client-jvm:0.2.4"
-    implementation "tk.skeptick:vk-api-kotlin-client-js:0.2.4"
-    implementation "tk.skeptick:vk-api-kotlin-client-linuxx64:0.2.4"
-    implementation "tk.skeptick:vk-api-kotlin-client-mingwx64:0.2.4"
-    implementation "tk.skeptick:vk-api-kotlin-client-macosx64:0.2.4"
-    implementation "tk.skeptick:vk-api-kotlin-client-iosarm32:0.2.4"
-    implementation "tk.skeptick:vk-api-kotlin-client-iosarm64:0.2.4"
-    implementation "tk.skeptick:vk-api-kotlin-client-iosx64:0.2.4"
-    implementation "tk.skeptick:vk-api-kotlin-client-tvosarm64:0.2.4"
-    implementation "tk.skeptick:vk-api-kotlin-client-tvosx64:0.2.4"
-    implementation "tk.skeptick:vk-api-kotlin-client-watchosarm32:0.2.4"
-    implementation "tk.skeptick:vk-api-kotlin-client-watchosarm64:0.2.4"
-    implementation "tk.skeptick:vk-api-kotlin-client-watchosx86:0.2.4"
-}
-```
-
 #### Зачем и чтобы что
 Библиотека пишется руками (:see_no_evil:), так как документация у VK не редко серьезно хромает. Преследуется цель сделать использование библиотеки максимально комфортным в плоскости одной из главных фич языка - nullable-типов, а также задействовать другие его особенности: корутины, мультиплатформенный HTTP-клиент (ktor) и мультиплатформенную сериализацию, опциональные именованные параметры функций заместо билдеров и т.д.
-
-В продакшне используйте на свой страх и риск. Лично я использую (в основном для ботов), и имеющиеся методы польностью покрывают мои нужды. Если вам нужен какой-то иной раздел API, не реализованный в библиотеке, можете реквестировать.
 
 Библиотека доступна для большинства платформ (весь список расположен выше), в том числе для Android и iOS.
 
